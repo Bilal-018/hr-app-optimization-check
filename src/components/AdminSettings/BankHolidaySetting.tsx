@@ -131,7 +131,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
         setBankHolidayConfig(res.data);
         setLoading(false);
       })
-      .catch((err: any) => {});
+      .catch((err: any) => { });
   };
 
   const addOrUpdateBankHoliday: any = async (
@@ -225,6 +225,14 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     onDelete: any,
     rowData: any
   ) {
+
+    // Combine all text for searchable text
+    const searchableText = [
+      Date,
+      Description,
+      Country,
+    ].join(' ');
+
     return {
       Date,
       Description,
@@ -235,6 +243,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
           onDelete={() => onDelete(id)}
         />
       ),
+      searchableText,
     };
   }
   function CellAction({ onEdit, id, onDelete }: any) {
@@ -253,7 +262,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
       </Box>
     );
   }
-  
+
 
   const onEdit = (rowData: any) => {
     setOpen({

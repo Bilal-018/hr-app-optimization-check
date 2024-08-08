@@ -1,7 +1,7 @@
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material';
 
@@ -21,6 +21,23 @@ export default function LanguageSelector({
 
   const theme = useTheme();
 
+  const token: any = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    const isLanguageSet = sessionStorage.getItem('isLanguageSet');
+    console.log("ISLanguageSet: ", isLanguageSet)
+    if (!isLanguageSet && token) {
+      const tokenObject = JSON.parse(token);
+      const preferredLanguage = tokenObject.employeedetail.preferedLanguage;
+      if (preferredLanguage) {
+        const language = preferredLanguage  === 'English' ? 'en' : 'fr';
+        setSelectedLanguage(preferredLanguage);
+        i18n.changeLanguage(language);
+        sessionStorage.setItem('isLanguageSet', 'true');
+      }
+    }
+  }, []);
+
   const handleChange = (event: any, value: any) => {
     setSelectedLanguage(event.target.value as string);
   };
@@ -36,7 +53,7 @@ export default function LanguageSelector({
   return (
     <FormControl
       sx={{
-        minWidth:{xs: 116, md:120},
+        minWidth: { xs: 116, md: 120 },
         // ...(isTablet && {
         //   width: '100%',
         // }),
@@ -76,10 +93,10 @@ export default function LanguageSelector({
                   ? '#e7e9ed !Important'
                   : language === selectedLanguage &&
                     theme.palette.mode !== 'light'
-                  ? '#575866 !important'
-                  : theme.palette.mode === 'light'
-                  ? 'white !important'
-                  : '#2b2d3e !important',
+                    ? '#575866 !important'
+                    : theme.palette.mode === 'light'
+                      ? 'white !important'
+                      : '#2b2d3e !important',
               borderRadius: '5px',
             }}
             value={language}
@@ -87,7 +104,7 @@ export default function LanguageSelector({
             key={language}
             onClick={() => changeLanguage(language)}
           >
-            {t(language)}
+            {language}
           </MenuItem>
         ))}
       </Select>

@@ -28,6 +28,7 @@ interface RowData {
   expiryDate: any;
   visible: any;
   action: JSX.Element;
+  searchableText: string;
 }
 
 const headCells = [
@@ -38,19 +39,46 @@ const headCells = [
   { id: 'action', label: 'Action' },
 ];
 
+function extractTextFromElement(element: React.ReactElement): string {
+  if (typeof element.props.children === 'string') {
+    return element.props.children;
+  }
+
+  if (Array.isArray(element.props.children)) {
+    return element.props.children.map((child: any) => 
+      React.isValidElement(child) ? extractTextFromElement(child) : child
+    ).join(' ');
+  }
+
+  if (React.isValidElement(element.props.children)) {
+    return extractTextFromElement(element.props.children);
+  }
+
+  return '';
+}
+
 function createData(
   title: string,
   description: string,
   expiryDate: any,
   visible: any,
-  action: JSX.Element
+  action: JSX.Element,
 ): RowData {
+
+  const searchableText = [
+    title,
+    description,
+    extractTextFromElement(expiryDate),
+    extractTextFromElement(visible),
+  ].join(' ');
+
   return {
     title,
     description,
     expiryDate,
     visible,
-    action
+    action,
+    searchableText,
   };
 }
 
@@ -163,6 +191,7 @@ function AnnouncementsList(): JSX.Element {
         showMessage('Announcement deleted successfully', 'success');
         setDeleteModal(false);
         setLoading(false);
+        setSelected(null);
       })
       .catch((error: { message: any }) => {
         showMessage(error.message, 'error');
@@ -196,7 +225,7 @@ function AnnouncementsList(): JSX.Element {
         isAddable={true}
         title={t('Announcement list')}
         loading={loading}
-        onAddClick={() => setAddEditModal(true)}
+        onAddClick={() => { setAddEditModal(true); setSelected({ ...selected, expiryDate: new Date() }) }}
         btnTitle='Add New'
       />
 
@@ -208,6 +237,10 @@ function AnnouncementsList(): JSX.Element {
           setSelected(null);
         }}
         onSave={async () => {
+          if (!selected || !selected.title || !selected.expiryDate || !selected.description) {
+            showMessage('Please fill in all required fields', 'error');
+            return;
+          }
           setAddEditModal(false);
           if (selected?.anouncementId && selected?.anouncementId !== 0) {
             const index = rowData.findIndex(
@@ -237,6 +270,9 @@ function AnnouncementsList(): JSX.Element {
                   title: e.target.value,
                 });
               }}
+              required
+              error={selected?.title?.trim() === '' ? true : false}
+              helperText={selected?.title?.trim() === '' ? 'Title is Required' : ''}
             />
           </Grid>
           <Grid item md={6} xs={12}>
@@ -246,6 +282,9 @@ function AnnouncementsList(): JSX.Element {
             // locale={i18n.language}
             >
               <DatePicker
+                slots={{
+                  openPickerIcon: CalendarIcon
+                }}
                 name='expiryDate'
                 defaultValue={dayjs(new Date().toLocaleDateString('en-GB'))}
                 value={dayjs(selected?.expiryDate)}
@@ -277,6 +316,9 @@ function AnnouncementsList(): JSX.Element {
                   description: e.target.value,
                 });
               }}
+              required
+              error={selected?.description?.trim() === '' ? true : false}
+              helperText={selected?.description?.trim() === '' ? 'Description is Required' : ''}
             />
           </Grid>
           <Grid item xs={12}>

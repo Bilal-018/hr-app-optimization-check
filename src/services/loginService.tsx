@@ -24,22 +24,21 @@ class loginService {
   }
 
   async authenticatingUserTokenRequest(url: any, token: any) {
-    return await axios({
-      method: 'post',
-      url: API_URL + url,
-      headers: {
-        'Content-Type': 'text/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        Authorization: ' Bearer ' + token,
-      },
-    })
-      .then(function (response) {
-        return response.data;
+    try {
+      const response = await axios({
+        method: 'post',
+        url: API_URL + url,
+        headers: {
+          'Content-Type': 'text/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          Authorization: ' Bearer ' + token,
+        },
       })
-      .catch(function (error) {
-        return error;
-      });
+      return response.data;
+    } catch (error) {
+      return this.handleError(error, token);
+    };
   }
 
   async updateFirsttimePasswordRequest(
@@ -47,23 +46,22 @@ class loginService {
     postData: any,
     barrerToken: any
   ) {
-    return await axios({
-      method: 'post',
-      url: API_URL + url,
-      data: postData,
-      headers: {
-        'Content-Type': 'text/json;charset=utf-8',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        Authorization: ' Bearer ' + barrerToken,
-      },
-    })
-      .then(function (response) {
-        return response.data;
+    try {
+      const response = await axios({
+        method: 'post',
+        url: API_URL + url,
+        data: postData,
+        headers: {
+          'Content-Type': 'text/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          Authorization: ' Bearer ' + barrerToken,
+        },
       })
-      .catch(function (error) {
-        return error;
-      });
+      return response.data;
+    } catch (error) {
+      return this.handleError(error, barrerToken);
+    };
   }
 
   async updateforgetPasswordRequest(url: any, postData: any) {
@@ -102,6 +100,35 @@ class loginService {
       .catch(function (error) {
         return error;
       });
+  }
+
+  private async handleError(error: any, barrerToken: any) {
+    if (error.response && error.response.status === 401) {
+      const authDataString = sessionStorage.getItem('token');
+      if (!authDataString) {
+        // Handle the case where authData is null
+        return Promise.reject(error);
+      }
+
+      const authData = JSON.parse(authDataString);
+
+      const payload = {
+        email: authData.employeedetail.email,
+        refreshToken: authData.refreshToken,
+      };
+
+      let apiResponse = await axios.post(
+        API_URL + 'api/Authenticate/RefreshToken',
+        payload
+      );
+      if (apiResponse.data.status && apiResponse.data.status != 'Error')
+        sessionStorage.setItem('token', JSON.stringify(apiResponse.data));
+
+      error.config.headers.Authorization = 'Bearer ' + apiResponse.data.token;
+      return axios(error.config);
+    } else {
+      return Promise.reject(error);
+    }
   }
 }
 

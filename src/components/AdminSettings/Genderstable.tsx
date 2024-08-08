@@ -6,7 +6,6 @@ import {
   Typography,
   alpha,
 } from '@mui/material';
-import AddNewContract from './AddNewContract';
 import jwtInterceoptor from '../../services/interceptors';
 import { useSnackbar } from '../Global/WithSnackbar';
 import DeleteModal from '../Global/DeleteModal';
@@ -15,6 +14,7 @@ import { Stack } from 'rsuite';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '../Icon/EditIcon';
 import BinIcon from '../Icon/BinIcon';
+import AddNewGender from './AddNewGender';
 
 function CellAction({ onEdit, id, onDelete }: any) {
   return (
@@ -33,8 +33,8 @@ function CellAction({ onEdit, id, onDelete }: any) {
   );
 }
 
-const Contractstable: React.FC = () => {
-  const [newContract, setNewContract] = useState<any>({
+const Genderstable: React.FC = () => {
+  const [newGender, setNewGender] = useState<any>({
     open: false,
     id: null,
   });
@@ -46,9 +46,8 @@ const Contractstable: React.FC = () => {
   });
   const { showMessage }: any = useSnackbar();
 
-  useEffect(() => {
+  const getGenderData = () => {
     setLoading(true);
-
     jwtInterceoptor
       .get('api/GenderMaster/GetAllGenderMasters')
       .then((res: any) => {
@@ -64,33 +63,37 @@ const Contractstable: React.FC = () => {
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
       });
+  }
 
+  useEffect(() => {
+    getGenderData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClose = () => {
-    setNewContract({
+    setNewGender({
       open: false,
       id: null,
     });
   };
-  const updateContract = (contractName: any) => {
+  const updateGender = (gender: any) => {
     setLoading(true);
     jwtInterceoptor
-      .post('api/ContractTypeMasters/UpdatedContractType', {
-        contractTypeId: newContract.id,
-        contractType: contractName,
+      .post('api/GenderMaster/UpdatedGenderMaster', {
+        genderId: newGender.id,
+        gender: gender,
       })
       .then((res: any) => {
-        showMessage('Contract type Updated successfully', 'success');
-        // setGenderData((pre: any) =>
-        //   pre.map((con: any) =>
-        //     con.id === newContract.id
-        //       ? { ...con, contractType: contractName }
-        //       : con
-        //   )
-        // );
+        showMessage('Gender Updated successfully', 'success');
+        setGenderData((pre: any) =>
+          pre.map((con: any) =>
+            con.id === newGender.id
+              ? { ...con, value: gender }
+              : con
+          )
+        );
         handleClose();
+        getGenderData();
       })
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
@@ -98,22 +101,23 @@ const Contractstable: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
-  const addNewContract = (contractName: any) => {
+  const addNewGender = (gender: any) => {
     setLoading(true);
     jwtInterceoptor
-      .post('api/ContractTypeMasters/CreateContractTypeDetail', {
-        contractType: contractName,
+      .post('api/GenderMaster/CreateGenderMaster', {
+        gender: gender,
       })
       .then((res: any) => {
-        showMessage('Contract type updated successfully', 'success');
-        // setGenderData((pre: any) => [
-        //   ...pre,
-        //   {
-        //     id: res.data.contractTypeId,
-        //     contractType: contractName,
-        //   },
-        // ]);
+        showMessage('Gender added successfully', 'success');
+        setGenderData((pre: any) => [
+          ...pre,
+          {
+            id: res.data.genderId,
+            value: gender,
+          },
+        ]);
         handleClose();
+        getGenderData();
       })
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
@@ -121,13 +125,13 @@ const Contractstable: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
-  const deleteContract = (id: any) => {
+  const deleteGender = (id: any) => {
     setLoading(true);
     jwtInterceoptor
-      .delete(`api/ContractTypeMasters/DeleteContractType?ContractTypeId=${id}`)
+      .delete(`api/GenderMaster/DeleteGenderMaster?GenderId=${id}`)
       .then((res: any) => {
-        showMessage('Contract type deleted successfully', 'success');
-        // setGenderData((pre: any) => pre.filter((con: any) => con.id !== id));
+        showMessage('Gender deleted successfully', 'success');
+        setGenderData((pre: any) => pre.filter((con: any) => con.id !== id));
         setDeleteModal({
           open: false,
           id: null,
@@ -139,17 +143,17 @@ const Contractstable: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleSave = (contractName: any) => {
-    if (newContract.id) {
-      updateContract(contractName);
+  const handleSave = (gender: any) => {
+    if (newGender.id) {
+      updateGender(gender);
       return;
     }
 
-    addNewContract(contractName);
+    addNewGender(gender);
   };
 
   const onEdit = (id: any) => {
-    setNewContract({
+    setNewGender({
       open: true,
       id,
     });
@@ -170,7 +174,7 @@ const Contractstable: React.FC = () => {
           textTransform: 'capitalize',
           background: 'transparent',
         }}
-        onClick={() => setNewContract({ open: true, id: null })}
+        onClick={() => setNewGender({ open: true, id: null })}
       >
         <Box
           sx={{
@@ -216,7 +220,7 @@ const Contractstable: React.FC = () => {
             fontWeight: '700',
           }}
         >
-          <span>{t('Contract type')}</span>
+          <span>{t('Gender')}</span>
         </Stack>
         {loading ? (
           <Box
@@ -261,31 +265,31 @@ const Contractstable: React.FC = () => {
         )}
       </Box>
 
-      <AddNewContract
-        open={newContract.open}
+      <AddNewGender
+        open={newGender.open}
         handleClose={handleClose}
         handleSave={handleSave}
         value={
-          newContract.id
-            ? genders.find((item: any) => item.id === newContract.id).value
+          newGender.id
+            ? genders.find((item: any) => item.id === newGender.id).value
             : ''
         }
       />
 
       <DeleteModal
-        message={'Are you sure you want to delete this contract type?'}
+        message={'Are you sure you want to delete this Gender?'}
         onCancel={() =>
           setDeleteModal({
             open: false,
             id: null,
           })
         }
-        onConfirm={() => deleteContract(deleteModal.id)}
+        onConfirm={() => deleteGender(deleteModal.id)}
         open={deleteModal.open}
-        title={'Delete Contract Type'}
+        title={'Delete Gender'}
       />
     </>
   );
 };
 
-export default Contractstable;
+export default Genderstable;

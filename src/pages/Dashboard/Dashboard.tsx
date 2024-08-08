@@ -181,6 +181,7 @@ function Dashboard() {
   const [skillInfos, setskillInfoState] = useState<any>([]);
   const [dashboardDetails, setdashboardDetails] = useState<any>([]);
   const { t } = useTranslation();
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const getSkillInfos = async () => {
     jwtInterceptor
@@ -228,8 +229,7 @@ function Dashboard() {
         getSkillInfos();
         getDashboardDetails();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

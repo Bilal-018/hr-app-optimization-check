@@ -37,6 +37,14 @@ function createData(
   onEdit: any,
   onDelete: any
 ) {
+
+  // Combine all text for searchable text
+  const searchableText = [
+    Leave,
+    Limitation,
+    Daysentitled,
+  ].join(' ');
+
   return {
     Leave,
     Limitation: Limitation ? Limitation : 'N/A',
@@ -44,6 +52,7 @@ function createData(
     Action: (
       <CellAction onEdit={() => onEdit(id)} onDelete={() => onDelete(id)} />
     ),
+    searchableText,
   };
 }
 

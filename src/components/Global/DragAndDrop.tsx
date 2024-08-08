@@ -10,12 +10,13 @@ import Drop from '../../assets/images/Drop';
 function DragAndDrop({
   edit = true,
   type = '.pdf, .doc, .docx, .ppt, .pptx, .mp4, .mp3',
-  onChangeFile = () => {},
+  onChangeFile = () => { },
   sx = {},
   allowMultiple = false,
   error = false,
   defaultFileName,
-  setFilesName =() => {}
+  setFilesName = () => { },
+  fileAdded = true
 }: any) {
   const inputRef: any = useRef();
   const [fileName, setFileName] = useState<any>(defaultFileName);
@@ -151,15 +152,17 @@ function DragAndDrop({
           >
             {t('Browse')}
           </Typography> */}
-          <Typography
-            className='SmallBodyBold'
-            sx={{
-              fontStyle: 'italic',
-            }}
-            display='block'
-          >
-            {fileName}
-          </Typography>
+          {fileAdded && (
+            <Typography
+              className='SmallBodyBold'
+              sx={{
+                fontStyle: 'italic',
+              }}
+              display='block'
+            >
+              {fileName}
+            </Typography>
+          )}
         </Box>
       </Box>
 

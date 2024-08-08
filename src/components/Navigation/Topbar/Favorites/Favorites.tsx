@@ -42,6 +42,7 @@ export default function BasicPopover({
   const { t } = useTranslation();
 
   const bearerToken: string | null = sessionStorage.getItem('token_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const onFavDelete = async () => {
     let url =
@@ -70,8 +71,7 @@ export default function BasicPopover({
       if (bearerToken) {
         initialized.current = true;
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

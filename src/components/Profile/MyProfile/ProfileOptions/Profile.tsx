@@ -31,8 +31,16 @@ import { useSnackbar } from '../../../Global/WithSnackbar';
 import { themeContext } from '../../../../theme';
 import Select from '../../../Global/Select';
 import CalendarIcon from '../../../Icon/CalenderIcon';
+import {
+  isValidPhoneNumber
+} from "libphonenumber-js";
+import parseMax from 'libphonenumber-js/max'
 
-const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
+const isValidInternationalPhoneNumber = (number: any, country: any) => {
+  return isValidPhoneNumber(number, country);
+};
+
+const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl, setValidPhone }: any) => {
   const hasError = (field: any) => {
     return state.error.includes(field);
   };
@@ -72,7 +80,7 @@ const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
       >
         <Grid container mt='21px' rowGap='20px' columnGap={3}>
           <Grid item xs={12} xl={5.75}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>Address</Typography>
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Address')}</Typography>
             <TextField
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -301,10 +309,36 @@ const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
               containerClass={
                 myTheme.name + (hasError('phoneNumber') ? 'error' : '')
               }
+              isValid={(value, country: any) => {
+                let isValid = true;
+                if (!disable && value && value.length > country.countryCode.length) {
+                  isValid = false;
+                  if (!isValidInternationalPhoneNumber(value, country.iso2.toUpperCase())) {
+                    setValidPhone(isValid);
+                    return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                  } else {
+                    let val = "+" + value;
+                    const parsedValue = parseMax(val);
+                    if (parsedValue !== undefined && parsedValue.getType() !== undefined) {
+                      isValid = true;
+                      setValidPhone(isValid);
+                      return isValid;
+                    } else {
+                      setValidPhone(isValid);
+                      return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                    }
+                  }
+                } else {
+                  setValidPhone(isValid);
+                  return isValid;
+                }
+              }}
             />
-            {errorHelperText(
-              hasError('personalMobileNumber') && t('Phone number is required')
-            )}
+            <Typography color={'error'} fontSize={12}>
+              {errorHelperText(
+                hasError('personalMobileNumber') && t('Phone number is required')
+              )}
+            </Typography>
           </Grid>
           <Grid item xs={12} xl={5.75}>
             <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Date of birth')}</Typography>
@@ -327,6 +361,7 @@ const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
                 name='dateOfBirth'
                 value={dayjs(state.dateOfBirth)}
                 format='DD/MM/YYYY'
+                maxDate={dayjs()}
                 onChange={(e) =>
                   dispatch({
                     type: 'privateInformation',
@@ -376,7 +411,7 @@ const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
   );
 };
 
-const SharedInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
+const SharedInformation = ({ gap, state, dispatch, disable, lg, xl, setValidPhone }: any) => {
   const hasError = (field = '') => {
     return state.error.includes(field);
   };
@@ -460,6 +495,30 @@ const SharedInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
             containerClass={
               myTheme.name + (hasError('phoneNumber') ? 'error' : '')
             }
+            isValid={(value, country: any) => {
+              let isValid = true;
+              if (!disable && value && value.length > country.countryCode.length) {
+                isValid = false;
+                if (!isValidInternationalPhoneNumber(value, country.iso2.toUpperCase())) {
+                  setValidPhone(isValid);
+                  return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                } else {
+                  let val = "+" + value;
+                  const parsedValue = parseMax(val);
+                  if (parsedValue !== undefined && parsedValue.getType() !== undefined) {
+                    isValid = true;
+                    setValidPhone(isValid);
+                    return isValid;
+                  } else {
+                    setValidPhone(isValid);
+                    return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                  }
+                }
+              } else {
+                setValidPhone(isValid);
+                return isValid;
+              }
+            }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -484,10 +543,36 @@ const SharedInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
             containerClass={
               myTheme.name + (hasError('phoneNumber') ? 'error' : '')
             }
+            isValid={(value, country: any) => {
+              let isValid = true;
+              if (!disable && value && value.length > country.countryCode.length) {
+                isValid = false;
+                if (!isValidInternationalPhoneNumber(value, country.iso2.toUpperCase())) {
+                  setValidPhone(isValid);
+                  return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                } else {
+                  let val = "+" + value;
+                  const parsedValue = parseMax(val);
+                  if (parsedValue !== undefined && parsedValue.getType() !== undefined) {
+                    isValid = true;
+                    setValidPhone(isValid);
+                    return isValid;
+                  } else {
+                    setValidPhone(isValid);
+                    return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                  }
+                }
+              } else {
+                setValidPhone(isValid);
+                return isValid;
+              }
+            }}
           />
-          {errorHelperText(
-            hasError('businessPhoneNumber') && t('Phone number is required')
-          )}
+          <Typography color={'error'} fontSize={12}>
+            {errorHelperText(
+              hasError('businessPhoneNumber') && t('Phone number is required')
+            )}
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Site')}</Typography>
@@ -532,6 +617,7 @@ const EmergencyContact = ({
   error,
   lg,
   xl,
+  setValidPhone
 }: any) => {
   const hasError = (field: any) => {
     return error.includes(field);
@@ -655,10 +741,36 @@ const EmergencyContact = ({
             containerClass={
               myTheme.name + (hasError('phoneNumber') ? 'error' : '')
             }
+            isValid={(value, country: any) => {
+              let isValid = true;
+              if (!disable && value && value.length > country.countryCode.length) {
+                isValid = false;
+                if (!isValidInternationalPhoneNumber(value, country.iso2.toUpperCase())) {
+                  setValidPhone(isValid);
+                  return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                } else {
+                  let val = "+" + value;
+                  const parsedValue = parseMax(val);
+                  if (parsedValue !== undefined && parsedValue.getType() !== undefined) {
+                    isValid = true;
+                    setValidPhone(isValid);
+                    return isValid;
+                  } else {
+                    setValidPhone(isValid);
+                    return 'Invalid value: ' + value + ' for ' + country.iso2.toUpperCase();
+                  }
+                }
+              } else {
+                setValidPhone(isValid);
+                return isValid;
+              }
+            }}
           />
-          {errorHelperText(
-            hasError('phoneNumber') && t('Phone number is required')
-          )}
+          <Typography color={'error'} fontSize={12}>
+            {errorHelperText(
+              hasError('phoneNumber') && t('Phone number is required')
+            )}
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Email Address')}</Typography>
@@ -780,15 +892,17 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-function Profile() {
+function Profile({ modal = false }) {
   const navigate = useNavigate();
   const initialized = useRef(false);
   const [state, dispatch] = useReducer(reducer, initialState.userDetails);
   const [tempState, setTempState] = useState<any>({});
   const { showMessage }: any = useSnackbar();
+  const [validPhone, setValidPhone] = useState<boolean>(true);
 
   const bearerToken = sessionStorage.getItem('token_key');
-  const empId: any = sessionStorage.getItem('empId_key');
+  const empId: any = sessionStorage.getItem('employee_id_key') ? sessionStorage.getItem('employee_id_key') : sessionStorage.getItem('empId_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const updateProfileData = async () => {
     const {
@@ -814,6 +928,9 @@ function Profile() {
         value: errorsFound,
       });
       return; // Stop updating the profile data if there are errors
+    } else if (!validPhone) {
+      showMessage("Please Enter Valid Phone Number", "error");
+      return;
     }
 
     // Clear any existing errors
@@ -857,7 +974,7 @@ function Profile() {
         initialized.current = true;
         getProfilePrivateData();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login', {
+        navigate(base_url + '/login', {
           replace: true,
         });
       }
@@ -870,12 +987,15 @@ function Profile() {
 
   return (
     <Box>
-      <EditAndSave
-        edit={edit}
-        setEdit={setEdit}
-        onUpdate={() => updateProfileData()}
-        onCancel={() => dispatch({ type: 'reset', data: tempState })}
-      />
+      {!modal && (
+        <EditAndSave
+          edit={edit}
+          setEdit={setEdit}
+          onUpdate={() => updateProfileData()}
+          onCancel={() => dispatch({ type: 'reset', data: tempState })}
+          modal={modal}
+        />
+      )}
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} xl={6}>
           <PrivateInformation
@@ -883,6 +1003,7 @@ function Profile() {
             dispatch={dispatch}
             disable={!edit}
             error={state.error}
+            setValidPhone={setValidPhone}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -890,6 +1011,7 @@ function Profile() {
             state={state}
             dispatch={dispatch}
             disable={!edit}
+            setValidPhone={setValidPhone}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4} xl={3}>
@@ -898,6 +1020,7 @@ function Profile() {
             dispatch={dispatch}
             disable={!edit}
             error={state.error}
+            setValidPhone={setValidPhone}
           />
         </Grid>
       </Grid>

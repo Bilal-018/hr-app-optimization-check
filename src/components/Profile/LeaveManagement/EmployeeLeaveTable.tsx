@@ -41,7 +41,8 @@ function createData(
   applied_leaves: any,
   approved_leaves: any,
   leaves_pending_approval: any,
-  balance: any
+  balance: any,
+  searchableText: string,
 ) {
   return {
     leave,
@@ -50,6 +51,7 @@ function createData(
     approved_leaves,
     leaves_pending_approval,
     balance,
+    searchableText,
   };
 }
 
@@ -82,6 +84,24 @@ function EmployeeLeaveTable() {
       .then((response) => {
         for (var x of response.data.leaveDashboardDto) {
           let eId = x.leaveTypeId;
+
+          const leaveType = x.leaveType;
+          const daysEntitled = x.daysEntitled.toString();
+          const appliedLeaves = x.appliedLeaves.toString();
+          const approvedLeaves = x.approvedLeaves.toString();
+          const pendingLeaves = x?.pendingLeaves?.toString();
+          const balance = x?.balance.toString();
+
+          // Combine all text for searchable text
+          const searchableText = [
+            leaveType,
+            daysEntitled,
+            appliedLeaves,
+            approvedLeaves,
+            pendingLeaves,
+            balance,
+          ].join(' ');
+
           tblRows.push(
             createData(
               <Link
@@ -99,7 +119,8 @@ function EmployeeLeaveTable() {
               <CircularChip value={x.appliedLeaves} color='#964CF5' />,
               <CircularChip value={x.approvedLeaves} color='#03B525' />,
               <CircularChip value={x.pendingLeaves} color='#E2B93B' />,
-              <CircularChip value={x.balance} color='#092C4C' />
+              <CircularChip value={x.balance} color='#092C4C' />,
+              searchableText,
             )
           );
         }
@@ -124,7 +145,7 @@ function EmployeeLeaveTable() {
         onAddClick={() => setopen((pre: any) => !pre)}
         loading={loading}
         title={'Employees Leaves'}
-        btnTitle={'+ New Request'}
+        btnTitle={'New Request'}
       />
       <LeaveRequest
         open={open}

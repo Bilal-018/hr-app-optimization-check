@@ -13,10 +13,12 @@ import BasicTabs from '../../Global/BasicTabs';
 import { Box } from '@mui/system';
 import EnhancedTable from '../../Global/Table';
 import { useTranslation } from 'react-i18next';
-import { jwtLeave } from '../../../services/interceptors';
+import jwtInterceoptor, { jwtLeave } from '../../../services/interceptors';
 import { useSnackbar } from '../../Global/WithSnackbar';
 import { UserImage } from '../../Navigation/Topbar/UserInfo/UserInfo';
-import { User } from '../../../assets/images';
+import { UserPlaceholder } from '../../../assets/images';
+
+const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
 
 function LeaveManagementModal1({
   open,
@@ -48,6 +50,9 @@ function LeaveManagementModal1({
       leaveStatus: '',
     }
   );
+
+  const [EMPLOYEE_INFO, setEmployeeInformation] = useState<any>({});
+  const [profilePic, setProfilePic] = useState<any>(null);
 
   const [scheduleData, setScheduleData] = useState<any>([]);
   const empId = sessionStorage.getItem('empId_key');
@@ -92,14 +97,6 @@ function LeaveManagementModal1({
       });
   };
 
-  useEffect(() => {
-    if (leaveDetailId) {
-      getLeaveDetail();
-      getConflictData();
-      setComments(leaveDetail.managerComment);
-    }
-  }, [leaveDetailId, empId]);
-
   // const validate = (values: any) => {
   //   let errors = {
   //     leaveStatus: false,
@@ -122,6 +119,8 @@ function LeaveManagementModal1({
     )
   );
 
+  const profilePictures = scheduleData.map((employee: any) => employee.employeeProfilePicture);
+
   function createData(
     user: any,
     startDate: any,
@@ -135,7 +134,7 @@ function LeaveManagementModal1({
         <Stack direction='row' gap={2} alignItems='center'>
           <UserImage
             userPicture={
-              'https://hrmsapicoreappservice.azurewebsites.net/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
+              `${API_URL}/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=` +
               employeeDetailId +
               '&email=' +
               email
@@ -222,6 +221,61 @@ function LeaveManagementModal1({
       label: 'No. of days',
     },
   ];
+
+  const getProfileData = async () => {
+    jwtInterceoptor
+      .get('api/Employee/GetProfileTopSectionDetials?id=' + leaveDetail.employeeDetailId)
+      .then((response: any) => {
+        setEmployeeInformation((item: any) => ({
+          ...EMPLOYEE_INFO,
+          ...response.data,
+        }));
+      });
+  };
+
+  const getProfilePicture = async () => {
+    try {
+      const response = await jwtInterceoptor.get(
+        'api/Employee/GetProfilePictureFileStream',
+        {
+          params: {
+            EmployeeDetailId: leaveDetail.employeeDetailId,
+            email: EMPLOYEE_INFO.email,
+          },
+          responseType: 'arraybuffer',
+        }
+      );
+
+      const uint8Array = new Uint8Array(response.data);
+      let binaryString = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binaryString += String.fromCharCode(uint8Array[i]);
+      }
+      const base64String = btoa(binaryString);
+      setProfilePic(`data:image/jpeg;base64,${base64String}`);
+    } catch (error) {
+      setProfilePic(UserPlaceholder);
+    }
+  };
+
+  useEffect(() => {
+    if (leaveDetailId) {
+      getLeaveDetail();
+    }
+  }, [leaveDetailId, empId])
+
+  useEffect(() => {
+    if (leaveDetail.employeeDetailId) {
+      getConflictData();
+      getProfileData();
+      setComments(leaveDetail.managerComment);
+    }
+  }, [leaveDetail]);
+
+  useEffect(() => {
+    getProfilePicture();
+  }, [EMPLOYEE_INFO])
+
   return (
     <BaseModal
       open={open}
@@ -261,9 +315,16 @@ function LeaveManagementModal1({
                   alignItems: 'center',
                   gap: '20px',
                   margin: '10px 0',
+                  '& img': {
+                    borderRadius: '50%',
+                    aspectRatio: '1/1',
+                    maxWidth: '40px',
+                    maxHeight: '40px',
+                    objectFit: 'cover',
+                  },
                 }}
               >
-                <img src={User} alt='profile' />
+                <img src={profilePic} alt='profile' />
                 <Box
                   sx={{
                     display: 'flex',
@@ -423,6 +484,65 @@ function LeaveManagementModal1({
                   Leave Status is required
                 </Typography>
               )}
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}
+              >
+                <span>Potential schedule conflict</span>
+
+                {scheduleData?.length ? <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  {profilePictures.slice(0, 3).map((picture: any, index: any) => (
+                    <img
+                      key={index}
+                      style={{
+                        height: '50px',
+                        width: '50px',
+                        borderRadius: '100%',
+                        objectFit: 'cover',
+                      }}
+                      src={`data:image/jpeg;base64,${picture}`}
+                      alt='employee'
+                    />
+                  ))}
+
+                  {profilePictures.length > 3 && (
+                    <Box
+                      sx={{
+                        background: '#18A0FB',
+                        height: '24px',
+                        width: '40px',
+                        borderRadius: '30px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: 'white',
+                      }}
+                    >
+                      {profilePictures.length - 3}+
+                    </Box>
+                  )}
+                </Box> : <></>}
+
+                <span
+                  style={{
+                    color: '#18A0FB',
+                    fontSize: '14px',
+                  }}
+                >
+                  {scheduleData?.length} employees
+                </span>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <Typography className='SmallBody'>{t('Comments')}</Typography>

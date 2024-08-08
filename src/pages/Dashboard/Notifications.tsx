@@ -117,8 +117,8 @@ const Leaves: React.FC<LeavesProps> = (props) => {
     <>
       {reversedNotifications?.filter(item => item.options.length > 0).map((item) => (
         <Box key={item.id}>
-          <Typography variant='body1'>{t(item.name)}</Typography>
-          <Box>
+          <Typography fontSize={12}>{t(item.name)}</Typography>
+          <Box mb='30px'>
             {item.options.map((option) => (
               <span key={option.id}>
                 <Box
@@ -145,12 +145,7 @@ const Leaves: React.FC<LeavesProps> = (props) => {
                       flexDirection: 'column',
                     }}
                   >
-                    <Typography
-                      variant='body1'
-                      sx={{
-                        fontWeight: 'bold',
-                      }}
-                    >
+                    <Typography fontSize={16} fontWeight={500} >
                       {t(option.name)}
                     </Typography>
                     <Typography variant='body2'>
@@ -174,7 +169,7 @@ const Leaves: React.FC<LeavesProps> = (props) => {
       {isLeaveManagementModalOpen && (
         <ManagerLeaveApprovalModal
           isVisible={isLeaveManagementModalOpen}
-          handleClose={() => setIsLeaveManagementModalOpen(false)}
+          handleClose={() => { setIsLeaveManagementModalOpen(false); setNotificationDetail(null); }}
           leaveDetails={notificationDetails}
           isLoading={loadingModalData}
           onSave={(
@@ -346,6 +341,8 @@ const Notifications: React.FC<NotificationsProps> = (props) => {
     null
   );
 
+  const { t } = useTranslation();
+
   const [apiRefresher, setApiRefresher] = useState<boolean>(false);
 
   const [LeavesNotificationCount, setLeavesNotificationCount] = useState<
@@ -354,6 +351,7 @@ const Notifications: React.FC<NotificationsProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const GetEmployeeNotifications = async () => {
     setLoading(true);
@@ -403,7 +401,7 @@ const Notifications: React.FC<NotificationsProps> = (props) => {
         initialized.current = true;
         GetEmployeeNotifications();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate(base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -444,19 +442,18 @@ const Notifications: React.FC<NotificationsProps> = (props) => {
           gap: 1,
         }}
       >
-        <Typography
+        {/* <Typography
           variant='h6'
           sx={{ display: { xs: 'none', md: 'block' } }}
           fontWeight={600}
         >
-          Leaves
-        </Typography>
+          {t('Leaves')}
+        </Typography> */}
         <Typography
-          sx={{ display: { xs: 'block', md: 'none' } }}
           fontSize={16}
-          fontWeight={600}
+          fontWeight={500}
         >
-          Leaves
+          {t('Leaves')}
         </Typography>
 
         {/* {props.leavesTaken > 0 && <div style={spanStyle}>{sum}</div>} */}

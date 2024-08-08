@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useEffect, useReducer, useState, useRef } from 'react';
 import CountrySelect from '../../../Global/CountryDropdown';
 import EditAndSave from '../../../Global/EditAndSave';
@@ -14,11 +14,32 @@ import dayjs from 'dayjs';
 import CalendarIcon from '../../../Icon/CalenderIcon';
 
 const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
+  const [contractsListData, setcontractsListDataState] = useState<any>([]);
+
   const hasError = (field: any) => {
     return state.error.includes(field);
   };
 
   const { t }: any = useTranslation();
+
+  const GetContractsListData = async () => {
+    let url = 'api/ContractTypeMasters/GetAllContractType';
+    let contracts = [];
+    jwtInterceptor.get(url).then((response: any) => {
+      for (var x of response.data) {
+        let item = {
+          contractTypeId: x.contractTypeId,
+          contractType: x.contractType,
+        };
+        contracts.push(item);
+      }
+      setcontractsListDataState(contracts);
+    });
+  };
+
+  useEffect(() => {
+    GetContractsListData();
+  }, [])
 
   return (
     <Grid item className='section-border' lg={lg} xl={xl} sx={(theme) => ({})}>
@@ -40,7 +61,7 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
       >
         <Grid container mt='21px' gap='20px'>
           <Grid item xs={12}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>Employee ID</Typography>
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Employee ID')}</Typography>
             <TextField
               sx={{
                 backgroundColor: 'transparent !important',
@@ -62,18 +83,18 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
                 },
               }}
               disabled={true}
-              value={state.empID}
+              value={state.employeeId}
               variant='outlined'
               placeholder={t('Enter Employee ID')}
               onChange={(e) =>
                 dispatch({
                   type: 'profileInformation',
-                  field: 'empID',
+                  field: 'employeeId',
                   value: e.target.value,
                 })
               }
-              helperText={hasError('empID') && t('Employee ID is required')}
-              error={hasError('empID')}
+              helperText={hasError('employeeId') && t('Employee ID is required')}
+              error={hasError('employeeId')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -100,7 +121,7 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
               name='fName'
               disabled={disable}
               placeholder={t('Enter First Name')}
-              value={state.fName}
+              value={state.firstName}
               onChange={(e) =>
                 dispatch({
                   type: 'profileInformation',
@@ -151,16 +172,37 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Contact Type')}</Typography>
-            <CountrySelect
-              dispatch={dispatch}
-              value={state.contactType}
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Contract Type')}</Typography>
+            <Select
+              sx={{
+                borderRadius: '10px',
+                '& fieldset': {
+                  border: '0',
+                },
+                '&.Mui-disabled fieldset': {
+                  border: 'none',
+                },
+              }}
+              variant='outlined'
               disabled={disable}
-              helperText={
-                hasError('contactType') && t('Contact Type is required')
+              value={state.contractType}
+              onChange={(e: any) =>
+                dispatch({ type: 'contracttype', value: e.target.value })
               }
-              error={hasError('contactType')}
-            />
+              error={hasError('contractType')}
+              placeholder={t('Select Contract Type')}
+            >
+              <MenuItem disabled value=''>
+                <em>{t('Contract Type')}</em>
+              </MenuItem>
+              {contractsListData.map((item: any, i: any) => {
+                return (
+                  <MenuItem value={item.contractType} key={i}>
+                    {t(item.contractType)}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </Grid>
         </Grid>
       </Box>
@@ -176,13 +218,35 @@ const ProfileInformation1 = ({
   lg,
   xl,
 }: any) => {
+  const [managersListData, setmangersListDataState] = useState<any>([]);
+
   const hasError = (field: any) => {
     return state.error.includes(field);
   };
 
   const { t }: any = useTranslation();
 
+  const GetMangersListData = async () => {
+    let url = 'api/HrEmployeeDetail/GetManagerList';
+    let mangers = [];
+    jwtInterceptor.get(url).then((response: any) => {
+      for (var x of response.data) {
+        let item = {
+          managerId: x.employeeDetailId,
+          managerName: x.userName,
+        };
+        mangers.push(item);
+      }
+
+      setmangersListDataState(mangers);
+    });
+  };
+
   console.log('TEST state', state);
+
+  useEffect(() => {
+    GetMangersListData();
+  }, [])
 
   return (
     <Grid item className='section-border' lg={lg} xl={xl} sx={(theme) => ({})}>
@@ -203,7 +267,7 @@ const ProfileInformation1 = ({
       >
         <Grid container mt='21px' gap='20px'>
           <Grid item xs={12}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>Cost Center</Typography>
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Cost Center')}</Typography>
             <TextField
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -263,7 +327,7 @@ const ProfileInformation1 = ({
               name='lName'
               disabled={disable}
               placeholder={t('Enter Last Name')}
-              value={state.lName}
+              value={state.lastName}
               onChange={(e) =>
                 dispatch({
                   type: 'profileInformation',
@@ -291,7 +355,10 @@ const ProfileInformation1 = ({
               name='linemanager'
               placeholder={t('Enter line manager')}
               disabled={disable}
-              value={state.linemanager}
+              value={`${managersListData?.find((item: any) => {
+                return item?.managerId === state.lineManager;
+              })?.managerName || ''
+                }`}
               onChange={(e: any) =>
                 dispatch({
                   type: 'profileInformation',
@@ -303,7 +370,18 @@ const ProfileInformation1 = ({
                 hasError('linemanager') && t('Line manager is required')
               }
               error={hasError('linemanager')}
-            />
+            >
+              <MenuItem disabled value=''>
+                <em>{t('Line Manager')}</em>
+              </MenuItem>
+              {managersListData.map((item: any, i: any) => {
+                return (
+                  <MenuItem value={item.managerId} key={i}>
+                    {t(item.managerName)}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </Grid>
           <Grid item xs={12}>
             <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Department')}</Typography>
@@ -355,6 +433,8 @@ const ProfileInformation2 = ({
   lg,
   xl,
 }: any) => {
+  const [rolesListData, setrolesListDataState] = useState<any>([]);
+
   const hasError = (field: any) => {
     return state.error.includes(field);
   };
@@ -362,6 +442,25 @@ const ProfileInformation2 = ({
   const { t, i18n }: any = useTranslation();
 
   console.log('TEST state', state);
+
+  const GetRolesListData = async () => {
+    let url = 'api/EmployeeRoles/GetRoles';
+    let roles = [];
+
+    jwtInterceptor.get(url).then((response: any) => {
+      for (var x of response.data) {
+        let item = {
+          roleType: x.name,
+        };
+        roles.push(item);
+      }
+      setrolesListDataState(roles);
+    });
+  };
+
+  useEffect(() => {
+    GetRolesListData();
+  }, [])
 
   return (
     <Grid item className='section-border' lg={lg} xl={xl} sx={(theme) => ({})}>
@@ -382,7 +481,7 @@ const ProfileInformation2 = ({
       >
         <Grid container mt='21px' gap='20px'>
           <Grid item xs={12}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>Joining Date</Typography>
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Joining Date')}</Typography>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               adapterLocale={i18n.language}
@@ -400,13 +499,12 @@ const ProfileInformation2 = ({
                 disabled={disable}
                 disableOpenPicker={disable}
                 name='joiningDate'
-                value={dayjs('')}
+                value={dayjs(state.dateOfJoining)}
                 format='DD/MM/YYYY'
                 onChange={(e) =>
                   dispatch({
                     type: 'profileInformation',
                     field: 'joiningDate',
-                    // value: e && e.$d.toISOString(),
                     value: e && e.toISOString(),
                   })
                 }
@@ -437,7 +535,7 @@ const ProfileInformation2 = ({
               name='email'
               disabled={disable}
               placeholder={t('Enter email')}
-              value={state.lName}
+              value={state.email}
               onChange={(e) =>
                 dispatch({
                   type: 'profileInformation',
@@ -465,6 +563,7 @@ const ProfileInformation2 = ({
               name='role'
               placeholder={t('Enter Role')}
               disabled={disable}
+              multiple
               value={state.role}
               onChange={(e: any) =>
                 dispatch({
@@ -473,9 +572,19 @@ const ProfileInformation2 = ({
                   value: e.target.value,
                 })
               }
+              renderValue={(selected: any) => selected.join(', ')}
               helperText={hasError('role') && t('Role is required')}
               error={hasError('role')}
-            />
+            >
+              <MenuItem disabled value=''>
+                <em>{t('Roles')}</em>
+              </MenuItem>
+              {rolesListData.map((item: any, i: any) => (
+                <MenuItem value={item.roleType} key={i}>
+                  {t(item.roleType)}
+                </MenuItem>
+              ))}
+            </Select>
           </Grid>
         </Grid>
       </Box>
@@ -516,7 +625,7 @@ const ProfileInformation3 = ({
       >
         <Grid container mt='21px' gap='20px'>
           <Grid item xs={12}>
-            <Typography className='SmallBody' fontSize={14} fontWeight={500}>Resignation Date</Typography>
+            <Typography className='SmallBody' fontSize={14} fontWeight={500}>{t('Resignation Date')}</Typography>
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               adapterLocale={i18n.language}
@@ -534,13 +643,12 @@ const ProfileInformation3 = ({
                 disabled={disable}
                 disableOpenPicker={disable}
                 name='resignationDate'
-                value={dayjs('')}
+                value={dayjs(state.resignationDate)}
                 format='DD/MM/YYYY'
                 onChange={(e) =>
                   dispatch({
                     type: 'profileInformation',
                     field: 'resignationDate',
-                    // value: e && e.$d.toISOString(),
                     value: e && e.toISOString(),
                   })
                 }
@@ -568,7 +676,7 @@ const ProfileInformation3 = ({
                 disabled={disable}
                 disableOpenPicker={disable}
                 name='lastWorkingDate'
-                value={dayjs('')}
+                value={dayjs(state.lastWorkingDate)}
                 format='DD/MM/YYYY'
                 onChange={(e) =>
                   dispatch({
@@ -589,28 +697,19 @@ const ProfileInformation3 = ({
 
 const initialState = {
   userDetails: {
-    employeeDetailId: 4,
-    socialSecurityNumber: '',
-    personalEmailId: '',
-    personalMobileNumber: '',
-    dateOfBirth: '',
-    preferedLanguage: 'English',
-    employeeAddressDto: {
-      address: '',
-      postCode: '',
-      city: '',
-      country: '',
-    },
-    gender: '',
-    businessPhoneNumber: '',
-    businessMobileNumber: '',
-    workPlace: 'site 1',
-    emergencyContactDto: {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      email: '',
-    },
+    fullName: '',
+    middleName: '',
+    department: '',
+    designation: '',
+    lineManager: 0,
+    employeeId: '',
+    costCenter: '',
+    contractType: '',
+    email: '',
+    dateOfJoining: '',
+    lastWorkingDate: '',
+    resignationDate: '',
+    role: [],
     error: [],
   },
 };
@@ -643,7 +742,7 @@ const reducer = (state: any, action: any) => {
   }
 };
 
-function HRProfile() {
+function HRProfile({ modal = false }) {
   const navigate = useNavigate();
   const initialized = useRef(false);
   const [state, dispatch] = useReducer(reducer, initialState.userDetails);
@@ -651,7 +750,10 @@ function HRProfile() {
   const { showMessage }: any = useSnackbar();
 
   const bearerToken = sessionStorage.getItem('token_key');
-  const empId: any = sessionStorage.getItem('empId_key');
+  const empId: any = sessionStorage.getItem('employee_id_key');
+  const selectedEmpString = sessionStorage.getItem('selected_employee_details');
+  const selectedEmp = selectedEmpString ? JSON.parse(selectedEmpString) : {};
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const updateProfileData = async () => {
     const {
@@ -701,16 +803,17 @@ function HRProfile() {
     setEdit(false);
   };
 
-  const getProfilePrivateData = async () => {
+  const getProfileInfoData = async () => {
     jwtInterceptor
-      .get('api/Employee/GetProfileBottomDetail?id=' + empId)
+      .get('api/HrEmployeeDetail/GetEmployeeDetailsByEmployeeId?EmployeeDetailId=' + empId)
       .then((response: any) => {
+        const combinedData = { ...response.data, ...selectedEmp, role: selectedEmp.roleNames ? selectedEmp.roleNames.split(',') : [], };
         dispatch({
           type: 'serviceData',
           field: '',
-          value: response.data,
+          value: combinedData,
         });
-        setTempState(response.data);
+        setTempState(combinedData);
       });
   };
 
@@ -718,9 +821,9 @@ function HRProfile() {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        getProfilePrivateData();
+        getProfileInfoData();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login', {
+        navigate( base_url + '/login', {
           replace: true,
         });
       }
@@ -733,12 +836,15 @@ function HRProfile() {
 
   return (
     <Box>
-      <EditAndSave
-        edit={edit}
-        setEdit={setEdit}
-        onUpdate={() => updateProfileData()}
-        onCancel={() => dispatch({ type: 'reset', data: tempState })}
-      />
+      {!modal && (
+        <EditAndSave
+          edit={edit}
+          setEdit={setEdit}
+          onUpdate={() => updateProfileData()}
+          onCancel={() => dispatch({ type: 'reset', data: tempState })}
+          modal={modal}
+        />
+      )}
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <ProfileInformation

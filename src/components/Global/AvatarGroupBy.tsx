@@ -1,8 +1,42 @@
 import { Avatar, AvatarGroup } from '@mui/material';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function AvatarGroupBy({ images, onClick = () => {} }: any) {
-  console.log('Images', images);
+  const [base64Images, setBase64Images] = useState<any>([]);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const blobs = await Promise.all(
+          images.map(async  (image: any) => {
+            // If image is a URL, fetch the file and convert it to a Blob
+            if (typeof image === 'string') {
+              const response = await fetch(image);
+              return response.blob();
+            }
+            // If image is already a File or Blob, return it as is
+            return image;
+          })
+        );
+        const base64Images = await Promise.all(
+          blobs.map((blob: Blob) => {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                resolve(reader.result as string);
+              };
+              reader.readAsDataURL(blob);
+            });
+          })
+        );
+        setBase64Images(base64Images);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadImages();
+  }, [images]);
+
   return (
     <AvatarGroup
       max={5}
@@ -21,10 +55,10 @@ function AvatarGroupBy({ images, onClick = () => {} }: any) {
         },
       }}
     >
-      {images.map((image: any, i: any) => (
+      {base64Images.map((base64Image: any, i: any) => (
         <Avatar
           alt='Remy Sharp'
-          src={image}
+          src={base64Image}
           key={i}
           onClick={() => onClick(i)}
           sx={{

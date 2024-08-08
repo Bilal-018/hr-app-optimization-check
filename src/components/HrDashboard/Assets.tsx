@@ -49,6 +49,24 @@ const headCells = [
   },
 ];
 
+function extractTextFromElement(element: React.ReactElement): string {
+  if (typeof element.props.children === 'string') {
+    return element.props.children;
+  }
+
+  if (Array.isArray(element.props.children)) {
+    return element.props.children.map((child: any) => 
+      React.isValidElement(child) ? extractTextFromElement(child) : child
+    ).join(' ');
+  }
+
+  if (React.isValidElement(element.props.children)) {
+    return extractTextFromElement(element.props.children);
+  }
+
+  return '';
+}
+
 function createData(
   equipment: any,
   brand: any,
@@ -57,6 +75,14 @@ function createData(
   status: any,
   action: any
 ) {
+  const searchableText = [
+    equipment,
+    brand,
+    model,
+    registration,
+    extractTextFromElement(status),
+  ].join(' ');
+
   return {
     equipment,
     brand,
@@ -64,6 +90,7 @@ function createData(
     registration,
     status,
     action,
+    searchableText,
   };
 }
 

@@ -37,6 +37,7 @@ function SkillsManagement() {
 
   const bearerToken = sessionStorage.getItem('token_key');
   const empId = sessionStorage.getItem('empId_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const getData = async () => {
     setLoading(true);
@@ -61,8 +62,7 @@ function SkillsManagement() {
         initialized.current = true;
         getData();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -28,7 +28,7 @@ function AnnouncementModal({
   title = 'Announcements',
   yesOrNo = false,
   showSaveButton = true,
-  sx = { width:'90%' },
+  sx = { width: '90%' },
   isCloseIcon = true,
   hideTitle = false,
 }: any) {
@@ -57,7 +57,9 @@ function AnnouncementModal({
                 },
               }}
             >
-              <Button onClick={handleClose}>
+              <Button onClick={handleClose} sx={{
+                background: (theme) => theme.palette.grey[200]
+              }}>
                 <CloseIcon />
               </Button>
             </Box>

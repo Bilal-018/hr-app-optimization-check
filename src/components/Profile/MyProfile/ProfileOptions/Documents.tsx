@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState, useRef } from 'react';
 import EnhancedTable from '../../../Global/Table';
 import DocIcon from '@mui/icons-material/InsertDriveFile';
@@ -11,9 +11,11 @@ import { useSnackbar } from '../../../Global/WithSnackbar';
 import { useTranslation } from 'react-i18next';
 import BinIcon from '../../../Icon/BinIcon';
 import DownloadIcon from '../../../Icon/DownloadIcon';
+import EditAndSave from '../../../Global/EditAndSave';
+import ViewIcon from '../../../Icon/ViewIcon';
 const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL + '/api/';
 // const email = sessionStorage.getItem('email_key');
-const bearerToken = sessionStorage.getItem('token_key');
+// const bearerToken = sessionStorage.getItem('token_key');
 
 const headCells = [
   {
@@ -40,7 +42,6 @@ const headCells = [
 ];
 
 function createData(
-  id: any,
   title: any,
   type: any,
   modified: any,
@@ -48,7 +49,6 @@ function createData(
   action: any
 ) {
   return {
-    id,
     title,
     type,
     modified,
@@ -57,12 +57,17 @@ function createData(
   };
 }
 
-function CellAction({ id, name, onDelete }: any) {
+function CellAction({ id, name, onDelete, onView, token }: any) {
   return (
     <Box className='action-icon-rounded'>
       <Button
+          onClick={() => onView(id)}
+        >
+          <ViewIcon />
+        </Button>
+      <Button
         onClick={() => {
-          handleDownload(id, name);
+          handleDownload(id, name, token);
         }}
       >
         <DownloadIcon />
@@ -85,7 +90,7 @@ const DocumentIcon: any = {
   File: <FileIcon />,
 };
 
-const handleDownload = async (id: any, filename: any) => {
+const handleDownload = async (id: any, filename: any, bearerToken: any) => {
   let url = API_URL + 'EmployeeDocuments/DownloadDocument/' + id;
   console.log(url);
   fetch(url, {
@@ -132,19 +137,26 @@ function DocumentType({ type }: any) {
   );
 }
 
-function Documents({ employeeId, modal = false }: any) {
+function Documents({ modal = false }: any) {
   const [open, setOpen] = useState<any>(false);
   const [formData, setformdatastate] = useState<any>(null);
   const [deleteModal, setDeleteModal] = useState<any>(false);
   const [selecteddocument, setSelecteddocument] = useState<any>(0);
   const initialized = useRef(false);
   const [loading, setLoading] = useState<any>(false);
+  const [uploadLoading, setUploadLoading] = useState<any>(false);
   const { showMessage }: any = useSnackbar();
+  const [edit, setEdit] = useState<any>(false);
+  const [fileAdded, setFileAdded] = useState<any>(false);
+  const [pdfUrl, setPdfUrl] = useState<any>(null);
+  const [viewModal, setViewModal] = useState(false);
 
   const [employeeDocuments, setEmployeeDocumentState] = useState<any>([]);
   const tblRows: any = [];
 
-  const empId: any = employeeId || sessionStorage.getItem('empId_key');
+  const bearerToken = sessionStorage.getItem('token_key');
+  const empId: any = sessionStorage.getItem('employee_id_key') ? sessionStorage.getItem('employee_id_key') : sessionStorage.getItem('empId_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     if (!initialized.current) {
@@ -152,8 +164,7 @@ function Documents({ employeeId, modal = false }: any) {
         initialized.current = true;
         GetDocumentListData();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,14 +196,27 @@ function Documents({ employeeId, modal = false }: any) {
           );
           tblRows.push(
             createData(
-              x.employeeDocumentId,
               x.fileName,
               <DocumentType type={x.fileType} />,
               x.modifiedBy,
               formattedDate,
               <CellAction
                 id={x.employeeDocumentId}
+                token={bearerToken}
                 name={x.fileName}
+                onView={(id: any) => {
+                  setViewModal(true);
+                  if (id) {
+                    const url = API_URL + 'EmployeeDocuments/DownloadDocument/' + id;
+                    jwtInterceptor
+                      .get(url, { responseType: 'blob' })
+                      .then((response: any) => {
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const objectUrl = URL.createObjectURL(blob) + "#toolbar=0";
+                        setPdfUrl(objectUrl);
+                      });
+                  }
+                }}
                 onDelete={(id: any) => {
                   setSelecteddocument(id);
                   setDeleteModal(true);
@@ -206,8 +230,8 @@ function Documents({ employeeId, modal = false }: any) {
       .finally(() => setLoading(false));
   };
   const UploadDocuments_Click = () => {
+    setUploadLoading(true);
     uploadDocumentsData();
-    setOpen(false);
   };
   const uploadDocumentsData = async () => {
     let url =
@@ -220,6 +244,8 @@ function Documents({ employeeId, modal = false }: any) {
 
     jwtInterceptor.post(url, formData).then((response: any) => {
       showMessage(response.data, 'success');
+      setUploadLoading(false);
+      setOpen(false);
       GetDocumentListData();
     });
   };
@@ -251,6 +277,15 @@ function Documents({ employeeId, modal = false }: any) {
 
   return (
     <>
+      {modal && <EditAndSave
+        edit={true}
+        setEdit={setEdit}
+        onUpdate={() => { UploadDocuments_Click(); setFileAdded(false); setformdatastate(null); }}
+        onCancel={() => { setFileAdded(false); setformdatastate(null); }}
+        modal={modal}
+        title='Documents'
+        fileAdded={fileAdded}
+      />}
       <EnhancedTable
         title='Documents'
         head={headCells}
@@ -258,25 +293,34 @@ function Documents({ employeeId, modal = false }: any) {
         {...(modal ? {} : { isAddable: true })}
         onAddClick={() => setOpen(true)}
         loading={loading}
-        btnTitle='+ Attachment'
-        setFileInformation
+        btnTitle='Attachment'
+        setFileInformation={setFileInformation}
         modal={modal}
+        setFileAdded={setFileAdded}
+        fileAdded={fileAdded}
+        uploadLoading={uploadLoading}
       />
       <BaseModal
         open={open}
         handleClose={() => setOpen(false)}
         onSave={() => UploadDocuments_Click()}
         title='My Portal - Upload New Document'
+        uploadLoading={uploadLoading}
       >
         <Grid container spacing='20px' px='10%'>
           <Grid item xs={12}>
             <Typography className='SmallBody'>{t('Attachment')}</Typography>
 
-            <DragAndDrop
-              edit={true}
-              allowMultiple
-              onChangeFile={(e: any) => setFileInformation(e.target.files)}
-            />
+            {uploadLoading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', }}>
+                <CircularProgress />
+              </Box>) : (
+              <DragAndDrop
+                edit={true}
+                allowMultiple
+                onChangeFile={(e: any) => setFileInformation(e.target.files)}
+              />
+            )}
           </Grid>
         </Grid>
       </BaseModal>
@@ -293,6 +337,25 @@ function Documents({ employeeId, modal = false }: any) {
               {t('Do you want to delete the selected document ?')}
             </Typography>
           </Grid>
+        </Grid>
+      </BaseModal>
+      <BaseModal
+        open={viewModal}
+        handleClose={() => { setViewModal((prev) => !prev); setPdfUrl(null); }}
+        title='Document - Preview'
+        showSaveButton={false}
+      >
+        <Grid container justifyContent='center' mt={2} minHeight='50px'>
+          {pdfUrl ? (
+            <object
+              data={pdfUrl}
+              type="application/pdf"
+              width="100%"
+              height="700px"
+            />
+          ) : (
+            <CircularProgress />
+          )}
         </Grid>
       </BaseModal>
     </>

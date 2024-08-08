@@ -14,42 +14,104 @@ if (tokensDataString) {
 
 const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL + '/api/';
 
-export const getPayslips = async (url: any) => {
-  return await axios({
-    method: 'get',
-    url: API_URL + url,
-    headers: {
-      'Content-Type': 'text/json;charset=utf-8',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      Authorization: ' Bearer ' + tokensData.token,
-    },
-  })
-    .then(function (response) {
-      return response.data;
+export const getPayslips = async (url: any): Promise<any> => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: API_URL + url,
+      headers: {
+        'Content-Type': 'text/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        Authorization: ' Bearer ' + tokensData.token,
+      },
     })
-    .catch(function (error) {
-      return error;
-    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      const authDataString = sessionStorage.getItem('token');
+      if (!authDataString) {
+        // Handle the case where authData is null
+        return Promise.reject(error);
+      }
+
+      const authData = JSON.parse(authDataString);
+
+      const payload = {
+        email: authData.employeedetail.email,
+        refreshToken: authData.refreshToken,
+      };
+
+      try {
+        const apiResponse = await axios.post(
+          process.env.REACT_APP_API_PROFILE_SERVICE_URL + 'api/Authenticate/RefreshToken',
+          payload
+        );
+
+        if (apiResponse.data.status && apiResponse.data.status != 'Error') {
+          sessionStorage.setItem('token', JSON.stringify(apiResponse.data));
+          tokensData = JSON.parse(sessionStorage.getItem('token') as string);
+          return getPayslips(url);
+        } else {
+          throw new Error('Error refreshing token');
+        }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
 };
 
 export const deletePayslip = async (url: any) => {
-  return await axios({
-    method: 'delete',
-    url: API_URL + url,
-    headers: {
-      'Content-Type': 'text/json;charset=utf-8',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-      Authorization: ' Bearer ' + tokensData.token,
-    },
-  })
-    .then(function (response) {
-      return response.data;
+  try {
+    const response = await axios({
+      method: 'delete',
+      url: API_URL + url,
+      headers: {
+        'Content-Type': 'text/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        Authorization: ' Bearer ' + tokensData.token,
+      },
     })
-    .catch(function (error) {
-      return error;
-    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      const authDataString = sessionStorage.getItem('token');
+      if (!authDataString) {
+        // Handle the case where authData is null
+        return Promise.reject(error);
+      }
+
+      const authData = JSON.parse(authDataString);
+
+      const payload = {
+        email: authData.employeedetail.email,
+        refreshToken: authData.refreshToken,
+      };
+
+      try {
+        const apiResponse = await axios.post(
+          process.env.REACT_APP_API_PROFILE_SERVICE_URL + 'api/Authenticate/RefreshToken',
+          payload
+        );
+
+        if (apiResponse.data.status && apiResponse.data.status != 'Error') {
+          sessionStorage.setItem('token', JSON.stringify(apiResponse.data));
+          tokensData = JSON.parse(sessionStorage.getItem('token') as string);
+          return getPayslips(url);
+        } else {
+          throw new Error('Error refreshing token');
+        }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  }
 };
 export const downloadPayslip = async (url: any) => {
   return await axios({

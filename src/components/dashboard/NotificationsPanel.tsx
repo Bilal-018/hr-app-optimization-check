@@ -85,6 +85,7 @@ function NotificationsPanel() {
   const [loading, setLoading] = useState(false);
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const GetEmployeeNotifications = async () => {
     setLoading(true);
@@ -126,8 +127,7 @@ function NotificationsPanel() {
         initialized.current = true;
         GetEmployeeNotifications();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

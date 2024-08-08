@@ -64,6 +64,9 @@ const COLORS: any[] = [
   },
 ];
 
+const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
+const devURL = process.env.REACT_APP_API_LEAVE_SERVICE_URL;
+
 function Dashboard(): JSX.Element {
   const [hrkpis, sethrkpis] = useState<any>({});
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,6 +88,7 @@ function Dashboard(): JSX.Element {
   const initialized = useRef<boolean>(false);
 
   const bearerToken: string | null = sessionStorage.getItem('token_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const navigate: any = useNavigate();
   const { t }: any = useTranslation();
@@ -135,10 +139,9 @@ function Dashboard(): JSX.Element {
   };
 
   const GetTopSkills = async (): Promise<void> => {
+    const url = `${API_URL}/api/HrDashboard/GetHrDashboardTopSkillsv2`
     jwtInterceptor
-      .get(
-        'https://hrmsapicoreappservice.azurewebsites.net/api/HrDashboard/GetHrDashboardTopSkillsv2 '
-      )
+      .get(url)
       .then((response: any) => {
         const sortedData =
           response?.data &&
@@ -159,10 +162,9 @@ function Dashboard(): JSX.Element {
   };
 
   const getLeavesDataFromAPI = async (): Promise<void> => {
+    const url = `${devURL}/api/HrLeave/GetAllHrDashBoardLeaveListMonthYearWise`
     jwtInterceptor
-      .get(
-        'https://dev-slaeb-hrms-leave.azurewebsites.net/api/HrLeave/GetAllHrDashBoardLeaveListMonthYearWise'
-      )
+      .get(url)
       .then((res: any) => {
         setGetLeaveData(res?.data);
         setLoading(false);
@@ -170,10 +172,9 @@ function Dashboard(): JSX.Element {
   };
 
   const GetSkillsWithExpertise = async (): Promise<void> => {
+    const url = `${API_URL}/api/HrDashboard/GetHrDashboardTopSkillsExperWise`
     jwtInterceptor
-      .get(
-        'https://hrmsapicoreappservice.azurewebsites.net/api/HrDashboard/GetHrDashboardTopSkillsExperWise'
-      )
+      .get(url)
       .then((response: any) => {
         setExpertise(response?.data);
         setLoading(false);
@@ -181,10 +182,9 @@ function Dashboard(): JSX.Element {
   };
 
   const GetCertificaionData = async (): Promise<void> => {
+    const url = `${API_URL}/api/HrDashboard/GetHrDashboard`
     jwtInterceptor
-      .get(
-        'https://hrmsapicoreappservice.azurewebsites.net/api/HrDashboard/GetHrDashboard'
-      )
+      .get(url)
       .then((response: any) => {
         setCertificateDate(response?.data);
         setLoading(false);
@@ -205,7 +205,7 @@ function Dashboard(): JSX.Element {
         GetCertificaionData();
         getLeavesDataFromAPI();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate( base_url + '/login');
       }
     }
   }, []);
@@ -681,7 +681,7 @@ function Dashboard(): JSX.Element {
                               height: '10px',
                               width: '15px',
                               borderRadius: '50%',
-                              backgroundColor: COLORS[index]?.color,
+                              backgroundColor: item.agendaColor,
                             }}
                           ></Box>
 
@@ -695,7 +695,7 @@ function Dashboard(): JSX.Element {
                             }}
                           >
                             <Typography>
-                              {item.expertiseDeveloperKey}
+                              {item.expertiseName}
                             </Typography>
                           </Box>
 
@@ -706,7 +706,7 @@ function Dashboard(): JSX.Element {
                           >
                             <Progressbar
                               percent={percent}
-                              color={COLORS[index]?.color}
+                              color={item.agendaColor}
                             />
                           </Box>
                         </Box>

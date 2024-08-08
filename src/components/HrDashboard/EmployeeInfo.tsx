@@ -86,7 +86,8 @@ function createData(
   startingDate: any,
   role: any,
   status: any,
-  Action: any
+  Action: any,
+  searchableText: string,
 ) {
   return {
     employeeId,
@@ -97,6 +98,7 @@ function createData(
     role,
     status,
     Action,
+    searchableText,
   };
 }
 
@@ -155,7 +157,7 @@ const initialState = {
   firstName: '',
   middleName: '',
   lastName: '',
-  dateOfJoining: new Date(),
+  dateOfJoining: null,
   contractType: '',
   lineManager: 0,
   email: '',
@@ -238,6 +240,7 @@ function EmployeeSkillsTable() {
   };
 
   const bearerToken = sessionStorage.getItem('token_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const [state, dispatch] = useReducer((prevState: any, action: any) => {
     switch (action.type) {
@@ -326,7 +329,7 @@ function EmployeeSkillsTable() {
         GetContractsListData();
         GetGenderData();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate( base_url + '/login');
       }
     }
   }, []);
@@ -341,7 +344,7 @@ function EmployeeSkillsTable() {
       .then((response: any) => {
         if (response.status !== 200) {
           showMessage(response.statusText, 'error');
-          navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login', {
+          navigate( base_url + '/login', {
             replace: true,
           });
         }
@@ -349,6 +352,18 @@ function EmployeeSkillsTable() {
         for (var x of response.data) {
           let eId = x.employeeDetailId;
           let item = x;
+
+          // Combine all text for searchable text
+          const searchableText = [
+            x.employeeId,
+            x.fullName,
+            x.department,
+            x.lineManagerName,
+            x.roleNames,
+            x.dateOfJoining?.split("T")[0] || '',
+            x.status,
+          ].join(' ');
+
           tblRows.push(
             createData(
               x.employeeId,
@@ -372,9 +387,10 @@ function EmployeeSkillsTable() {
                   console.log(' TEST EDIT', item);
                   onEdit('Edit', item);
                 }}
-                onPreview={() => setShowPreview(true)}
+                onPreview={() => handlePreviewClick(item)}
                 onDelete={() => onDelete(item)}
-              />
+              />,
+              searchableText,
             )
           );
         }
@@ -695,6 +711,11 @@ function EmployeeSkillsTable() {
     setIdState(eId);
   }
 
+  const handlePreviewClick = (item: any) => {
+    setShowPreview(true);
+    sessionStorage.setItem('selected_employee_details', JSON.stringify(item));
+  }
+
   function onConfirmationDelete() {
     setDeleteModal((pre: any) => !pre);
 
@@ -778,45 +799,38 @@ function EmployeeSkillsTable() {
                 overflowX: 'hidden',
               }}
             >
-              <Grid item xs={12} sm={6}>
-                <Typography className='SmallBody' fontSize={14} fontWeight={500}>
-                  {t('Employee ID')}{' '}
-                </Typography>
-                <TextField
-                  sx={{
-                    backgroundColor: 'transparent !important',
-                    '& .MuiOutlinedInput-root': {
-                      backgroundColor: 'transparent',
-                      borderRadius: '10px',
-                      border: '0',
-                      outline: 1,
-                      outlineColor: '#E0E0E0',
-                      '& fieldset': {
+              {btnType === 'Edit' && (
+                <Grid item xs={12} sm={6}>
+                  <Typography className='SmallBody' fontSize={14} fontWeight={500}>
+                    {t('Employee ID')}{' '}
+                  </Typography>
+                  <TextField
+                    sx={{
+                      backgroundColor: 'transparent !important',
+                      '& .MuiOutlinedInput-root': {
+                        backgroundColor: 'transparent',
+                        borderRadius: '10px',
                         border: '0',
+                        outline: 1,
+                        outlineColor: '#E0E0E0',
+                        '& fieldset': {
+                          border: '0',
+                        },
+                        '&:hover fieldset': {
+                          border: '0',
+                        },
+                        '&.Mui-focused fieldset': {
+                          border: '0',
+                        },
                       },
-                      '&:hover fieldset': {
-                        border: '0',
-                      },
-                      '&.Mui-focused fieldset': {
-                        border: '0',
-                      },
-                    },
-                  }}
-                  variant='outlined'
-                  placeholder={`${t('EMP - 0026')}`}
-                  value={btnType === "Edit" ? activeEmployeId : ''}
-                  onChange={(e: any) =>
-                    dispatch({ type: 'firstname', value: e.target.value })
-                  }
-                  disabled
-                  error={hasError('firstName')}
-                  helperText={
-                    hasError('firstName')
-                      ? t('Please enter first name')
-                      : null
-                  }
-                />
-              </Grid>
+                    }}
+                    variant='outlined'
+                    placeholder={`${t('')}`}
+                    value={btnType === "Edit" ? activeEmployeId : ''}
+                    disabled
+                  />
+                </Grid>
+              )}
               <Grid item xs={12} sm={6}>
                 <Typography className='SmallBody' fontSize={14} fontWeight={500}>
                   {t('Cost centre')}
@@ -839,8 +853,9 @@ function EmployeeSkillsTable() {
                       },
                     },
                   }}
+                  disabled
                   variant='outlined'
-                  placeholder={`${t('Enter cost centre')}`}
+                  placeholder={`${t('Cost centre')}`}
                   value={state.costCenter}
                   // disabled="true"
                   onChange={(e: any) =>
@@ -1094,7 +1109,10 @@ function EmployeeSkillsTable() {
                   }}
                   variant='outlined'
                   placeholder={t('Select manager')}
-                  value={state.lineManager}
+                  value={`${managersListData?.find((item: any) => {
+                    return item?.managerId === state.lineManager;
+                  })?.managerName || ''
+                    }`}
                   onChange={(e: any) =>
                     dispatch({ type: 'lineManager', value: e.target.value })
                   }

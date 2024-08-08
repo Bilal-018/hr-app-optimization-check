@@ -234,16 +234,16 @@ function EmployeeInfo() {
   };
 
   const onAddNewSkill = async (data: any) => {
+    setNewSkill({
+      open: false,
+      id: null,
+    });
     if (data.id) {
       await updateSkill(data);
     } else {
       await addNewSkill(data);
     }
     getSkillsConfiguration();
-    setNewSkill({
-      open: false,
-      id: null,
-    });
   };
 
   const { t } = useTranslation();

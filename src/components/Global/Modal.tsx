@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Typography, alpha } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
@@ -59,12 +59,85 @@ function BaseModal({
   sx = {},
   isCloseIcon = true,
   hideTitle = false,
+  uploadLoading = false,
 }: any) {
   const { t } = useTranslation();
+
+  const [width, setWidth] = useState(620);
+  const [height, setHeight] = useState(660);
+  const [isResizing, setIsResizing] = useState(false);
+  const [initialMouseX, setInitialMouseX] = useState(0);
+  const [initialMouseY, setInitialMouseY] = useState(0);
+  const [initialWidth, setInitialWidth] = useState(0);
+  const [initialHeight, setInitialHeight] = useState(0);
+
+  const resetModalSize = () => {
+    setWidth(620);
+    setHeight(660);
+  };
+
+  const handleMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    setInitialMouseX(event.clientX);
+    setInitialMouseY(event.clientY);
+    setInitialWidth(width);
+    setInitialHeight(height);
+    setIsResizing(true);
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    setInitialMouseX(event.touches[0].clientX);
+    setInitialMouseY(event.touches[0].clientY);
+    setInitialWidth(width);
+    setInitialHeight(height);
+    setIsResizing(true);
+  };
+
+  const handleTouchMove = (event: TouchEvent) => {
+    if (isResizing) {
+      const newWidth = initialWidth + (event.touches[0].clientX - initialMouseX);
+      const newHeight = initialHeight + (event.touches[0].clientY - initialMouseY);
+      setWidth(newWidth);
+      setHeight(newHeight);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsResizing(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsResizing(false);
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    if (isResizing) {
+      const newWidth = initialWidth + (event.clientX - initialMouseX);
+      const newHeight = initialHeight + (event.clientY - initialMouseY);
+      setWidth(newWidth);
+      setHeight(newHeight);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("touchend", handleTouchEnd);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isResizing]);
+
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={() => {
+        handleClose();
+        resetModalSize();
+      }}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
@@ -73,7 +146,16 @@ function BaseModal({
           ...style.modalWrapper(theme),
           ...sx,
           background: theme.palette.mode === 'light' ? 'white' : '#2b2d3e',
-          outline: 'none'
+          outline: 'none',
+          ...(title === 'Presentation - Preview' && {
+            resize: 'both',
+            overflow: 'auto',
+            width: `${width}px`,
+            height: `${height}px`,
+            // [theme.breakpoints.up('lg')]: { maxWidth: '65vw' },
+            minWidth: '50vw',
+            maxWidth: 'none',
+          }),
         })}
       >
         <Box className='f-b-c'>
@@ -88,20 +170,36 @@ function BaseModal({
 
               }}
             >
-              <Button onClick={handleClose} sx={{
+              <Button onClick={() => { handleClose(); resetModalSize(); }} sx={{
                 background: (theme) => theme.palette.grey[200]
               }}>
                 <CloseIcon />
               </Button>
             </Box>
           )}
+          {title === 'Presentation - Preview' && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                width: 10,
+                height: 10,
+                cursor: 'nw-resize',
+              }}
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+            >
+            </div>
+          )}
         </Box>
-        <Box sx={{ overflowY: 'auto', maxHeight:'90vh' }}>
+        <Box sx={{ overflowY: 'auto', maxHeight: '90vh', height: '94%' }}>
           <Box
             sx={{
               // mt: "30px",
               // mb: "20px",
               // overflowY: 'auto',
+              height: '98%'
             }}
           >
             {children}
@@ -118,6 +216,7 @@ function BaseModal({
                 <Button
                   variant='contained'
                   sx={(theme) => ({ ...style.cancelBtn(theme) })}
+                  disabled= {title === 'My Portal - Upload New Document' ? uploadLoading : false}
                   onClick={handleClose}
                 >
                   {yesOrNo ? t('No') : t('Cancel')}
@@ -125,6 +224,7 @@ function BaseModal({
                 <Button
                   variant='contained'
                   sx={(theme) => ({ ...style.saveBtn(theme) })}
+                  disabled= {title === 'My Portal - Upload New Document' ? uploadLoading : false}
                   onClick={onSave}
                 >
                   {yesOrNo ? t('Yes') : t('Save')}

@@ -8,6 +8,8 @@ export const useSnackbar = () => {
   return useContext(SnackbarContext);
 };
 
+type AlertSeverity = 'error' | 'info' | 'success' | 'warning';
+
 export const SnackbarProvider = ({ children }: any) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('Something went wrong!');
@@ -19,7 +21,7 @@ export const SnackbarProvider = ({ children }: any) => {
 
   const showMessage = (
     message = 'something went wrong',
-    severity = 'success',
+    severity: AlertSeverity = 'success',
     duration = 2000
   ) => {
     setMessage(message);
@@ -74,7 +76,7 @@ export const SnackbarProvider = ({ children }: any) => {
         <Alert
           variant='filled'
           // onClose={handleClose}
-          // severity={severity}
+          severity={severity as AlertSeverity}
           sx={{
             '.MuiAlert-message': {
               fontSize: '1.2rem',

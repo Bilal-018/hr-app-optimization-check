@@ -164,6 +164,7 @@ function ForgetPassword() {
   }, initialState);
 
   const { t } = useTranslation();
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const messages = [
     {
@@ -191,7 +192,7 @@ function ForgetPassword() {
       })
       .then((res) => {
         showMessage(res.message, 'success');
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login', {
+        navigate( base_url + '/login', {
           replace: true,
         });
       });

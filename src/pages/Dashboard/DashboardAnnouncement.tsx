@@ -38,6 +38,7 @@ function DashboardAnnouncement() {
       open: true,
     });
   };
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   // const closeModal = () => {
   //   setModalOpen(false);
@@ -75,8 +76,7 @@ function DashboardAnnouncement() {
         initialized.current = true;
         getAnnouncementData();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,8 +84,14 @@ function DashboardAnnouncement() {
 
   const matches = useMediaQuery(userTheme.breakpoints.up('md'));
 
+  function truncateDescription(description: any, maxLength: any) {
+    return description.length > maxLength
+      ? description.substring(0, maxLength) + '...'
+      : description;
+  }
+
   return (
-    <div style={{ flex:1, display: 'flex', backgroundColor: userTheme.palette.mode === 'dark' ? '' : 'white', padding: matches ? '20px' : '0px', borderRadius: '12px' }}>
+    <div style={{ flex: 1, display: 'flex', backgroundColor: userTheme.palette.mode === 'dark' ? '' : 'white', padding: matches ? '20px' : '0px', borderRadius: '12px' }}>
       <Box width='100%' minHeight={{ xs: 'auto', md: '250px' }} maxWidth={{ xs: '270px', sm: '100%' }} my={{ xs: 3, md: 0 }}>
         <div
           style={{
@@ -196,7 +202,7 @@ function DashboardAnnouncement() {
                           }}
                         // mr={"auto"}
                         >
-                          {item.description}
+                          {truncateDescription(item.description, 50)}
                         </Typography>
                         <Typography
                           sx={{
@@ -207,7 +213,7 @@ function DashboardAnnouncement() {
                           }}
                         // mr={"auto"}
                         >
-                          {item.description}
+                          {truncateDescription(item.description, 50)}
                         </Typography>
 
                         <Button

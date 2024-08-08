@@ -1,23 +1,25 @@
 import { Stack, Typography } from '@mui/material';
-import React from 'react';
 
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ArticleIcon from '@mui/icons-material/Article';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
+import PDFViewer from '../Global/PdfViewer';
 
 const FileTypeIcons = {
   pdf: {
     icon: <PictureAsPdfIcon color='info' />,
     title: 'PDF',
   },
-  doc: {
-    icon: <ArticleIcon color='info' />,
-    title: 'DOC',
-  },
-  docx: {
-    icon: <ArticleIcon color='info' />,
-    title: 'DOCX',
-  },
+  // doc: {
+  //   icon: <ArticleIcon color='info' />,
+  //   title: 'DOC',
+  // },
+  // docx: {
+  //   icon: <ArticleIcon color='info' />,
+  //   title: 'DOCX',
+  // },
   ppt: {
     icon: <SlideshowIcon color='info' />,
     title: 'PPT',
@@ -26,17 +28,33 @@ const FileTypeIcons = {
     icon: <SlideshowIcon color='info' />,
     title: 'PPTX',
   },
-  pptm: {
-    icon: <ArticleIcon color='info' />,
-    title: 'PPTM',
+  // pptm: {
+  //   icon: <ArticleIcon color='info' />,
+  //   title: 'PPTM',
+  // },
+  // exe: {
+  //   icon: <ArticleIcon color='info' />,
+  //   title: 'EXE',
+  // },
+  mp4: {
+    icon: <PlayCircleFilledIcon color='info' />,
+    title: 'MP4',
   },
-  exe: {
-    icon: <ArticleIcon color='info' />,
-    title: 'EXE',
+  mp3: {
+    icon: <AudiotrackIcon color='info' />,
+    title: 'MP3',
+  },
+  wav: {
+    icon: <AudiotrackIcon color='info' />,
+    title: 'WAV',
+  },
+  ogg: {
+    icon: <AudiotrackIcon color='info' />,
+    title: 'OGG',
   },
 };
 
-function GetImage({ presentation, styles = {} }: any) {
+function GetImage({ presentation, isModalOpen = false, styles = {} }: any) {
   const fileType = presentation.name.split('.')[1];
 
   // const content = FileTypeIcons[fileType.toLowerCase()] || {};
@@ -45,7 +63,7 @@ function GetImage({ presentation, styles = {} }: any) {
 
   return (
     <>
-      {content?.icon ? (
+      {!isModalOpen && content?.icon ? (
         <Stack
           direction={'column'}
           alignItems={'center'}
@@ -56,6 +74,24 @@ function GetImage({ presentation, styles = {} }: any) {
           {content?.icon}
           <Typography variant='h5'>{content?.title}</Typography>
         </Stack>
+      ) : fileType.toLowerCase() == "ppt" || fileType.toLowerCase() == "pptx" ? (
+        <iframe
+          src={`https://docs.google.com/gview?url=${presentation.url}&embedded=true`}
+          width="100%"
+          height="100%"
+          frameBorder="0"
+        >
+        </iframe>
+      ) : fileType.toLowerCase() == "pdf" ? (
+        <PDFViewer file={presentation.url} fileName={presentation.name} />
+      ) : fileType.toLowerCase() === "mp4" ? (
+        <video width="100%" height="100%" controls>
+          <source src={presentation.url} type="video/mp4" />
+        </video>
+      ) : fileType.toLowerCase() === "mp3" || fileType.toLowerCase() === "wav" || fileType.toLowerCase() === "ogg" ? (
+        <audio controls>
+          <source src={presentation.url} type={`audio/${fileType}`} />
+        </audio>
       ) : (
         <img src={presentation.url} alt={presentation.name} style={styles} />
       )}

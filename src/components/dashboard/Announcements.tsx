@@ -18,13 +18,15 @@ function Announcements() {
   const navigate = useNavigate();
   const bearerToken = sessionStorage.getItem('token_key');
 
+  const base_url = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
         getAnnouncementData();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate( base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

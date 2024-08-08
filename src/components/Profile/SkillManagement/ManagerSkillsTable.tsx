@@ -42,10 +42,10 @@ const headCells = [
     id: 'percentage',
     label: 'Percentage',
   },
-  {
-    id: 'action',
-    label: 'Action',
-  },
+  // {
+  //   id: 'action',
+  //   label: 'Action',
+  // },
 ];
 
 function createData(
@@ -54,7 +54,8 @@ function createData(
   distribution: any,
   members: any,
   percentage: any,
-  Action: any
+  // Action: any
+  searchableText: string,
 ) {
   return {
     skills,
@@ -62,7 +63,8 @@ function createData(
     distribution,
     members,
     percentage,
-    Action,
+    // Action,
+    searchableText,
   };
 }
 
@@ -101,16 +103,13 @@ const SkillsDistribution = ({ skills, onClick }: any) => {
       }}
     >
       {skills.lstDistributionDetail.map((skill: any, i: any) => {
-        const { skillExpertiseId, expertise, count } = skill;
+        const { skillExpertiseId, count, agendaColor } = skill;
         return (
           <CircularChip
             value={count}
             key={i}
             id={skillExpertiseId}
-            // color={DistributionColor[expertise]}
-            color={
-              DistributionColor[expertise as keyof typeof DistributionColor]
-            }
+            color={agendaColor}
             sx={{
               marginLeft: '0px',
             }}
@@ -152,6 +151,7 @@ function ManagerSkillManagement() {
 
   const navigate = useNavigate();
   const { showMessage }: any = useSnackbar();
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const handleUserClick =
     (skillConfigurationId: any, allSkills: any) => (index: any) => {
@@ -168,7 +168,7 @@ function ManagerSkillManagement() {
     jwtInterceptor
       .get('api/SkillManager/GetSkillDashboardForManager')
       .then((response: any) => {
-        for (var x of response.data) {
+        for (var x of response.data.dashboardData) {
           //console.log("Skills data", x);
           setallskillsData(response.data);
           let profilePictures = [];
@@ -182,7 +182,17 @@ function ManagerSkillManagement() {
             profilePictures.push(pictureURI);
           }
 
-          console.log('profilePictures', profilePictures);
+          const skillText = x.skill;
+          const requiredScoreText = x.requiredScore.toString();
+          const percentage = x.percentage;
+
+          // Combine all text for searchable text
+          const searchableText = [
+            skillText,
+            requiredScoreText,
+            percentage,
+          ].join(' ');
+
           tblRows.push(
             createData(
               <LayeredSkill skill={x.skill} type={x.skillType} />,
@@ -191,16 +201,17 @@ function ManagerSkillManagement() {
               <AvatarGroupBy
                 images={profilePictures}
                 // eslint-disable-next-line no-loop-func
-                onClick={handleUserClick(x.skillConfigurationId, response.data)}
+                onClick={handleUserClick(x.skillConfigurationId, response.data.dashboardData)}
               />,
               x.percentage,
-              <CellAction
+              // <CellAction
               // id={x.employeeSkillId}
               // onEdit={() => {
               //   onEdit('Edit', item);
               // }}
               // onDelete={() => onDelete(eId)}
-              />
+              // />
+              searchableText,
             )
           );
         }
@@ -254,8 +265,7 @@ function ManagerSkillManagement() {
         initialized.current = true;
         GetmanagerSkillsListData();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

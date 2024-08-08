@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { UserPlaceholder } from '../../../assets/images';
 import DragAndDrop from '../../Global/DragAndDrop';
 import BaseModal from '../../Global/Modal';
+import jwtInterceoptor from '../../../services/interceptors';
 
 function HRProfileInfo() {
   const [EMPLOYEE_INFO, setEmployeeInformation] = useState<any>({});
@@ -19,6 +20,8 @@ function HRProfileInfo() {
   const { showMessage }: any = useSnackbar();
 
   const { t } = useTranslation();
+
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const handleProfilePicUpload = () => {
     profileInputRef.current &&
@@ -37,7 +40,7 @@ function HRProfileInfo() {
   };
 
   const bearerToken = sessionStorage.getItem('token_key');
-  const empId = sessionStorage.getItem('empId_key');
+  const empId = sessionStorage.getItem('employee_id_key');
 
   const getProfileData = async () => {
     jwtInterceptor
@@ -58,27 +61,41 @@ function HRProfileInfo() {
     });
   };
 
+  const getProfilePicture = async () => {
+    try {
+      const response = await jwtInterceoptor.get(
+        'api/Employee/GetProfilePictureFileStream',
+        {
+          params: {
+            EmployeeDetailId: empId,
+            email: EMPLOYEE_INFO.email,
+          },
+          responseType: 'arraybuffer',
+        }
+      );
+
+      const uint8Array = new Uint8Array(response.data);
+      let binaryString = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binaryString += String.fromCharCode(uint8Array[i]);
+      }
+      const base64String = btoa(binaryString);
+      setProfilePic(`data:image/jpeg;base64,${base64String}`);
+    } catch (error) {
+      setProfilePic(UserPlaceholder);
+    }
+  };
+
   useEffect(() => {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
         getProfileData();
-        setProfilePic(
-          process.env.REACT_APP_API_PROFILE_SERVICE_URL +
-            '/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
-            empId
-        );
+        getProfilePicture();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
-    console.log(
-      'profile pic will be here',
-      process.env.REACT_APP_API_PROFILE_SERVICE_URL +
-        '/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
-        empId
-    );
   }, []);
 
   return (
@@ -207,7 +224,7 @@ function HRProfileInfo() {
           <Typography fontSize={14} fontWeight={500}>
             {EMPLOYEE_INFO.fullName}
           </Typography>
-          <Typography fontSize={12} fontWeight={500} sx={{ opacity:'0.7' }}>
+          <Typography fontSize={12} fontWeight={500} sx={{ opacity: '0.7' }}>
             {t(EMPLOYEE_INFO.designation)}
           </Typography>
         </Stack>

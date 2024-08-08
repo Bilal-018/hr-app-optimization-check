@@ -21,13 +21,15 @@ function CompanyPresentation(): JSX.Element {
   const bearerToken = sessionStorage.getItem('token_key');
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
+  const base_url = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
         getCompanyPresentationData();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate( base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -72,6 +72,7 @@ function Dashboard() {
   const { myTheme }: any = useContext(themeContext);
 
   const containerColor = myTheme.name === 'dark' ? 'transparent' : '#F5F5F5';
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const GetdashboardKPIData = async () => {
     jwtInterceptor
@@ -122,8 +123,7 @@ function Dashboard() {
         initialized.current = true;
         GetdashboardKPIData();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

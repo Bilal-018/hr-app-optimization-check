@@ -13,12 +13,15 @@ import {
 } from '@mui/material';
 import employee from '../../assets/images/employee.svg';
 import { t } from 'i18next';
-import { jwtLeave } from '../../services/interceptors';
+import jwtInterceoptor, { jwtLeave } from '../../services/interceptors';
 
 import { UserImage } from '../../components/Navigation/Topbar/UserInfo/UserInfo';
 import { useSnackbar } from '../../components/Global/WithSnackbar';
 import BasicTabs from '../../components/Global/BasicTabs';
 import EnhancedTable from '../../components/Global/Table';
+import { UserPlaceholder } from '../../assets/images';
+
+const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
 
 interface Props {
   isVisible: boolean;
@@ -38,6 +41,8 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
   const [scheduleData, setScheduleData] = useState<any>([]);
   const [schedulerLoading, setSchedulerLoading] = useState<boolean>(true);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [profilePic, setProfilePic] = useState<any>(null);
+  const [EMPLOYEE_INFO, setEmployeeInformation] = useState<any>({});
 
   const [errors, setErrors] = useState({
     leaveStatus: false,
@@ -87,7 +92,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
         <Stack direction='row' gap={2} alignItems='center'>
           <UserImage
             userPicture={
-              'https://hrmsapicoreappservice.azurewebsites.net/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
+              `${API_URL}/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=` +
               employeeDetailId +
               '&email=' +
               email
@@ -100,7 +105,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
       startDate,
       endDate,
       noOfDays: (
-        <Typography color='yellow' fontSize={18}>
+        <Typography color='#E2B93B' fontSize={18}>
           {totalDays}
         </Typography>
       ),
@@ -117,6 +122,8 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
       item.employeeDetailId
     )
   );
+
+  const profilePictures = scheduleData.map((employee: any) => employee.employeeProfilePicture);
 
   const handleSave = () => {
     if (selectedStatus === null || selectedStatus === '') {
@@ -158,11 +165,52 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
     },
   ];
 
+  const getProfileData = async () => {
+    jwtInterceoptor
+      .get('api/Employee/GetProfileTopSectionDetials?id=' + leaveDetails.employeeDetailId)
+      .then((response: any) => {
+        setEmployeeInformation((item: any) => ({
+          ...EMPLOYEE_INFO,
+          ...response.data,
+        }));
+      });
+  };
+
+  const getProfilePicture = async () => {
+    try {
+      const response = await jwtInterceoptor.get(
+        'api/Employee/GetProfilePictureFileStream',
+        {
+          params: {
+            EmployeeDetailId: leaveDetails.employeeDetailId,
+            email: EMPLOYEE_INFO.email,
+          },
+          responseType: 'arraybuffer',
+        }
+      );
+
+      const uint8Array = new Uint8Array(response.data);
+      let binaryString = '';
+      for (let i = 0; i < uint8Array.length; i++) {
+        binaryString += String.fromCharCode(uint8Array[i]);
+      }
+      const base64String = btoa(binaryString);
+      setProfilePic(`data:image/jpeg;base64,${base64String}`);
+    } catch (error) {
+      setProfilePic(UserPlaceholder);
+    }
+  };
+
   useEffect(() => {
     if (leaveDetails) {
       getConflictData();
+      getProfileData();
     }
   }, [leaveDetails, empId]);
+
+  useEffect(() => {
+    getProfilePicture();
+  }, [EMPLOYEE_INFO])
 
   return (
     <BaseModal
@@ -206,10 +254,17 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
                   display: 'flex',
                   gap: '10px',
                   alignItems: 'center',
-                  my: '6px'
+                  my: '6px',
+                  '& img': {
+                    borderRadius: '50%',
+                    aspectRatio: '1/1',
+                    maxWidth: '40px',
+                    maxHeight: '40px',
+                    objectFit: 'cover',
+                  },
                 }}
               >
-                <img src={employee} alt='employee' />{' '}
+                <img src={profilePic} alt='employee' />{' '}
                 <Typography>
                   {leaveDetails?.firstName} {leaveDetails?.lastName}
                 </Typography>
@@ -361,61 +416,44 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
                   >
                     <span>Potential schedule conflict</span>
 
-                    {scheduleData?.length && <Box
+                    {scheduleData?.length ? <Box
                       sx={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
                     >
-                      <img
-                        style={{
-                          height: '50px',
-                          width: '50px',
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                        }}
-                        src={employee}
-                        alt='employee'
-                      />
+                      {profilePictures.slice(0, 3).map((picture: any, index: any) => (
+                        <img
+                          key={index}
+                          style={{
+                            height: '50px',
+                            width: '50px',
+                            borderRadius: '100%',
+                            objectFit: 'cover',
+                          }}
+                          src={`data:image/jpeg;base64,${picture}`}
+                          alt='employee'
+                        />
+                      ))}
 
-                      <img
-                        style={{
-                          height: '50px',
-                          width: '50px',
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                        }}
-                        src={employee}
-                        alt='employee'
-                      />
-
-                      <img
-                        style={{
-                          height: '50px',
-                          width: '50px',
-                          borderRadius: '100%',
-                          objectFit: 'cover',
-                        }}
-                        src={employee}
-                        alt='employee'
-                      />
-
-                      <Box
-                        sx={{
-                          background: '#18A0FB',
-                          height: '24px',
-                          width: '40px',
-                          borderRadius: '30px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          color: 'white',
-                        }}
-                      >
-                        2+
-                      </Box>
-                    </Box>}
+                      {profilePictures.length > 3 && (
+                        <Box
+                          sx={{
+                            background: '#18A0FB',
+                            height: '24px',
+                            width: '40px',
+                            borderRadius: '30px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            color: 'white',
+                          }}
+                        >
+                          {profilePictures.length - 3}+
+                        </Box>
+                      )}
+                    </Box> : <></>}
 
                     <span
                       style={{
@@ -473,7 +511,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
                     backgroundColor: '#F7F8FB',
                   }}
                   sx={{
-                    '& .MuiInputBase-root':{
+                    '& .MuiInputBase-root': {
                       py: '3px'
                     }
                   }}

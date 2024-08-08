@@ -191,12 +191,13 @@ const DateCalendarServerRequest: React.FC = () => {
     i18n: { language },
   } = useTranslation();
 
+  const base_url = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     if (bearerToken) {
       getMyLeavesData();
     } else {
-      window.location.href =
-        'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+      window.location.href = base_url + '/login';
     }
   }, [language]);
 

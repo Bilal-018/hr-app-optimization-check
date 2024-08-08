@@ -39,6 +39,7 @@ function ProfileInfo() {
   const bearerToken = sessionStorage.getItem('token_key');
   const empId = sessionStorage.getItem('empId_key');
   const email = sessionStorage.getItem('email_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const getProfileData = async () => {
     jwtInterceptor
@@ -115,8 +116,7 @@ function ProfileInfo() {
         // getProfilePictureData();
         getProfilePicture();
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     console.log(

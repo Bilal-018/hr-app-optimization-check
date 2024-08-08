@@ -42,6 +42,7 @@ interface DataRow {
   noOfDays: number;
   status: JSX.Element;
   action: JSX.Element;
+  searchableText: string;
 }
 
 const headCells: { id: string; label: string }[] = [
@@ -82,9 +83,10 @@ function createData(
   endDate: any,
   noOfDays: any,
   status: JSX.Element,
-  action: JSX.Element
+  action: JSX.Element,
+  searchableText: string,
 ): DataRow {
-  return { fullName, leave, startDate, endDate, noOfDays, status, action };
+  return { fullName, leave, startDate, endDate, noOfDays, status, action, searchableText };
 }
 
 const pending = <RoundedChip status='Pending' color='#E2B93B' />;
@@ -150,6 +152,18 @@ function EmployeeSkillsTable() {
             ...prevState,
             employeeComments: action.value,
           };
+        case 'reset':
+          return {
+            employeeDetailId: 0,
+            leaveTypeId: 0,
+            totalDays: 0,
+            leaveStatus: 'Approved',
+            startDate: '',
+            endDate: '',
+            isHalfDay: false,
+            isIncludingWeekand: false,
+            employeeComments: '',
+          };
         default:
           throw new Error();
       }
@@ -157,6 +171,7 @@ function EmployeeSkillsTable() {
     {
       employeeDetailId: 0,
       leaveTypeId: 0,
+      leaveStatus: 'Approved',
       totalDays: 0,
       startDate: '',
       endDate: '',
@@ -196,6 +211,7 @@ function EmployeeSkillsTable() {
   const { t, i18n } = useTranslation();
 
   const bearerToken = sessionStorage.getItem('token_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     if (!initialized.current) {
@@ -220,7 +236,7 @@ function EmployeeSkillsTable() {
     jwtLeave
       .delete(url)
       .then((response) => {
-        showMessage(response, 'success');
+        showMessage(response.data, 'success');
         GetLeavesListData();
       })
       .catch((err) => {
@@ -255,7 +271,7 @@ function EmployeeSkillsTable() {
       .then((response: any) => {
         if (response.status !== 200) {
           showMessage(response.statusText, 'error');
-          navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login', {
+          navigate( base_url + '/login', {
             replace: true,
           });
         }
@@ -296,6 +312,17 @@ function EmployeeSkillsTable() {
               leaveStatus = rejected;
               break;
           }
+
+          // Combine all text for searchable text
+          const searchableText = [
+            x.fullName,
+            x.leaveType,
+            x.startDate?.split("T")[0] || '',
+            x.endDate?.split("T")[0] || '',
+            x.totalDays,
+            x.leaveStatus,
+          ].join(' ');
+
           tblRows.push(
             createData(
               x.fullName,
@@ -319,7 +346,8 @@ function EmployeeSkillsTable() {
                 <CircleIcon color={x.leaveStatus === 'Approved' ? "success" : x.leaveStatus === 'Rejected' ? "error" : "warning"} fontSize="inherit" />
                 <Typography sx={{ fontSize: 12 }}>{x.leaveStatus}</Typography>
               </Stack>,
-              <CellAction onDelete={() => onDelete(x.leaveDetailId)} />
+              x.leaveStatus === 'Approved' ? <></> : <CellAction onDelete={() => onDelete(x.leaveDetailId)} />,
+              searchableText,
             )
           );
         }
@@ -396,6 +424,7 @@ function EmployeeSkillsTable() {
       .post(url, state)
       .then((response) => {
         setOpen(false);
+        showMessage(response.data, 'success');
         GetLeavesListData();
       })
       .catch((err) => {
@@ -416,7 +445,7 @@ function EmployeeSkillsTable() {
       />
       <BaseModal
         open={open}
-        handleClose={() => setOpen((pre) => !pre)}
+        handleClose={() => { setOpen((pre) => !pre); dispatch({ type: "reset", value: undefined }); }}
         title='Leave Management - HR modification'
         onSave={onSubmit}
         showSaveButton={save}
@@ -453,7 +482,7 @@ function EmployeeSkillsTable() {
               <Select
                 variant='standard'
                 placeholder={t('Select Employee')}
-                value={state.fullName}
+                value={`${employeeListData.find((item) => { return item.employeeDetailId === state?.employeeDetailId })?.fullName || ''}`}
                 onChange={(e: any) =>
                   dispatch({ type: 'fullName', value: e.target.value })
                 }
@@ -482,7 +511,7 @@ function EmployeeSkillsTable() {
             <Select
               variant='outlined'
               placeholder={t('Select leave type')}
-              value={state.leaveType}
+              value={`${leavesListData.find((item) => { return item.leaveTypeId === state?.leaveTypeId })?.leaveType || ''}`}
               onChange={(e: any) =>
                 dispatch({ type: 'leaveType', value: e.target.value })
               }
@@ -505,7 +534,7 @@ function EmployeeSkillsTable() {
           <Grid item xs={12} sm={3} mt={3}>
             <Typography ml={1}>{t("Leave Status")}</Typography>
             <Stack direction="row" alignItems="center">
-              <Checkbox />
+              <Checkbox checked={true} />
               <Typography>{t("Approve")}</Typography>
             </Stack>
           </Grid>

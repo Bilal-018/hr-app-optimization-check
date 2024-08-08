@@ -52,7 +52,7 @@ const Contractstable: React.FC = () => {
   });
   const { showMessage }: any = useSnackbar();
 
-  useEffect(() => {
+  const getContractTypeData = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/ContractTypeMasters/GetAllContractType')
@@ -68,6 +68,10 @@ const Contractstable: React.FC = () => {
         showMessage(err.response.data.Message, 'error');
       })
       .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    getContractTypeData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -95,6 +99,7 @@ const Contractstable: React.FC = () => {
           )
         );
         handleClose();
+        getContractTypeData();
       })
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
@@ -109,7 +114,7 @@ const Contractstable: React.FC = () => {
         contractType: contractName,
       })
       .then((res: any) => {
-        showMessage('Contract type updated successfully', 'success');
+        showMessage('Contract type Added successfully', 'success');
         setContracts((pre: any) => [
           ...pre,
           {
@@ -118,6 +123,7 @@ const Contractstable: React.FC = () => {
           },
         ]);
         handleClose();
+        getContractTypeData();
       })
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
@@ -282,7 +288,7 @@ const Contractstable: React.FC = () => {
         value={
           newContract.id
             ? contracts.find((item: any) => item.id === newContract.id)
-                .contractType
+              .contractType
             : ''
         }
       />

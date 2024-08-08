@@ -52,9 +52,22 @@ function LeaveRequest({ open, onClose, onSave }: any) {
 
   const bearerToken = sessionStorage.getItem('token_key');
   const empId = sessionStorage.getItem('empId_key');
-  const empToken = JSON.parse(sessionStorage.getItem('token')?? '{}');
+  const empToken = JSON.parse(sessionStorage.getItem('token') ?? '{}');
 
-  const employeeManagerId= empToken?.employeedetail.managerId;
+  const employeeManagerId = empToken?.employeedetail.managerId;
+
+
+  const initialState = {
+    employeeDetailId: empId,
+    leaveTypeId: 0,
+    totalDays: 0,
+    startDate: '',
+    endDate: '',
+    isHalfDay: false,
+    isIncludingWeekand: false,
+    employeeComments: 'string',
+    lineManagerId: 0,
+  };
 
   const navigate = useNavigate();
 
@@ -104,22 +117,13 @@ function LeaveRequest({ open, onClose, onSave }: any) {
             ...prevState,
             lineManagerId: action.value,
           };
+        case 'reset':
+          return initialState;
 
         default:
           throw new Error();
       }
-    },
-    {
-      employeeDetailId: empId,
-      leaveTypeId: 0,
-      totalDays: 0,
-      startDate: '',
-      endDate: '',
-      isHalfDay: false,
-      isIncludingWeekand: false,
-      employeeComments: 'string',
-      lineManagerId: 0,
-    }
+    }, initialState
   );
 
   useEffect(() => {
@@ -220,6 +224,8 @@ function LeaveRequest({ open, onClose, onSave }: any) {
         onClose();
         setSave(false);
         onSave();
+        dispatch({ type: 'reset' });
+        showMessage(res.data, 'success');
       })
       .catch((err) => {
         showMessage(err.message, 'error');
@@ -255,6 +261,7 @@ function LeaveRequest({ open, onClose, onSave }: any) {
   const closeModal = () => {
     onClose();
     setStartDate(null);
+    dispatch({ type: 'reset' });
   }
 
   const { t, i18n } = useTranslation();

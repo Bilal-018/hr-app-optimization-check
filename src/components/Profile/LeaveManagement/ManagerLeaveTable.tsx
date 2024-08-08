@@ -244,18 +244,20 @@ function ManagerLeaveTable() {
         title="Leave Management - Manager approval"
         handleClose={() => setOpen((pre) => !pre)}
       /> */}
-      <LeaveManagementModal1
-        open={isLeaveManagementModalOpen}
-        handleClose={() => setIsLeaveManagementModalOpen(false)}
-        title='Leave Management - Manager approval'
-        leaveDetailId={LeaveDetailIdForPopup}
-        selectedStatus1={leaveStatusForPopup}
-        onSave={(
-          status: any,
-          LeaveDetailIdForPopup: any,
-          managerComment: any
-        ) => approveOrReject(status, LeaveDetailIdForPopup, managerComment)}
-      />
+      {isLeaveManagementModalOpen && (
+        <LeaveManagementModal1
+          open={isLeaveManagementModalOpen}
+          handleClose={() => setIsLeaveManagementModalOpen(false)}
+          title='Leave Management - Manager approval'
+          leaveDetailId={LeaveDetailIdForPopup}
+          selectedStatus1={leaveStatusForPopup}
+          onSave={(
+            status: any,
+            LeaveDetailIdForPopup: any,
+            managerComment: any
+          ) => approveOrReject(status, LeaveDetailIdForPopup, managerComment)}
+        />
+      )}
     </>
   );
 }

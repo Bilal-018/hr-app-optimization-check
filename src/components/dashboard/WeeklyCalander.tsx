@@ -55,7 +55,7 @@ const customStyles = {
 } as React.CSSProperties;
 
 function getCurrentWeekDates(
-  startingDate: Date = new Date()
+  startingDate: Date = new Date(), t: any
 ): { date: Date; day: string }[] {
   const today = new Date(startingDate);
   const currentDay = today.getDay(); // 0 (Sunday) to 6 (Saturday)
@@ -68,27 +68,30 @@ function getCurrentWeekDates(
     currentDate.setDate(startDate.getDate() + i);
     weekDates.push({
       date: currentDate,
-      day: getDayName(currentDate.getDay()),
+      day: getDayName(currentDate.getDay(), t),
     });
   }
 
   return weekDates;
 }
 
-function getMonthYearString(date: any): string {
-  const options = { month: 'long', year: 'numeric' };
-  return date.toLocaleDateString(undefined, options);
+function getMonthYearString(date: any, locale: string): string {
+  const formatter = new Intl.DateTimeFormat(locale, {
+    month: 'long',
+    year: 'numeric',
+  });
+  return formatter.format(date);
 }
 
-function getDayName(dayIndex: number): string {
+function getDayName(dayIndex: number, t: any): string {
   const days = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    t('Sunday'),
+    t('Monday'),
+    t('Tuesday'),
+    t('Wednesday'),
+    t('Thursday'),
+    t('Friday'),
+    t('Saturday'),
   ];
   return days[dayIndex];
 }
@@ -120,7 +123,7 @@ function ServerDay(props: ServerDayProps): JSX.Element {
         {...other}
         outsideCurrentMonth={outsideCurrentMonth}
         day={day}
-        onDaySelect={() => {}}
+        onDaySelect={() => { }}
         isFirstVisibleCell={false}
         isLastVisibleCell={false}
         sx={{
@@ -202,6 +205,7 @@ export function DateCalendarServerRequest(): JSX.Element {
   const requestAbortController = useRef<AbortController | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [highlightedDays, setHighlightedDays] = useState<HighlightedDay[]>([]);
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const navigate = useNavigate();
   const bearerToken = sessionStorage.getItem('token_key');
@@ -214,8 +218,7 @@ export function DateCalendarServerRequest(): JSX.Element {
     if (bearerToken) {
       getMyLeavesData();
     } else {
-      window.location.href =
-        'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+      window.location.href = base_url + '/login';
     }
   }, [bearerToken, language, navigate]);
 
@@ -224,7 +227,7 @@ export function DateCalendarServerRequest(): JSX.Element {
     jwtInterceptor
       .get(
         'api/PublicHoliday/GetAllLeavesAndPublicHolidays?EmployeeDetaailId=' +
-          empId
+        empId
       )
       .then((response: any) => {
         daysToHighlight = [];
@@ -296,31 +299,33 @@ export function DateCalendarServerRequest(): JSX.Element {
         onMonthChange={handleMonthChange}
         renderLoading={() => <DayCalendarSkeleton />}
         sx={customStyles}
-        // slots={{
-        //   day: ServerDay,
-        // }}
-        // slotProps={{
-        //   day: {
-        //     highlightedDays,
-        //   },
-        // }}
+      // slots={{
+      //   day: ServerDay,
+      // }}
+      // slotProps={{
+      //   day: {
+      //     highlightedDays,
+      //   },
+      // }}
       />
     </LocalizationProvider>
   );
 }
 
 function WeeklyCalendar(): JSX.Element {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const theme = useTheme();
   const [currentWeekDates, setCurrentWeekDates] = useState<
     { date: Date; day: string }[]
-  >(getCurrentWeekDates());
+  >(getCurrentWeekDates(new Date(), t));
   const [leaves, setLeaves] = useState<any>([]);
 
   const moveToPreviousWeek = (): void => {
     setCurrentWeekDates((prevWeekDates) => {
       const newStartDate = new Date(prevWeekDates[0].date);
       newStartDate.setDate(newStartDate.getDate() - 7);
-      return getCurrentWeekDates(newStartDate);
+      return getCurrentWeekDates(newStartDate, t);
     });
   };
 
@@ -328,7 +333,7 @@ function WeeklyCalendar(): JSX.Element {
     setCurrentWeekDates((prevWeekDates) => {
       const newStartDate = new Date(prevWeekDates[0].date);
       newStartDate.setDate(newStartDate.getDate() + 7);
-      return getCurrentWeekDates(newStartDate);
+      return getCurrentWeekDates(newStartDate, t);
     });
   };
 
@@ -342,7 +347,7 @@ function WeeklyCalendar(): JSX.Element {
     jwtInterceptor
       .get(
         'api/PublicHoliday/GetAllLeavesAndPublicHolidays?EmployeeDetaailId=' +
-          empId
+        empId
       )
       .then((response: any) => {
         setLeaves(response.data);
@@ -403,7 +408,7 @@ function WeeklyCalendar(): JSX.Element {
         // backgroundColor: (theme) => theme.palette.background.paper,
         borderRadius: 3,
         width: '100%',
-        display: {xs:'none', lg:'block'},
+        display: { xs: 'none', lg: 'block' },
       }}
     >
       <Box
@@ -422,7 +427,7 @@ function WeeklyCalendar(): JSX.Element {
             fontWeight: '600',
           }}
         >
-          {getMonthYearString(currentWeekDates[0].date)}{' '}
+          {getMonthYearString(currentWeekDates[0].date, locale)}
         </Typography>
         <IconButton onClick={moveToNextWeek}>
           <KeyboardArrowRightIcon />
@@ -446,7 +451,7 @@ function WeeklyCalendar(): JSX.Element {
             }}
           >
             <div style={{ fontSize: 12, fontWeight: '500' }}>
-              {getDayName(day.date.getDay()).charAt(0)}
+              {getDayName(day.date.getDay(), t).charAt(0)}
             </div>
             <Box
               style={{
@@ -456,7 +461,7 @@ function WeeklyCalendar(): JSX.Element {
                 backgroundColor: isCurrentDate(day.date)
                   ? theme.palette.primary.main
                   : // : theme.palette.background.paper,
-                    '',
+                  '',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

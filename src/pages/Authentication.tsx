@@ -30,6 +30,7 @@ const authenticateToken = async (token: any, navigate: any) => {
   try {
     let url = 'api/Authenticate/TokenAuthentication';
     let response = await service.authenticatingUserTokenRequest(url, token);
+    const base_url = process.env.REACT_APP_BASE_URL;
 
     if (response.statusCode === 200) {
       sessionStorage.setItem('token', JSON.stringify(response));
@@ -48,8 +49,7 @@ const authenticateToken = async (token: any, navigate: any) => {
       sessionStorage.setItem('email_key', response.employeedetail.email);
       navigate('/dashboard');
     } else {
-      window.location.href =
-        'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+      window.location.href = base_url + '/login';
     }
   } catch (error) {
     console.log(error);

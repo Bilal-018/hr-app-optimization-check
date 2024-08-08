@@ -225,3 +225,12 @@ a {
 .MuiBox-root .css-d7ajzy {
   height: 300px;
 }
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.react-pdf__Document {
+  width: 100% !important;
+}

@@ -61,6 +61,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
   const { showMessage }: any = useSnackbar();
   const bearerToken: string | null = sessionStorage.getItem('token_key');
   const empId: string | null = sessionStorage.getItem('empId_key');
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     setMenuOpen(!isMobile);
@@ -71,8 +72,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
       if (bearerToken) {
         initialized.current = true;
       } else {
-        window.location.href =
-          'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

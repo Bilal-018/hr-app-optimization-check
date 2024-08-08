@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import { errorHelperText } from '../../utils/validation';
 import { useTranslation } from 'react-i18next';
+import jwtInterceoptor from '../../services/interceptors';
+import { useSnackbar } from '../Global/WithSnackbar';
 
 const initialState: any = {
   leaveType: '',
@@ -37,6 +39,7 @@ const validate = (values: any) => {
 };
 
 const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
+  const [genders, setGenders] = useState<any>([]);
   const [leaveInfo, setLeaveInfo] = useState<any>(initialState);
   const [errors, setErrors] = useState<any>({
     leaveType: false,
@@ -47,6 +50,8 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
   useEffect(() => {
     if (leave) {
       setLeaveInfo(leave);
+    } else {
+      setLeaveInfo(initialState);
     }
   }, [leave]);
 
@@ -73,12 +78,30 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
     handleSave(leaveInfo);
   };
 
+  const { showMessage }: any = useSnackbar();
+
   const { t } = useTranslation();
+
+  const getGender = () => {
+
+    jwtInterceoptor
+      .get('api/GenderMaster/GetAllGenderMasters')
+      .then((res: any) => {
+        setGenders(res.data);
+      })
+      .catch((err: any) => {
+        showMessage(err.response.data.Message, 'error');
+      });
+  };
+
+  useEffect(() => {
+    getGender();
+  }, [])
 
   return (
     <BaseModal
-      title='Admin - New leave'
-      handleClose={handleClose}
+      title={leave ? 'Admin - Update leave' : 'Admin - New leave'}
+      handleClose={() => { handleClose(); setLeaveInfo(initialState); setErrors({ leaveType: false, daysEntitled: false, genderRestriction: false, }); }}
       onSave={onSave}
       open={open}
     >
@@ -104,7 +127,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
             onChange={handleChange}
             value={leaveInfo.daysEntitled}
             error={errors.daysEntitled}
-            helperText={errors.daysEntitled && t('Days entitled is required')}
+            helperText={errors.daysEntitled && t('Days entitled is required and should be greater than 0')}
           />
         </Grid>
         <Grid item xs={12} sm={5.75}>
@@ -113,24 +136,20 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
           </Typography>
           <RadioGroup
             aria-labelledby='demo-radio-buttons-group-label'
-            defaultValue='N/A'
+            defaultValue='Other'
             name='genderRestriction'
             onChange={handleChange}
             value={leaveInfo.genderRestriction}
             row
-            sx={{}}
           >
-            <FormControlLabel value='NA' control={<Radio />} label='N/A' />
-            <FormControlLabel
-              value='Female'
-              control={<Radio />}
-              label={t('Female')}
-            />
-            <FormControlLabel
-              value='Male'
-              control={<Radio />}
-              label={t('Male')}
-            />
+            {genders.map((gender: any) => (
+              <FormControlLabel
+                key={gender.genderId}
+                value={gender.gender}
+                control={<Radio />}
+                label={gender.gender}
+              />
+            ))}
           </RadioGroup>
 
           {errors.genderRestriction &&

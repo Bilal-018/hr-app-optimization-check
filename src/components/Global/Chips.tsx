@@ -31,7 +31,7 @@ export function CircularChip({ value, color = '#092C4C', sx, onClick }: any) {
   );
 }
 
-export function RoundedChip({ status, color = '#092C4C', employee }: any) {
+export function RoundedChip({ status, color = '#092C4C', employee , agendaColor = 'grey' }: any) {
   const { t } = useTranslation();
   return (
     <Box
@@ -47,16 +47,7 @@ export function RoundedChip({ status, color = '#092C4C', employee }: any) {
             sx={{
               width: '10px',
               height: '10px',
-              backgroundColor:
-                status.toLowerCase() === 'chercheur'
-                  ? '#964CF5'
-                  : status.toLowerCase() === 'professeur'
-                  ? '#18A0FB'
-                  : status.toLowerCase() === 'apprenti'
-                  ? '#03B525'
-                  : status.toLowerCase() === 'stragiere'
-                  ? '#C31091'
-                  : 'grey',
+              backgroundColor: agendaColor,
               borderRadius: '100px',
               fontWeight: '500',
             }}

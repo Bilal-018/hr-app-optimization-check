@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BaseModal from '../../Global/Modal';
 import { Grid, TextField, Typography, Switch, Stack } from '@mui/material';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 
 const ActiveSwitch = styled(Switch)(({ theme }) => ({
   width: 44,
@@ -126,6 +127,8 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
     setActive(event.target.checked);
   };
 
+  const { t } = useTranslation();
+
   return (
     <BaseModal
       open={open}
@@ -135,7 +138,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
     >
       <Grid container spacing={3} mt={0}>
         <Grid item xs={12} sm={6}>
-          <Typography fontSize={14} fontWeight={500} >Equipment</Typography>
+          <Typography fontSize={14} fontWeight={500} >{t('Equipment')}</Typography>
           <TextField
             sx={{
               '.MuiOutlinedInput-notchedOutline': {
@@ -146,12 +149,12 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='equipment'
-            placeholder={`${'Enter equipment name'}`}
+            placeholder={`${t('Enter equipment name')}`}
             value={data?.equipment}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography fontSize={14} fontWeight={500} >Brand</Typography>
+          <Typography fontSize={14} fontWeight={500} >{t('Brand')}</Typography>
           <TextField
             sx={{
               '.MuiOutlinedInput-notchedOutline': {
@@ -162,12 +165,12 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='brand'
-            placeholder={`${'Enter brand'}`}
+            placeholder={`${t('Enter brand')}`}
             value={data?.brand}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography fontSize={14} fontWeight={500} >Model</Typography>
+          <Typography fontSize={14} fontWeight={500} >{t('Model')}</Typography>
           <TextField
             sx={{
               '.MuiOutlinedInput-notchedOutline': {
@@ -178,12 +181,12 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='model'
-            placeholder={`${'Enter model'}`}
+            placeholder={`${t('Enter model')}`}
             value={data?.model}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography fontSize={14} fontWeight={500} >Registeration</Typography>
+          <Typography fontSize={14} fontWeight={500} >{t('Registeration')}</Typography>
           <TextField
             sx={{
               '.MuiOutlinedInput-notchedOutline': {
@@ -194,7 +197,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='registeration'
-            placeholder={`${'Enter registeration or serial number'}`}
+            placeholder={`${t('Enter registeration or serial number')}`}
             value={data?.registration}
           />
         </Grid>
@@ -213,14 +216,14 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
               }
               onChange={handleSwitchChange}
             />
-            <Typography color='primary'>Active</Typography>
+            <Typography color='primary'>{t('Active')}</Typography>
           </Stack>
         </Grid>
         <Grid item xs={12} mb='12px'>
-          <Typography fontSize={14} fontWeight={500}>Comments</Typography>
+          <Typography fontSize={14} fontWeight={500}>{t('Comments')}</Typography>
           <TextField
             variant='outlined'
-            placeholder={`${'Enter comments'}`}
+            placeholder={`${t('Enter comments')}`}
             multiline
             rows={3}
             sx={{

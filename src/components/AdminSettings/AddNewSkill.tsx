@@ -98,13 +98,10 @@ const AddNewSkill = ({
           <Box mt={1}>
             <Select
               placeholder={t('Select skill type')}
-              value={
-                skillTypes.find(
-                  (item: any) =>
-                    item?.skillType?.toLowerCase() ===
-                    skillDetails?.skillType?.toLowerCase()
-                )?.skillType || ''
-              }
+              value={`${skillTypes.find((item: any) => {
+                return item?.skillType?.toLowerCase() === skillDetails?.skillType?.toLowerCase();
+              })?.skillType || ''
+                }`}
               onChange={handleChange}
               name='skillType'
               variant='outlined'
@@ -123,12 +120,9 @@ const AddNewSkill = ({
           <Typography className='SmallBody'>{t('Level Required')}</Typography>
           <Box mt={1}>
             <Select
-              value={
-                skillAchievementList.find(
-                  (item: any) =>
-                    item.skillAchievementId === skillDetails.achievementScore
-                )?.skillAchievementId || ''
-              }
+              value={`${skillAchievementList.find((item: any) => {
+                return item.skillAchievementId === skillDetails.achievementScore;
+              })?.description || ''}${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score ? ` - ${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score}` : ''}`}
               onChange={handleChange}
               name='achievementScore'
               variant='outlined'

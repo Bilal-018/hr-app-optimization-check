@@ -88,7 +88,9 @@ export default function CountrySelect({
       )}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
+        if (event) {
+          setInputValue(newInputValue);
+        }
       }}
       {...rest}
     />

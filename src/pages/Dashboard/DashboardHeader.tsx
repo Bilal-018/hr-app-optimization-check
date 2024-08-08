@@ -29,6 +29,7 @@ const DashboardHeader: React.FC = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const [topCounts, setTopCountsState] = useState<Counts>(initialCounts);
+  const base_url = process.env.REACT_APP_BASE_URL;
 
   const getLeaveDetails = async () => {
     if (!empId || !bearerToken) return;
@@ -50,7 +51,7 @@ const DashboardHeader: React.FC = () => {
         initialized.current = true;
         getLeaveDetails();
       } else {
-        navigate('https://kind-rock-0f8a1f603.5.azurestaticapps.net/login');
+        navigate(base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

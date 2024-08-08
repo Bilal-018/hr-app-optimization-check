@@ -46,9 +46,33 @@ const USER_OPTIONS = [
 export const UserImage: React.FC<UserImageProps> = ({ userPicture }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const [base64Image, setBase64Image] = useState('');
+
+  useEffect(() => {
+    const convertImageToBase64 = async () => {
+      if (typeof userPicture === 'string') {
+        try {
+          const response = await fetch(userPicture);
+          const blob = await response.blob();
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64String = reader.result as string;
+            setBase64Image(base64String);
+          };
+          reader.readAsDataURL(blob);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        setBase64Image('');
+      }
+    };
+    convertImageToBase64();
+  }, [userPicture]);
+
   return (
     <img
-      src={userPicture}
+      src={base64Image ? base64Image : userPicture}
       alt='logo'
       style={{
         width: matches ? '40px' : '36px',
@@ -119,12 +143,14 @@ function UserInfo(): JSX.Element {
     }
   }, []);
 
+  const base_url = process.env.REACT_APP_BASE_URL;
+
   const onLogout = async () => {
     try {
       const response = await jwtInterceoptor.post('api/Authenticate/Logout');
       if (response.data.statusCode === 200) {
         sessionStorage.clear();
-        window.location.href = 'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
+        window.location.href = base_url + '/login';
       } else {
         console.error('Logout failed');
       }

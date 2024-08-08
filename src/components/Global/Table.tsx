@@ -21,13 +21,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Add } from '@mui/icons-material';
-import { Button, CircularProgress, Grid } from '@mui/material';
+import { Button, CircularProgress, Grid, Stack, Checkbox, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import ReactDOMServer from 'react-dom/server';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '../../assets/images/Search.svg';
 import EmployeeInfoModal from '../Global/EmployeeInfoModal';
 import DragAndDrop from './DragAndDrop';
+import CircleIcon from "@mui/icons-material/Circle";
 
 function descendingComparator(a: any, b: any, orderBy: any) {
   let aValue = a[orderBy];
@@ -148,12 +149,13 @@ EnhancedTableToolbar.propTypes = {
   isAddable: PropTypes?.any?.isRequired,
   onAddClick: PropTypes?.any?.isRequired,
   btnTitle: PropTypes?.string?.isRequired,
+  search: PropTypes?.string,
+  setSearch: PropTypes?.any,
 };
 
 function EnhancedTableToolbar(props: any) {
-  const { numSelected, isAddable, onAddClick, title, btnTitle }: any = props;
+  const { numSelected, isAddable, onAddClick, title, btnTitle, search, setSearch }: any = props;
   const { t } = useTranslation();
-  const [search, setSearch] = React.useState<any>('');
 
   return (
     <Toolbar
@@ -257,15 +259,15 @@ function EnhancedTableToolbar(props: any) {
             {btnTitle == 'Upload' ? (
               <>
                 <CloudUploadIcon />
-                {btnTitle}
+                {t(btnTitle)}
               </>
-            ) : btnTitle == 'Add New' || btnTitle == 'Manual Entry' ? (
+            ) : btnTitle == 'Add New' || btnTitle == 'Manual Entry' || btnTitle == 'Attachment' || btnTitle == 'New Skill' || btnTitle == 'New Request' ? (
               <>
                 <Add />
-                {btnTitle}
+                {t(btnTitle)}
               </>
             ) : (
-              btnTitle
+              t(btnTitle)
             )}
           </Button>
         </Box>
@@ -292,7 +294,13 @@ export default function EnhancedTable({
   modal = false,
   setFileInformation,
   showPreview = false,
-  setShowPreview = () => { }
+  setShowPreview = () => { },
+  edit = false,
+  isModal = false,
+  setEquipData = () => { },
+  setFileAdded = () => { },
+  fileAdded = true,
+  uploadLoading = false,
 }: any) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const theme = useTheme();
@@ -308,6 +316,8 @@ export default function EnhancedTable({
   const [modalOpen, setModalOpen] = React.useState(false);
   const [modalData, setModalData] = React.useState(null); // To store data for the modal
   const [dataAction, setDataAction] = React.useState(null);
+
+  const [search, setSearch] = React.useState<any>('');
 
   const { t } = useTranslation();
 
@@ -347,6 +357,9 @@ export default function EnhancedTable({
     setModalData(null);
     setShowPreview(false);
     setDataAction(null);
+    sessionStorage.removeItem('employee_id_key');
+    sessionStorage.removeItem('selected_employee_details');
+    resetChecks();
   };
 
   const isSelected: any = (name: any) => selected.indexOf(name) !== -1;
@@ -355,13 +368,20 @@ export default function EnhancedTable({
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+  const filteredRows = rows.filter((row: any) => {
+    if (row.searchableText) {
+      return row.searchableText?.toLowerCase().includes(search.toLowerCase());
+    }
+    return true
+  });
+
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rows, rowsPerPage]
+    [order, orderBy, page, filteredRows, rowsPerPage]
   );
 
   React.useEffect(() => {
@@ -369,6 +389,84 @@ export default function EnhancedTable({
       openModal(dataAction);
     }
   }, [showPreview])
+
+  const [checks, setChecks] = React.useState(visibleRows.map((row: any) => Object.keys(row).map(() => [false, false, false])));
+  const [equipmentData, setEquipmentData] = React.useState<any>([]);
+  const [commentValues, setCommentValues] = React.useState<any>(null);
+
+  // const [check, setCheck] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (visibleRows.length > 0 && edit) {
+      const newCheck = visibleRows.flatMap((row: any, index: any) => {
+        const status = row?.Status?.props?.children[0]?.props?.checked ? 'Assigned' : row?.Status?.props?.children[1]?.props?.checked ? 'Not Assigned' : row?.Status?.props?.children[2]?.props?.checked ? 'Unknown' : '';
+        return [status === 'Assigned', status === 'Not Assigned', status === 'Unknown'];
+      });
+
+      const checksInit = visibleRows.map((row: any, index: any) => {
+        const startIndex = index * 3;
+        return newCheck.slice(startIndex, startIndex + 3);
+      });
+
+      visibleRows.map((row: any, index: any) => {
+        setEquipmentData((prevData: any) => {
+          const newData = [...prevData];
+          newData[index] = row?.Status?.props?.children[0]?.props?.checked === true ? { ...newData[index], isAssetAssigned: true } : row?.Status?.props?.children[1]?.props?.checked === true ? { ...newData[index], isAssetAssigned: false } : { ...newData[index] }
+          return newData;
+        });
+      });
+
+      // setCheck(newCheck);
+      setChecks(checksInit);
+    }
+  }, [edit]);
+
+  const resetChecks = () => {
+    setChecks(visibleRows.map((row: any) => Object.keys(row).map(() => [false, false, false])));
+    // setCheck([]);
+  };
+
+  React.useEffect(() => {
+    if (visibleRows.length > 0 && title === 'Asset information') {
+      setCommentValues(visibleRows.map((row: any) => row.Comment || ''));
+      setEquipmentData(
+        visibleRows.map((row: any, index: any) => ({
+          equipment: row.Equipment,
+          brand: row.Brand,
+          model: row.Model,
+          registration: row.Registration,
+        }))
+      );
+    }
+  }, [rows]);
+
+  React.useEffect(() => {
+    setEquipData(equipmentData)
+  }, [equipmentData])
+
+  const handleCommentChange = (index: any, value: any) => {
+    setEquipmentData((prevData: any) => {
+      const newData = [...prevData];
+      newData[index] = { ...newData[index], comment: value };
+      return newData;
+    });
+  };
+
+  const handleCheckboxChange = (index: any, value: any, type: any) => {
+    setEquipmentData((prevData: any) => {
+      const newData = [...prevData];
+      const { isAssetAssigned, ...rest } = newData[index];
+      newData[index] = { ...rest };
+      if (type === 0) {
+        newData[index] = value === true ? { ...newData[index], isAssetAssigned: value } : { ...newData[index] }
+      } else if (type === 1) {
+        newData[index] = value === true ? { ...newData[index], isAssetAssigned: false } : { ...newData[index] }
+      } else if (type === 2) {
+        newData[index] = { ...newData[index] };
+      }
+      return newData;
+    });
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -388,9 +486,27 @@ export default function EnhancedTable({
             isAddable={isAddable}
             onAddClick={onAddClick}
             btnTitle={btnTitle ? btnTitle : ''}
+            search={search}
+            setSearch={setSearch}
           />
         )}
         {typeof navTabs === 'function' ? navTabs() : null}
+        {isModal && title === 'Asset information' && (
+          <Stack direction="row" alignItems="center" justifyContent='flex-end' gap={2} width='76%'>
+            <Stack direction="row" alignItems="center" gap={1} fontSize={12}>
+              <CircleIcon color={"success"} fontSize="inherit" />
+              <Typography sx={{ fontSize: 12 }}>Granted</Typography>
+            </Stack >
+            <Stack direction="row" alignItems="center" gap={1} fontSize={12}>
+              <CircleIcon color={"error"} fontSize="inherit" />
+              <Typography sx={{ fontSize: 12 }}>N/A</Typography>
+            </Stack >
+            <Stack direction="row" alignItems="center" gap={1} fontSize={12}>
+              <CircleIcon color={"warning"} fontSize="inherit" />
+              <Typography sx={{ fontSize: 12 }}>Returned</Typography>
+            </Stack >
+          </Stack>
+        )}
         <TableContainer>
           <Grid container gap={10}>
             <Grid item xs={12} md={modal ? 8 : 12}>
@@ -422,29 +538,138 @@ export default function EnhancedTable({
                           selected={isItemSelected}
                           sx={{ cursor: 'pointer' }}
                         >
-                          {Object.keys(row).map((key, index) => {
-                            return (
-                              <TableCell
-                                key={index}
-                                onClick={() => {
-                                  if (key === 'fullName') {
-                                    openModal(row); // Open modal when 'status' field is clicked
-                                  } else if (key === 'Action') {
-                                    setDataAction(row);
-                                  }
-                                }}
-                                sx={{
-                                  fontWeight: '500',
-                                  fontSize: 12,
-                                  wordWrap: 'break-word',
-                                  whiteSpace: 'normal',
-                                  maxWidth: 200, // Adjust this value as needed
-                                }}
-                                align={key === 'action' ? 'center' : 'left'}
-                              >
-                                {row[key]}
-                              </TableCell>
-                            );
+                          {Object.keys(row).filter(key => key !== 'searchableText').map((key, cIndex) => {
+                            if (key === 'Status' && title === 'Asset information' && edit) {
+                              return (
+                                <TableCell
+                                  key={cIndex}
+                                  sx={{
+                                    fontWeight: '500',
+                                    fontSize: 12,
+                                    wordWrap: 'break-word',
+                                    whiteSpace: 'normal',
+                                    maxWidth: 200, // Adjust this value as needed
+                                  }}
+                                >
+                                  <Stack direction="row" alignItems="center" gap={2}>
+                                    <Checkbox
+                                      checked={checks[index] && checks[index][0]}
+                                      onChange={(e) => {
+                                        setChecks((prevChecks: any) => {
+                                          const newChecks = [...prevChecks];
+                                          if (!newChecks[index]) newChecks[index] = [];
+                                          newChecks[index][0] = e.target.checked;
+                                          newChecks[index][1] = false;
+                                          newChecks[index][2] = false;
+                                          return newChecks;
+                                        });
+                                        handleCheckboxChange(index, e.target.checked, 0);
+                                      }}
+                                      color='success'
+                                      sx={{
+                                        '&.MuiCheckbox-root': {
+                                          p: 0
+                                        },
+                                        "& .MuiSvgIcon-root": {
+                                          fill: (theme) => theme.palette.success.main,
+                                        },
+                                      }} />
+                                    <Checkbox
+                                      checked={checks[index] && checks[index][1]}
+                                      onChange={(e) => {
+                                        setChecks((prevChecks: any) => {
+                                          const newChecks = [...prevChecks];
+                                          if (!newChecks[index]) newChecks[index] = [];
+                                          newChecks[index][1] = e.target.checked;
+                                          newChecks[index][0] = false;
+                                          newChecks[index][2] = false;
+                                          return newChecks;
+                                        });
+                                        handleCheckboxChange(index, e.target.checked, 1);
+                                      }}
+                                      color='error' sx={{
+                                        '&.MuiCheckbox-root': {
+                                          p: 0
+                                        },
+                                        "& .MuiSvgIcon-root": {
+                                          fill: (theme) => theme.palette.error.main,
+                                        },
+                                      }} />
+                                    <Checkbox color='warning'
+                                      checked={checks[index] && checks[index][2]}
+                                      onChange={(e) => {
+                                        setChecks((prevChecks: any) => {
+                                          const newChecks = [...prevChecks];
+                                          if (!newChecks[index]) newChecks[index] = [];
+                                          newChecks[index][2] = e.target.checked;
+                                          newChecks[index][0] = false;
+                                          newChecks[index][1] = false;
+                                          return newChecks;
+                                        });
+                                        handleCheckboxChange(index, e.target.checked, 2);
+                                      }}
+                                      sx={{
+                                        '&.MuiCheckbox-root': {
+                                          p: 0
+                                        },
+                                        "& .MuiSvgIcon-root": {
+                                          fill: (theme) => theme.palette.warning.main,
+                                        },
+                                      }} />
+                                  </Stack>
+                                </TableCell>
+                              )
+                            } else if (key === 'Comment' && title === 'Asset information' && edit) {
+                              return (
+                                <TableCell
+                                  key={cIndex}
+                                  sx={{
+                                    fontWeight: '500',
+                                    fontSize: 12,
+                                    wordWrap: 'break-word',
+                                    whiteSpace: 'normal',
+                                    maxWidth: 200, // Adjust this value as needed
+                                  }}
+                                >
+                                  <TextField
+                                    value={commentValues[index]}
+                                    onChange={(e) => {
+                                      setCommentValues((prevValues: any) => {
+                                        const newValues = [...prevValues];
+                                        newValues[index] = e.target.value;
+                                        return newValues;
+                                      });
+                                      handleCommentChange(index, e.target.value);
+                                    }}
+                                    size="small"
+                                    variant="standard"
+                                  />
+                                </TableCell>
+                              )
+                            } else {
+                              return (
+                                <TableCell
+                                  key={cIndex}
+                                  onClick={() => {
+                                    if (key === 'fullName' && title === 'Employees information') {
+                                      openModal(row);
+                                    } else if (key === 'Action') {
+                                      setDataAction(row);
+                                    }
+                                  }}
+                                  sx={{
+                                    fontWeight: '500',
+                                    fontSize: 12,
+                                    wordWrap: 'break-word',
+                                    whiteSpace: 'normal',
+                                    maxWidth: 200, // Adjust this value as needed
+                                  }}
+                                  align={key === 'action' ? 'center' : 'left'}
+                                >
+                                  {row[key]}
+                                </TableCell>
+                              );
+                            }
                           })}
                         </TableRow>
                       );
@@ -463,11 +688,17 @@ export default function EnhancedTable({
             {modal && <Grid item xs={12} md={3}>
               <Typography className='SmallBody'>{t('Attachment')}</Typography>
 
-              <DragAndDrop
-                edit={true}
-                allowMultiple
-                onChangeFile={(e: any) => setFileInformation(e.target.files)}
-              />
+              {uploadLoading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', }}>
+                  <CircularProgress />
+                </Box>) : (
+                <DragAndDrop
+                  edit={true}
+                  allowMultiple
+                  onChangeFile={(e: any) => { setFileInformation(e.target.files); setFileAdded(true); }}
+                  fileAdded={fileAdded}
+                />
+              )}
             </Grid>}
           </Grid>
         </TableContainer>

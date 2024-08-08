@@ -9,18 +9,18 @@ import { Box } from '@mui/material';
 
 function SubMenu({ activeMenu }: any) {
   switch (activeMenu) {
-    case SUB_MENU.payroll:
-      return <Profile />;
+    // case SUB_MENU.payroll:
+    //   return <Profile modal={true} />;
     case SUB_MENU.profile:
-      return <HRProfile />;
+      return <HRProfile modal={true} />;
     case SUB_MENU.bankAccount:
-      return <BankAccount />;
+      return <BankAccount modal={true} />;
     case SUB_MENU.documents:
       return <Documents modal={true} />;
     case SUB_MENU.assets:
       return <Assets modal={true} />;
     default:
-      return <Profile />;
+      return <Profile modal={true} />;
   }
 }
 

@@ -1,11 +1,13 @@
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 import PeopleIcon from '@mui/icons-material/People';
 import EmployeeSkillsTable from './EmployeeSkillsTable';
 import ManagerSkillsTable from './ManagerSkillsTable';
 import { useTranslation } from 'react-i18next';
 import { DistributionColor } from '../../../data';
+import jwtInterceoptor from '../../../services/interceptors';
+import { useSnackbar } from '../../Global/WithSnackbar';
 
 const styles = {
   topContainer: {
@@ -51,6 +53,34 @@ function SkillsTable() {
   const between1281And1400 = useMediaQuery('(min-width: 1281px) and (max-width: 1400px)');
   const between1200And1280 = useMediaQuery('(min-width: 1200px) and (max-width: 1280px)');
 
+  const { showMessage }: any = useSnackbar();
+  const [experts, setallExpertsListDataState] = useState<any>([]);
+
+  const GetSkillsExpertsConfigurationListData = async () => {
+    jwtInterceoptor
+      .get('api/SkillConfiguration/GetSkillExpertiseList')
+      .then((response: any) => {
+        let allExperties = [];
+        for (var x of response.data) {
+          let item = {
+            skillExpertiseId: x.skillExpertiseId,
+            expertise: x.expertise,
+            agendaColor: x.agendaColor,
+          };
+          allExperties.push(item);
+        }
+
+        setallExpertsListDataState(allExperties);
+      })
+      .catch((err: any) => {
+        showMessage(err.message, 'error');
+      })
+  };
+
+  useEffect(() => {
+    GetSkillsExpertsConfigurationListData();
+  }, []);
+
   return (
     <Box boxShadow={'4px 4px 16px rgba(9, 44, 76, 0.10),-4px -4px 16px rgba(9, 44, 76, 0.10)'} py='18px' px='34px' borderRadius={3} mt={2} {...(between1281And1400 && { maxWidth: '74vw' })} {...(between1200And1280 && {maxWidth: '72vw'})}>
       <Box sx={styles.topContainer}>
@@ -86,21 +116,21 @@ function SkillsTable() {
         <RenderTable subMenu={subMenu} />
 
         <Box sx={{ display: 'flex', gap: 4 }}>
-          {Object.entries(DistributionColor).map(([key, color]) => (
+          {experts && experts.map((item: any) => (
             <Box
-              key={key}
+              key={item.skillExpertiseId}
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
             >
               <Box
                 sx={{
                   width: '10px',
                   height: '10px',
-                  backgroundColor: color,
+                  backgroundColor: item.agendaColor,
                   borderRadius: '100px',
                   fontWeight: '500',
                 }}
               />
-              <Typography sx={{ fontSize: 10 }}>{key}</Typography>
+              <Typography sx={{ fontSize: 10 }}>{t(item.expertise)}</Typography>
             </Box>
           ))}
         </Box>

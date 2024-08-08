@@ -70,7 +70,7 @@ const createData = (
     expertise: (
       <RoundedChip
         status={String(expertise.name)[0].toUpperCase() + String(expertise.name).substring(1)}
-        color={expertise.color}
+        agendaColor={expertise.color}
         employee={true}
       />
     ),
@@ -79,6 +79,7 @@ const createData = (
 
 function EmployeeInfo({ open, setOpen, id }: any) {
   const [skills, setSkills] = useState<any>([]);
+  const [pictureBase64, setPictureBase64] = useState<string>('');
 
   const [userInfo, setUserInfo] = useState<any>({
     ...employee_data,
@@ -90,9 +91,9 @@ function EmployeeInfo({ open, setOpen, id }: any) {
     jwtInterceoptor
       .get(
         'api/SkillManager/GetSkillByEmployeeDetailId?EmployeeDetailId=' +
-          id +
-          '&email=' +
-          email
+        id +
+        '&email=' +
+        email
       )
       .then((response: any) => {
         const uniqueSkills = response.data.skillByEmployeedetailIds.reduce(
@@ -100,9 +101,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
             if (!acc.find((x: any) => x.name === cur.expertise.toLowerCase())) {
               acc.push({
                 name: cur.expertise.toLowerCase(),
-                color: getRandomColorWhichIsNotInUse(
-                  acc.map((x: any) => x.color)
-                ),
+                color: cur.agendaColor,
               });
             }
             return acc;
@@ -114,7 +113,29 @@ function EmployeeInfo({ open, setOpen, id }: any) {
 
         setUserInfo(response.data);
       })
-      .catch((err: any) => {});
+      .catch((err: any) => { });
+  };
+
+  let pictureURI =
+    process.env.REACT_APP_API_PROFILE_SERVICE_URL +
+    '/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
+    id +
+    '&email=' +
+    email;
+
+  const convertImageToBase64 = async () => {
+    try {
+      const response = await fetch(pictureURI);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setPictureBase64(base64String);
+      };
+      reader.readAsDataURL(blob);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -123,6 +144,12 @@ function EmployeeInfo({ open, setOpen, id }: any) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    if(pictureURI){
+      convertImageToBase64();
+    }
+  }, [pictureURI]);
 
   if (!userInfo) return null;
 
@@ -135,7 +162,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
     userInfo.skillByEmployeedetailIds.map((x: any) => {
       const expertise =
         skills[
-          skills.findIndex((y: any) => y?.name === x.expertise?.toLowerCase())
+        skills.findIndex((y: any) => y?.name === x.expertise?.toLowerCase())
         ];
 
       return createData(
@@ -145,13 +172,6 @@ function EmployeeInfo({ open, setOpen, id }: any) {
         expertise || skills[0]
       );
     });
-
-  let pictureURI =
-    process.env.REACT_APP_API_PROFILE_SERVICE_URL +
-    '/api/Employee/GetProfilePictureFileStream?EmployeeDetailId=' +
-    id +
-    '&email=' +
-    email;
 
   return (
     <Drawer
@@ -226,7 +246,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
           }}
         >
           <img
-            src={pictureURI || dummyImg}
+            src={pictureBase64 ? pictureBase64 : dummyImg}
             onError={(e: any) => {
               e.target.onerror = null;
               e.target.src = dummyImg;

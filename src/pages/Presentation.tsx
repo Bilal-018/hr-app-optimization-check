@@ -585,7 +585,9 @@ function Presentation() {
           setEdit({ edit: false, id: '' });
         }}
         onSave={({ formDataFiles, removedFiles }: any) => {
-          deleteDeletedPresentationFiles(removedFiles, edit.id);
+          if(removedFiles){
+            deleteDeletedPresentationFiles(removedFiles, edit.id);
+          }
           UploadDocuments_Click(formDataFiles);
         }}
         data={

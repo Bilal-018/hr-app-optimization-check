@@ -8,6 +8,7 @@ import {
   TextField,
   alpha,
   Theme,
+  CircularProgress,
 } from '@mui/material';
 import BaseModal from '../../Global/Modal';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -19,6 +20,8 @@ import jwtInterceptor from '../../../services/interceptors';
 import { themeContext } from '../../../theme';
 import EditIcon from '../../Icon/EditIcon';
 import BinIcon from '../../Icon/BinIcon';
+import ViewIcon from '../../Icon/ViewIcon';
+import DownloadIcon from '../../Icon/DownloadIcon';
 
 // const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL + '/api/';
 
@@ -64,10 +67,10 @@ interface FaultPayslipData {
 interface TableDataRow {
   employeeId: string;
   employeeFullName?: string;
-  title: string;
+  // title: string;
   month: string;
   year: string;
-  modified: string;
+  // modified: string;
   Action: JSX.Element;
 }
 
@@ -89,6 +92,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
   const [shareModal, setShareModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
   const [deleteFaultModal, setDeleteFaultModal] = useState(false);
   const [selectedPayslip, setSelectedPayslip] = useState<string | null>(null);
   const [payslips, setPayslips] = useState<TableDataRow[]>([]);
@@ -96,9 +100,13 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const [subMenu, setSubMenu] = useState<'success' | 'failed'>('success');
 
+  const [pdfUrl, setPdfUrl] = useState<any>(null);
+
   const [title, setTitle] = useState('');
   const [payslipMonth, setPayslipMonth] = useState('');
   const [payslipYear, setPayslipYear] = useState('');
+
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const initialized = useRef(false);
 
@@ -146,7 +154,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     }
   };
 
-  function CellAction({ onShare, onEdit, id, onDelete, filename }: any) {
+  function CellAction({ onShare, onEdit, id, onDelete, filename, onView, onDownload }: any) {
     const { myTheme } = useContext(themeContext) as any;
     return (
       <Box className='action-icon-rounded'>
@@ -162,14 +170,24 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
           <ShareIcon />
         </Button> */}
         <Button
+          onClick={() => onView(id)}
+        >
+          <ViewIcon />
+        </Button>
+        {/* <Button
           onClick={() => onEdit(id)}
         >
           <EditIcon />
-        </Button>
+        </Button> */}
         <Button
           onClick={() => onDelete(id)}
         >
           <BinIcon />
+        </Button>
+        <Button
+          onClick={() => onDownload(id)}
+        >
+          <DownloadIcon />
         </Button>
         {/* <Button>
           <MoreVertIcon />
@@ -193,15 +211,9 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
           <ShareIcon />
         </Button> */}
         <Button
-          sx={{
-            backgroundColor: alpha('#DF6F79', 0.1),
-            svg: {
-              fill: '#DF6F79',
-            },
-          }}
           onClick={() => onDelete(id)}
         >
-          <DeleteIcon />
+          <BinIcon />
         </Button>
       </Box>
     );
@@ -290,13 +302,27 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
         const data: PayslipData[] = response.data;
         const rows: TableDataRow[] = data.map((x: any) => {
           const filename = `${x.employeeId}-${x.month}-${x.year}${x.filepath}`;
+          const handleEdit = (id: any) => {
+            setSelectedPayslip(id);
+            setSelectedItem(x);
+            setEditModal(true);
+          };
+
+          // Combine all text for searchable text
+          const searchableText = [
+            x.employeeId,
+            x.employeeName,
+            x.month,
+            x.year,
+          ].join(' ');
+
           return {
             employeeId: x.employeeId,
             employeeFullName: x.employeeName,
-            title: x.title == null ? 'null' : x.title,
+            // title: x.title == null ? 'null' : x.title,
             month: x.month,
             year: x.year,
-            modified: x.modified ? x.modified : 'null',
+            // modified: x.modified,
             Action: (
               <CellAction
                 id={x.payslipId}
@@ -305,16 +331,41 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
                   setSelectedPayslip(id);
                   setShareModal(true);
                 }}
-                onEdit={(id: any) => {
-                  setSelectedPayslip(id);
-                  setEditModal(true);
-                }}
+                onEdit={handleEdit}
                 onDelete={(id: any) => {
                   setSelectedPayslip(id);
                   setDeleteModal(true);
                 }}
+                onView={(id: any) => {
+                  setViewModal(true);
+                  if (id) {
+                    const url = `api/Payslip/OpenPayslip?id=${id}`;
+                    jwtInterceptor
+                      .get(url, { responseType: 'blob' })
+                      .then((response: any) => {
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const objectUrl = URL.createObjectURL(blob) + "#toolbar=0";
+                        setPdfUrl(objectUrl);
+                      });
+                  }
+                }}
+                onDownload={(id: any) => {
+                  if (id) {
+                    const url = `api/Payslip/DownloadPayslip?id=${id}`;
+                    jwtInterceptor
+                      .get(url, { responseType: 'blob' })
+                      .then((response: any) => {
+                        const blob = new Blob([response.data], { type: 'application/pdf' });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(blob);
+                        link.download = `payslip_${id}.pdf`;
+                        link.click()
+                      })
+                  }
+                }}
               />
             ),
+            searchableText,
           };
         });
         setPayslips(rows);
@@ -334,6 +385,14 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
       .then((response: any) => {
         const data: FaultPayslipData[] = response.data;
         const rows: TableFaultDataRow[] = data.map((x) => {
+
+          // Combine all text for searchable text
+          const searchableText = [
+            x.employeeId,
+            x.filepath,
+            x.reason,
+          ].join(' ');
+
           return {
             employeeId: x.employeeId,
             fileName: x.filepath,
@@ -352,6 +411,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
                 }}
               />
             ),
+            searchableText,
           };
         });
         setFaultPayslips(rows);
@@ -371,6 +431,14 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (selectedItem) {
+      setTitle(selectedItem.title == null ? '' : selectedItem.title);
+      setPayslipMonth(selectedItem.month);
+      setPayslipYear(selectedItem.year);
+    }
+  }, [selectedItem])
+
   const { t } = useTranslation();
 
   const headCells = [
@@ -382,10 +450,10 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
       id: 'name',
       label: 'Employee Name',
     },
-    {
-      id: 'title',
-      label: 'Title',
-    },
+    // {
+    //   id: 'title',
+    //   label: 'Title',
+    // },
     {
       id: 'month',
       label: 'Month',
@@ -394,10 +462,10 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
       id: 'year',
       label: 'Year',
     },
-    {
-      id: 'modified',
-      label: 'Modified',
-    },
+    // {
+    //   id: 'modified',
+    //   label: 'Modified',
+    // },
     {
       id: 'action',
       label: 'Action',
@@ -508,7 +576,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
       </BaseModal>
       <BaseModal
         open={editModal}
-        handleClose={() => setEditModal((prev) => !prev)}
+        handleClose={() => {setEditModal((prev) => !prev); setSelectedItem(null); }}
         title='Update payslip information'
         yesOrNo={false}
         onSave={() => handleEdit()}
@@ -587,6 +655,25 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
               {t('Do you want to delete the selected Faultpayslip ?')}
             </Typography>
           </Grid>
+        </Grid>
+      </BaseModal>
+      <BaseModal
+        open={viewModal}
+        handleClose={() => { setViewModal((prev) => !prev); setPdfUrl(null); }}
+        title='Payslip - Preview'
+        showSaveButton={false}
+      >
+        <Grid container justifyContent='center' mt={2} minHeight='50px'>
+          {pdfUrl ? (
+            <object
+              data={pdfUrl}
+              type="application/pdf"
+              width="100%"
+              height="700px"
+            />
+          ) : (
+            <CircularProgress />
+          )}
         </Grid>
       </BaseModal>
     </>
