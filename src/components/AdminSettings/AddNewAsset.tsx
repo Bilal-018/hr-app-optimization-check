@@ -54,7 +54,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
   handleSave,
   asset,
 }) => {
-  const [assetInfo, setAssetInfo] = useState<any>(initialState);
+  const [assetInfo, setAssetInfo] = useState<Record<string, any>>(initialState);
   const [errors, setErrors] = useState<any>({
     equipment: false,
     brand: false,
