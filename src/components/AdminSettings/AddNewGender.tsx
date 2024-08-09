@@ -4,7 +4,7 @@ import { TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  open: any;
+  open: boolean;
   handleClose: () => void;
   handleSave: (gender: string) => void;
   value?: string;
@@ -12,7 +12,7 @@ interface Props {
 
 function AddNewGender({ open, handleClose, handleSave, value = '' }: Props) {
   const [gender, setGender] = useState<string>(value || '');
-  const [error, setError] = useState<any>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const validateAndSave = () => {
     if (!gender || gender.length < 1) {
