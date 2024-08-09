@@ -114,7 +114,7 @@ function CellAction({ onEdit, onDelete }: CellActionProps) {
 }
 
 const Assets: React.FC = () => {
-  
+
   interface ModalState {
     open: boolean;
     id: number | null;
@@ -202,7 +202,7 @@ const Assets: React.FC = () => {
       });
   };
 
-  const onEdit = (id: any) => {
+  const onEdit = (id: number) => {
     setOpen({
       open: true,
       id: id,
