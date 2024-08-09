@@ -12,7 +12,7 @@ interface Props {
 
 function AddNewContract({ open, handleClose, handleSave, value = '' }: Props) {
   const [contractName, setContractName] = useState<string>(value || '');
-  const [error, setError] = useState<any>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const validateAndSave = () => {
     if (!contractName || contractName.length < 1) {
