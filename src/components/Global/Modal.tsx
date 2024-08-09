@@ -52,14 +52,17 @@ interface BaseModalProps {
   open: boolean;
   handleClose: () => void;
   children: React.ReactNode;
-  onSave: () => void;
-  title?: string;
+  onSave?: (asset: any) => void;
+  title?: any;
   yesOrNo?: boolean;
   showSaveButton?: boolean;
   sx?: object;
   isCloseIcon?: boolean;
   hideTitle?: boolean;
   uploadLoading?: boolean;
+  bankHoliday?: any;
+  skillTypeData?: any;
+  type?: string;
 }
 
 function BaseModal({
