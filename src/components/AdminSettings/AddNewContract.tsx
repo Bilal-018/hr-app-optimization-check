@@ -7,11 +7,11 @@ interface Props {
   open: any;
   handleClose: () => void;
   handleSave: (contractName: string) => void;
-  value?: any;
+  value?: string;
 }
 
 function AddNewContract({ open, handleClose, handleSave, value = '' }: Props) {
-  const [contractName, setContractName] = useState<any>(value || '');
+  const [contractName, setContractName] = useState<string>(value || '');
   const [error, setError] = useState<any>(false);
 
   const validateAndSave = () => {
