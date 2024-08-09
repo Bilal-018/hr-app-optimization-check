@@ -209,7 +209,7 @@ const Assets: React.FC = () => {
     });
   };
 
-  const onDelete = (id: any) => {
+  const onDelete = (id: number) => {
     setDeleteModal({
       open: true,
       id: id,
