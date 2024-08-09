@@ -81,7 +81,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setAssetInfo((pre: any) => ({ ...pre, [name]: value }));
+    setAssetInfo((pre: AssetInfo) => ({ ...pre, [name]: value }));
   };
 
   const onSave = () => {
@@ -175,10 +175,12 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
               value={dayjs(assetInfo?.expiryDate)}
               format='DD/MM/YYYY'
               onChange={(newValue: any) => {
-                setAssetInfo((pre: any) => ({
-                  ...pre,
-                  expiryDate: newValue.toDate(),
-                }));
+                if (newValue instanceof Date) {
+                  setAssetInfo((pre: AssetInfo) => ({
+                    ...pre,
+                    expiryDate: newValue.toString(),
+                  }));
+                }
               }}
             // onError={errors.expiryDate}
             // helperText={`${errors.expiryDate && t('ExpiryDate is required')}`}
