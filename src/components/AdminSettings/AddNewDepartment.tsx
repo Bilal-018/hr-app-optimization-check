@@ -40,8 +40,8 @@ function AddNewDepartment({
     department?.department ? department : initialState
   );
   const [error, setError] = useState<{
-    department: any;
-    costCenter: any;
+    department: boolean;
+    costCenter: boolean;
   }>({
     department: false,
     costCenter: false,
