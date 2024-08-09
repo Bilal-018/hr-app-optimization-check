@@ -4,7 +4,7 @@ import { TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
-  open: any;
+  open: boolean;
   handleClose: () => void;
   handleSave: (contractName: string) => void;
   value?: string;
