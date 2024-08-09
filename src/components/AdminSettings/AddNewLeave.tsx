@@ -13,7 +13,13 @@ import { useTranslation } from 'react-i18next';
 import jwtInterceoptor from '../../services/interceptors';
 import { useSnackbar } from '../Global/WithSnackbar';
 
-const initialState: any = {
+interface LeaveTypeState {
+  leaveType: string;
+  daysEntitled: number;
+  genderRestriction: string;
+}
+
+const initialState: LeaveTypeState = {
   leaveType: '',
   daysEntitled: 0,
   genderRestriction: '',
@@ -38,10 +44,17 @@ const validate = (values: any) => {
   return errors;
 };
 
-const AddNewLeave = ({ open, handleClose, handleSave, leave }: any) => {
+interface AddNewLeaveProps {
+  open: boolean;
+  handleClose: () => void;
+  handleSave: (leaveInfo: any) => void;
+  leave: LeaveTypeState;
+}
+
+const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps) => {
   const [genders, setGenders] = useState<any>([]);
-  const [leaveInfo, setLeaveInfo] = useState<any>(initialState);
-  const [errors, setErrors] = useState<any>({
+  const [leaveInfo, setLeaveInfo] = useState<LeaveTypeState>(initialState);
+  const [errors, setErrors] = useState<Record<string, boolean>>({
     leaveType: false,
     daysEntitled: false,
     genderRestriction: false,
