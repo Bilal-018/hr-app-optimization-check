@@ -125,7 +125,17 @@ const Assets: React.FC = () => {
     id: number | null;
   }
 
-  const [loading, setLoading] = useState<any>(false);
+  interface AssetConfig {
+    assetConfigurationId: number;
+    equipment: string;
+    brand: string;
+    model: string;
+    registration: string | null;
+    expiryDate: string;
+    isActive: boolean;
+  }
+
+  const [loading, setLoading] = useState<boolean>(false);
   const { showMessage }: any = useSnackbar();
   const [assetConfig, setAssetConfig] = useState<any>([]);
   const [deleteModal, setDeleteModal] = useState<DeleteModalState>({
@@ -237,7 +247,7 @@ const Assets: React.FC = () => {
     >
       <EnhancedTable
         head={headCells}
-        rows={assetConfig.map((item: any) =>
+        rows={assetConfig.map((item: AssetConfig) =>
           createData(
             item.equipment,
             item.brand,
