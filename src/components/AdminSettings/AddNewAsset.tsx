@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 interface AddNewAssetProps {
   open: boolean;
   handleClose: () => void;
-  handleSave: (asset: any) => void;
+  handleSave: (assetInfo: any) => void;
   asset?: any;
 }
 
