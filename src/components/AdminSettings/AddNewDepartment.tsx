@@ -13,7 +13,7 @@ interface Props {
   open: boolean;
   handleClose: () => void;
   handleSave: (department: any) => void;
-  department: any;
+  department: DepartmentState;
   title: string;
 }
 
