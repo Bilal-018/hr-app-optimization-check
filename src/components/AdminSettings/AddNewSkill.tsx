@@ -11,13 +11,19 @@ const initialState = {
   achievementScore: 0,
 };
 
-let initialErrors = {
+interface ValidationErrors {
+  skill: boolean;
+  skillType: boolean;
+  achievementScore: boolean;
+}
+
+let initialErrors: ValidationErrors = {
   skill: false,
   skillType: false,
   achievementScore: false,
 };
 const validate = (values: any) => {
-  let errors = { ...initialErrors };
+  let errors: ValidationErrors = { ...initialErrors };
 
   if (!values.skill || values.skill.trim() === '') {
     errors.skill = true;
@@ -44,7 +50,7 @@ const AddNewSkill = ({
   skillTypes,
 }: any) => {
   const [skillDetails, setSkillDetails] = useState<any>(initialState);
-  const [erros, setErros] = useState<any>(initialErrors);
+  const [erros, setErros] = useState<ValidationErrors>(initialErrors);
 
   const onSave = () => {
     const errors = validate(skillDetails);
