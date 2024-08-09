@@ -42,7 +42,7 @@ function createData(
   brand: any,
   model: any,
   registration: any,
-  expiryDate: any,
+  expiryDate: string | null | undefined,
   id: any,
   onEdit: any,
   onDelete: any
