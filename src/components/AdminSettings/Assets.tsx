@@ -40,7 +40,7 @@ const headCells = [
 function createData(
   equipment: any,
   brand: any,
-  model: any,
+  model: string,
   registration: any,
   expiryDate: string | null | undefined,
   id: any,
@@ -115,10 +115,15 @@ const Assets: React.FC = () => {
     id: null,
   });
 
+  interface DeleteModalState {
+    open: boolean;
+    id: number | null;
+  }
+
   const [loading, setLoading] = useState<any>(false);
   const { showMessage }: any = useSnackbar();
   const [assetConfig, setAssetConfig] = useState<any>([]);
-  const [deleteModal, setDeleteModal] = useState<any>({
+  const [deleteModal, setDeleteModal] = useState<DeleteModalState>({
     open: false,
     id: null,
   });
