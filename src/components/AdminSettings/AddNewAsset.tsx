@@ -85,7 +85,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
       if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
         return { ...pre, [name]: value };
       } else {
-        console.error(`Invalid value type for ${name}:`, value);
+        console.error(`Invalid value type for ${name}:`, JSON.stringify(value, null, 2));
         return pre;
       }
     });
