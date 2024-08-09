@@ -54,7 +54,17 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
   handleSave,
   asset,
 }) => {
-  const [assetInfo, setAssetInfo] = useState<Record<string, any>>(initialState);
+
+  interface AssetInfo {
+    assetConfigurationId: number;
+    equipment: string;
+    brand: string;
+    model: string;
+    registration: string;
+    expiryDate: string;
+    isActive?: boolean;
+  }
+  const [assetInfo, setAssetInfo] = useState<AssetInfo>(initialState);
   const [errors, setErrors] = useState<any>({
     equipment: false,
     brand: false,
@@ -171,7 +181,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
                 }));
               }}
               onError={errors.expiryDate}
-              // helperText={`${errors.expiryDate && t('ExpiryDate is required')}`}
+            // helperText={`${errors.expiryDate && t('ExpiryDate is required')}`}
             />
           </LocalizationProvider>
         </Grid>{' '}
