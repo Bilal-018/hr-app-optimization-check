@@ -52,7 +52,7 @@ interface BaseModalProps {
   open: boolean;
   handleClose: () => void;
   children: React.ReactNode;
-  onSave?: (asset: any | undefined) => void;
+  onSave?: (data: any) => void;
   title?: any;
   yesOrNo?: boolean;
   showSaveButton?: boolean;

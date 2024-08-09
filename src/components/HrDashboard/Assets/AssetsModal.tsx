@@ -99,7 +99,7 @@ interface AssetsModalProps {
   open: boolean;
   handleClose: () => void;
   title: string;
-  onSave: (asset: any) => void;
+  onSave: (data: any) => void;
   data: any; // You should define the actual type of data
   setData: React.Dispatch<any>; // You should define the actual type of setData
 }
