@@ -100,15 +100,17 @@ const AddNewSkill = ({
   }, [skill]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setSkillDetails((pre: SkillDetails) => {
-      if (typeof value === 'string' || typeof value === 'number') {
-        return { ...pre, [name]: value };
-      } else {
-        console.error('Invalid value type for %s:', name, value);
-        return pre;
-      }
-    });
+    if (e.target instanceof HTMLInputElement) {
+      const { name, value } = e.target;
+      setSkillDetails((pre: SkillDetails) => {
+        if (typeof value === 'string' || typeof value === 'number') {
+          return { ...pre, [name]: value };
+        } else {
+          console.error('Invalid value type for %s:', name, value);
+          return pre;
+        }
+      });
+    }
   };
 
   const { t } = useTranslation();
