@@ -41,11 +41,17 @@ const validate = (values: any) => {
   return errors;
 };
 
+interface SkillAchievement {
+  skillAchievementId: number;
+  description: string;
+  score: number;
+}
+
 interface AddNewSkillProps {
   open: boolean;
   handleClose: () => void;
   handleSave: (skillDetails: any) => void;
-  skillAchievementList: any;
+  skillAchievementList: SkillAchievement[];
   skill: any;
   skillTypes: any;
 }
@@ -145,7 +151,7 @@ const AddNewSkill = ({
               error={erros.achievementScore}
               placeholder={t('Select level required')}
             >
-              {skillAchievementList.map((item: any) => (
+              {skillAchievementList.map((item: SkillAchievement) => (
                 <MenuItem
                   value={item.skillAchievementId}
                   sx={{ display: 'flex', justifyContent: 'space-between' }}
