@@ -116,7 +116,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
   return (
     <BaseModal
       title='Add new asset'
-      handleClose={handleClose}
+      handleClose={handleClose as () => void}
       onSave={onSave}
       open={open}
     >
