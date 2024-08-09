@@ -80,7 +80,8 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
   }, [leave]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLInputElement;
+    const { name, value } = target;
     setLeaveInfo((pre: LeaveTypeState) => {
       if (typeof value === 'string' || typeof value === 'number') {
         return { ...pre, [name]: value };
