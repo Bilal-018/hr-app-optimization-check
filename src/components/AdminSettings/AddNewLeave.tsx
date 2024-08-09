@@ -25,8 +25,14 @@ const initialState: LeaveTypeState = {
   genderRestriction: '',
 };
 
-const validate = (values: any) => {
-  let errors: any = {
+interface ValidationErrors {
+  leaveType: boolean;
+  daysEntitled: boolean;
+  genderRestriction: boolean;
+}
+
+const validate = (values: LeaveTypeState) => {
+  let errors: ValidationErrors = {
     leaveType: false,
     daysEntitled: false,
     genderRestriction: false,
@@ -59,7 +65,7 @@ interface Gender {
 const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps) => {
   const [genders, setGenders] = useState<Gender[]>([]);
   const [leaveInfo, setLeaveInfo] = useState<LeaveTypeState>(initialState);
-  const [errors, setErrors] = useState<Record<string, boolean>>({
+  const [errors, setErrors] = useState<ValidationErrors>({
     leaveType: false,
     daysEntitled: false,
     genderRestriction: false,
@@ -79,7 +85,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
   };
 
   const onSave = () => {
-    const errors = validate(leaveInfo);
+    const errors: ValidationErrors = validate(leaveInfo);
     if (Object.values(errors)?.some((item: any) => item === true)) {
       setErrors(errors);
       return;
