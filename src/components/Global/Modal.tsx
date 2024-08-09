@@ -48,6 +48,20 @@ const style = {
   }),
 };
 
+interface BaseModalProps {
+  open: boolean;
+  handleClose: () => void;
+  children: React.ReactNode;
+  onSave: () => void;
+  title?: string;
+  yesOrNo?: boolean;
+  showSaveButton?: boolean;
+  sx?: object;
+  isCloseIcon?: boolean;
+  hideTitle?: boolean;
+  uploadLoading?: boolean;
+}
+
 function BaseModal({
   open,
   handleClose,
@@ -60,7 +74,7 @@ function BaseModal({
   isCloseIcon = true,
   hideTitle = false,
   uploadLoading = false,
-}: any) {
+}: BaseModalProps) {
   const { t } = useTranslation();
 
   const [width, setWidth] = useState(620);
