@@ -7,11 +7,11 @@ interface Props {
   open: any;
   handleClose: () => void;
   handleSave: (gender: string) => void;
-  value?: any;
+  value?: string;
 }
 
 function AddNewGender({ open, handleClose, handleSave, value = '' }: Props) {
-  const [gender, setGender] = useState<any>(value || '');
+  const [gender, setGender] = useState<string>(value || '');
   const [error, setError] = useState<any>(false);
 
   const validateAndSave = () => {
