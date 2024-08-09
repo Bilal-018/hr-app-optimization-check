@@ -68,7 +68,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
     }
   }, [leave]);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLeaveInfo((pre: LeaveTypeState) => ({ ...pre, [name]: value }));
   };
@@ -110,6 +110,11 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
   useEffect(() => {
     getGender();
   }, [])
+
+  interface Gender {
+    genderId: number;
+    gender: string;
+  }
 
   return (
     <BaseModal
@@ -155,10 +160,10 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
             value={leaveInfo.genderRestriction}
             row
           >
-            {genders.map((gender: any) => (
+            {genders.map((gender: Gender) => (
               <FormControlLabel
-                key={gender.genderId as number}
-                value={gender.gender as string}
+                key={gender.genderId}
+                value={gender.gender}
                 control={<Radio />}
                 label={gender.gender}
               />
