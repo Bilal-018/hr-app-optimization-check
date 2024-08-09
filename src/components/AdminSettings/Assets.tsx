@@ -39,7 +39,7 @@ const headCells = [
 
 function createData(
   equipment: any,
-  brand: any,
+  brand: string,
   model: string,
   registration: any,
   expiryDate: string | null | undefined,
@@ -74,7 +74,12 @@ function createData(
 //   );
 // }
 
-function CellAction({ onEdit, onDelete }: any) {
+interface CellActionProps {
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+function CellAction({ onEdit, onDelete }: CellActionProps) {
   return (
     <Box className='action-icon-rounded'>
       <Button
