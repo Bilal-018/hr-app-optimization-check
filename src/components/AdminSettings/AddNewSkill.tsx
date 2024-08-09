@@ -41,6 +41,15 @@ const validate = (values: any) => {
   return errors;
 };
 
+interface AddNewSkillProps {
+  open: boolean;
+  handleClose: () => void;
+  handleSave: (skillDetails: any) => void;
+  skillAchievementList: any;
+  skill: any;
+  skillTypes: any;
+}
+
 const AddNewSkill = ({
   open,
   handleClose,
@@ -48,7 +57,7 @@ const AddNewSkill = ({
   skillAchievementList,
   skill,
   skillTypes,
-}: any) => {
+}: AddNewSkillProps) => {
   const [skillDetails, setSkillDetails] = useState<any>(initialState);
   const [erros, setErros] = useState<ValidationErrors>(initialErrors);
 
