@@ -54,13 +54,18 @@ interface SkillAchievement {
   score: number;
 }
 
+interface SkillType {
+  skillTypeDetailId: number;
+  skillType: string;
+}
+
 interface AddNewSkillProps {
   open: boolean;
   handleClose: () => void;
   handleSave: (skillDetails: any) => void;
   skillAchievementList: SkillAchievement[];
   skill: any;
-  skillTypes: any;
+  skillTypes: SkillType[];
 }
 
 const AddNewSkill = ({
@@ -136,7 +141,7 @@ const AddNewSkill = ({
               fullWidth
               error={erros.skillType}
             >
-              {skillTypes.map((item: any) => (
+              {skillTypes.map((item: SkillType) => (
                 <MenuItem value={item.skillType}>{item.skillType}</MenuItem>
               ))}
             </Select>
