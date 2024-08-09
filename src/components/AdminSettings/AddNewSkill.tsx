@@ -5,7 +5,14 @@ import { errorHelperText } from '../../utils/validation';
 import { useTranslation } from 'react-i18next';
 import Select from '../Global/Select';
 
-const initialState = {
+interface SkillDetails {
+  skill: string;
+  skillType: string;
+  achievementScore: number;
+  id?: number;
+}
+
+const initialState: SkillDetails = {
   skill: '',
   skillType: '',
   achievementScore: 0,
@@ -64,7 +71,7 @@ const AddNewSkill = ({
   skill,
   skillTypes,
 }: AddNewSkillProps) => {
-  const [skillDetails, setSkillDetails] = useState<any>(initialState);
+  const [skillDetails, setSkillDetails] = useState<SkillDetails>(initialState);
   const [erros, setErros] = useState<ValidationErrors>(initialErrors);
 
   const onSave = () => {
@@ -89,7 +96,7 @@ const AddNewSkill = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setSkillDetails((prev: any) => ({ ...prev, [name]: value }));
+    setSkillDetails((prev: SkillDetails) => ({ ...prev, [name]: value }));
   };
 
   const { t } = useTranslation();
