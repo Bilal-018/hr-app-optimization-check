@@ -81,7 +81,14 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLeaveInfo((pre: LeaveTypeState) => ({ ...pre, [name as keyof LeaveTypeState]: value }));
+    setLeaveInfo((pre: LeaveTypeState) => {
+      if (typeof value === 'string' || typeof value === 'number') {
+        return { ...pre, [name]: value };
+      } else {
+        console.error('Invalid value type for %s:', name, value);
+        return pre;
+      }
+    });
   };
 
   const onSave = () => {
