@@ -38,12 +38,12 @@ const headCells = [
 ];
 
 function createData(
-  equipment: any,
+  equipment: string,
   brand: string,
   model: string,
-  registration: any,
+  registration: string | null | undefined,
   expiryDate: string | null | undefined,
-  id: any,
+  id: number,
   onEdit: any,
   onDelete: any
 ) {
@@ -114,8 +114,14 @@ function CellAction({ onEdit, onDelete }: CellActionProps) {
 }
 
 const Assets: React.FC = () => {
+  
+  interface ModalState {
+    open: boolean;
+    id: number | null;
+  }
+
   //const [open, setOpen] = useState(false);
-  const [open, setOpen] = useState<any>({
+  const [open, setOpen] = useState<ModalState>({
     open: false,
     id: null,
   });
