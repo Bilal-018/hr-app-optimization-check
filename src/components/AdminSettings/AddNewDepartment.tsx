@@ -17,7 +17,13 @@ interface Props {
   title: string;
 }
 
-const initialState: any = {
+interface DepartmentState {
+  department: string;
+  costCenter: string;
+  id: number | null;
+}
+
+const initialState: DepartmentState = {
   department: '',
   costCenter: '',
   id: null,
@@ -30,7 +36,7 @@ function AddNewDepartment({
   department,
   title,
 }: Props) {
-  const [newDepartment, setNewDepartment] = useState<any>(
+  const [newDepartment, setNewDepartment] = useState<DepartmentState>(
     department?.department ? department : initialState
   );
   const [error, setError] = useState<{
