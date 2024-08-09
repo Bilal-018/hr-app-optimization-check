@@ -79,9 +79,16 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
     }
   }, [asset]);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setAssetInfo((pre: AssetInfo) => ({ ...pre, [name]: value }));
+    setAssetInfo((pre: AssetInfo) => {
+      if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+        return { ...pre, [name]: value };
+      } else {
+        console.error(`Invalid value type for ${name}:`, value);
+        return pre;
+      }
+    });
   };
 
   const onSave = () => {
