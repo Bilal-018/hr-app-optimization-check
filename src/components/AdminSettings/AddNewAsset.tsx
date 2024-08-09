@@ -65,7 +65,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
     isActive?: boolean;
   }
   const [assetInfo, setAssetInfo] = useState<AssetInfo>(initialState);
-  const [errors, setErrors] = useState<any>({
+  const [errors, setErrors] = useState<Record<string, boolean>>({
     equipment: false,
     brand: false,
     model: false,
@@ -180,7 +180,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
                   expiryDate: newValue.toDate(),
                 }));
               }}
-              onError={errors.expiryDate}
+            // onError={errors.expiryDate}
             // helperText={`${errors.expiryDate && t('ExpiryDate is required')}`}
             />
           </LocalizationProvider>
