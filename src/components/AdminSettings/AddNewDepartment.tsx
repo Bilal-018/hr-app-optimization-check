@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 // }
 
 interface Props {
-  open: any;
+  open: boolean;
   handleClose: () => void;
   handleSave: (department: any) => void;
   department: any;
-  title: any;
+  title: string;
 }
 
 const initialState: any = {
@@ -76,7 +76,11 @@ function AddNewDepartment({
   const { t } = useTranslation();
 
   return (
-    <BaseModal title={title} handleClose={onCancel} onSave={onSave} open={open}>
+    <BaseModal
+      title={title}
+      handleClose={onCancel}
+      onSave={onSave}
+      open={open}>
       <Box
         sx={{
           display: 'flex',
