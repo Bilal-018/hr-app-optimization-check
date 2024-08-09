@@ -7,7 +7,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { useTranslation } from 'react-i18next';
 
 interface AddNewAssetProps {
-  open: any;
+  open: boolean;
   handleClose: () => void;
   handleSave: (asset: any) => void;
   asset?: any;
