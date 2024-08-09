@@ -137,7 +137,7 @@ const Assets: React.FC = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const { showMessage }: any = useSnackbar();
-  const [assetConfig, setAssetConfig] = useState<any>([]);
+  const [assetConfig, setAssetConfig] = useState<AssetConfig[]>([]);
   const [deleteModal, setDeleteModal] = useState<DeleteModalState>({
     open: false,
     id: null,
