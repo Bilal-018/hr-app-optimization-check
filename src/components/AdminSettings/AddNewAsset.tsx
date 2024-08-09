@@ -166,7 +166,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
         <Grid item xs={12} sm={5.75}>
           <Typography className='SmallBody'>{t('Expiry Date')}</Typography>
           <LocalizationProvider
-            dateAdapter={AdapterDayjs as typeof AdapterDayjs}
+            dateAdapter={AdapterDayjs}
             adapterLocale={i18n.language}
           >
             <DatePicker
