@@ -81,7 +81,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLeaveInfo((pre: LeaveTypeState) => ({ ...pre, [name]: value }));
+    setLeaveInfo((pre: LeaveTypeState) => ({ ...pre, [name as keyof LeaveTypeState]: value }));
   };
 
   const onSave = () => {
