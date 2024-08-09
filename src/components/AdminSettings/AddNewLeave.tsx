@@ -51,8 +51,13 @@ interface AddNewLeaveProps {
   leave: LeaveTypeState;
 }
 
+interface Gender {
+  genderId: number;
+  gender: string;
+}
+
 const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps) => {
-  const [genders, setGenders] = useState<any>([]);
+  const [genders, setGenders] = useState<Gender[]>([]);
   const [leaveInfo, setLeaveInfo] = useState<LeaveTypeState>(initialState);
   const [errors, setErrors] = useState<Record<string, boolean>>({
     leaveType: false,
@@ -110,11 +115,6 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
   useEffect(() => {
     getGender();
   }, [])
-
-  interface Gender {
-    genderId: number;
-    gender: string;
-  }
 
   return (
     <BaseModal
