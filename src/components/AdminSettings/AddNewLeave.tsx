@@ -70,7 +70,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setLeaveInfo((pre: any) => ({ ...pre, [name]: value }));
+    setLeaveInfo((pre: LeaveTypeState) => ({ ...pre, [name]: value }));
   };
 
   const onSave = () => {
@@ -157,8 +157,8 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
           >
             {genders.map((gender: any) => (
               <FormControlLabel
-                key={gender.genderId}
-                value={gender.gender}
+                key={gender.genderId as number}
+                value={gender.gender as string}
                 control={<Radio />}
                 label={gender.gender}
               />
