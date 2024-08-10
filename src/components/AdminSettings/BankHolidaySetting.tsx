@@ -115,8 +115,16 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     },
   ];
 
+  interface HolidayConfig {
+    publicHolidayId: number;
+    holidayType: null | string;
+    holidayName: string;
+    date: string;
+    country: string;
+  }
+
   const [loading, setLoading] = useState<any>(false);
-  const [holidayConfig, setBankHolidayConfig] = useState<any>([]);
+  const [holidayConfig, setBankHolidayConfig] = useState<HolidayConfig[]>([]);
 
   useEffect(() => {
     getBankHolidayConfig();
