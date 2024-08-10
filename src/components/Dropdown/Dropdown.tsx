@@ -13,7 +13,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({ setIsMonthlyLeaves }) => {
   const [value, setValue] = useState('Monthly');
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
+  const handleChange = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
     setValue(selectedValue);
 
