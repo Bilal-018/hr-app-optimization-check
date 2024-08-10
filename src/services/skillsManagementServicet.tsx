@@ -80,7 +80,7 @@ class SkillsService {
     );
   }
 
-  private async makeRequest(url: string, method: string = 'get', data: any = {}) {
+  private async makeRequest(url: string, method= 'get', data: any = {}) {
     try {
       const response = await skills[method](url, data);
       return response.data;
@@ -89,7 +89,7 @@ class SkillsService {
     }
   }
 
-  private async makeRequest2(url: string, method: string = 'get', data: any = {}) {
+  private async makeRequest2(url: string, method= 'get', data: any = {}) {
     try {
       const response = await skills[method](url, data);
       return response;
