@@ -31,7 +31,13 @@ const initialState: HolidayState = {
 };
 
 const BankHolidaySetting: React.FC = (bankHoliday: any) => {
-  const [open, setOpen] = useState<any>({
+
+  interface ModalState {
+    open: boolean;
+    id: number | null;
+  }
+
+  const [open, setOpen] = useState<ModalState>({
     open: false,
     id: null,
   });
@@ -52,8 +58,8 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
 
   const [bankHolidayInfo, setBankHolidayInfo] = useState<HolidayState>(initialState);
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as { name: string, value: string | Date};
     setBankHolidayInfo((pre: HolidayState) => {
       if (typeof value === 'string' || value instanceof Date) {
         return { ...pre, [name]: value };
