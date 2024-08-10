@@ -249,7 +249,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
   };
 
   function createData(
-    Date: any,
+    Date: string,
     Description: any,
     Country: any,
     id: any,
