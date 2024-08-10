@@ -35,6 +35,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
   interface ModalState {
     open: boolean;
     id: number | null;
+    isEditMode?: boolean;
   }
 
   const [open, setOpen] = useState<ModalState>({
@@ -58,10 +59,10 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
 
   const [bankHolidayInfo, setBankHolidayInfo] = useState<HolidayState>(initialState);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as { name: string, value: string | Date};
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
     setBankHolidayInfo((pre: HolidayState) => {
-      if (typeof value === 'string' || value instanceof Date) {
+      if (typeof value === 'string' || e.target.type === 'date') {
         return { ...pre, [name]: value };
       } else {
         console.error('Invalid value type for %s:', name, value);
