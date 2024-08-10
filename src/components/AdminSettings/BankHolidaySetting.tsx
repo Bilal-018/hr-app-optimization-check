@@ -156,9 +156,9 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
   };
 
   const addOrUpdateBankHoliday: any = async (
-    date: any,
-    holidayName: any,
-    country: any,
+    date: Date,
+    holidayName: string,
+    country: string,
     publicHolidayId: any
   ) => {
     setLoading(true);
