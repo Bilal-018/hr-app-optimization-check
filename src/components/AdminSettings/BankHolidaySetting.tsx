@@ -54,10 +54,14 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setBankHolidayInfo((prev: any) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setBankHolidayInfo((pre: HolidayState) => {
+      if (typeof value === 'string' || value instanceof Date) {
+        return { ...pre, [name]: value };
+      } else {
+        console.error('Invalid value type for %s:', name, value);
+        return pre;
+      }
+    });
   };
 
   const { t, i18n } = useTranslation();
@@ -159,7 +163,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     date: Date,
     holidayName: string,
     country: string,
-    publicHolidayId: any
+    publicHolidayId: number
   ) => {
     setLoading(true);
     try {
