@@ -29,7 +29,13 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     id: null,
   });
 
-  const [errors, setErrors] = useState<any>({
+  interface ValidationErrors {
+    date: boolean;
+    country: boolean;
+    holidayName: boolean;
+  }
+
+  const [errors, setErrors] = useState<ValidationErrors>({
     date: false,
     country: false,
     holidayName: false,
@@ -123,7 +129,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     country: string;
   }
 
-  const [loading, setLoading] = useState<any>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [holidayConfig, setBankHolidayConfig] = useState<HolidayConfig[]>([]);
 
   useEffect(() => {
