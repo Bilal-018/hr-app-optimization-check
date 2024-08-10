@@ -16,7 +16,14 @@ import DeleteModal from '../Global/DeleteModal';
 import EditIcon from '../Icon/EditIcon';
 import BinIcon from '../Icon/BinIcon';
 
-const initialState = {
+interface HolidayState {
+  country: string;
+  date: Date;
+  holidayName: string;
+  errors?: string[];
+}
+
+const initialState: HolidayState = {
   country: '',
   date: new Date(),
   holidayName: '',
@@ -43,7 +50,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
 
   const { showMessage }: any = useSnackbar();
 
-  const [bankHolidayInfo, setBankHolidayInfo] = useState<any>(initialState);
+  const [bankHolidayInfo, setBankHolidayInfo] = useState<HolidayState>(initialState);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
