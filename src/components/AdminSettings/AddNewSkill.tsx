@@ -160,9 +160,9 @@ const AddNewSkill = ({
           <Typography className='SmallBody'>{t('Level Required')}</Typography>
           <Box mt={1}>
             <Select
-              value={`${skillAchievementList.find((item: any) => {
+              value={`${skillAchievementList.find((item: SkillAchievement) => {
                 return item.skillAchievementId === skillDetails.achievementScore;
-              })?.description ?? ''}${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score ? ` - ${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score}` : ''}`}
+              })?.description ?? ''}${skillAchievementList.find((item: SkillAchievement) => item.skillAchievementId === skillDetails.achievementScore)?.score ? ` - ${skillAchievementList.find((item: SkillAchievement) => item.skillAchievementId === skillDetails.achievementScore)?.score}` : ''}`}
               onChange={handleChange}
               name='achievementScore'
               variant='outlined'
