@@ -128,7 +128,7 @@ function MenuItem(props: any): JSX.Element {
         >
           <Typography variant='body1'
             className='child-text'
-            color={isHovered === true ? myTheme.sidebar.colorDark : pathname === subOption.route ? myTheme.sidebar.colorDark : myTheme.sidebar.color}
+            color={isHovered ? myTheme.sidebar.colorDark : pathname === subOption.route ? myTheme.sidebar.colorDark : myTheme.sidebar.color}
           >
             {t(subOption.name)}
           </Typography>
