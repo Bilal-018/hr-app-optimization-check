@@ -163,7 +163,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
         setBankHolidayConfig(res.data);
         setLoading(false);
       })
-      .catch((err: any) => { });
+      .catch((err: any) => { console.log("error is: ", err) });
   };
 
   const addOrUpdateBankHoliday: any = async (
