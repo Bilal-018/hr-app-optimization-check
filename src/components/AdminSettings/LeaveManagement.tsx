@@ -108,8 +108,12 @@ function Assets() {
         setLeaveConfig(res.data);
         setLoading(false);
       })
-      .catch((err) => {
-        showMessage(err.message, 'error');
+      .catch((err: unknown) => {
+        if (typeof err === 'object' && err !== null) {
+          showMessage(err.toString(), 'error');
+        } else {
+          showMessage(String(err), 'error');
+        }
       });
   };
 
