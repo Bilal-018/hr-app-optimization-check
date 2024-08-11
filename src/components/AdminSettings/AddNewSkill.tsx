@@ -138,9 +138,9 @@ const AddNewSkill = ({
           <Box mt={1}>
             <Select
               placeholder={t('Select skill type')}
-              value={`${skillTypes.find((item: any) => {
+              value={`${skillTypes.find((item: SkillType) => {
                 return item?.skillType?.toLowerCase() === skillDetails?.skillType?.toLowerCase();
-              })?.skillType || ''
+              })?.skillType ?? ''
                 }`}
               onChange={handleChange}
               name='skillType'
