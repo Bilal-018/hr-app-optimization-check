@@ -15,11 +15,11 @@ import CircleIcon from "@mui/icons-material/Circle";
 import CalendarIcon from '../Icon/CalenderIcon';
 
 interface Announcement {
-  title: string;
-  description: string;
-  expiryDate: Date;
-  isVisibleToUser: boolean;
-  anouncementId: number;
+  title?: string;
+  description?: string;
+  expiryDate?: Date;
+  isVisibleToUser?: boolean;
+  anouncementId?: number;
 }
 
 interface RowData {
@@ -106,7 +106,7 @@ function AnnouncementsList(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [rowData, setRowData] = useState<RowData[]>([]);
-  const [selected, setSelected] = useState<any | null>(null);
+  const [selected, setSelected] = useState<Announcement | null>(null);
   const { showMessage }: any = useSnackbar();
   const { t } = useTranslation();
 
