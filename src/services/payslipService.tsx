@@ -32,7 +32,7 @@ export const getPayslips = async (url: any): Promise<any> => {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {
         // Handle the case where authData is null
-        return Promise.reject(error);
+        return Promise.reject(new Error('Authentication failed', { cause: error }));
       }
 
       const authData = JSON.parse(authDataString);
@@ -56,10 +56,10 @@ export const getPayslips = async (url: any): Promise<any> => {
           throw new Error('Error refreshing token');
         }
       } catch (refreshError) {
-        return Promise.reject(refreshError);
+        return Promise.reject(new Error('Refresh Error', { cause: refreshError }));
       }
     } else {
-      return Promise.reject(error);
+      return Promise.reject(new Error('Error', { cause: error }));
     }
   }
 };
@@ -82,7 +82,7 @@ export const deletePayslip = async (url: any) => {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {
         // Handle the case where authData is null
-        return Promise.reject(error);
+        return Promise.reject(new Error('Authentication failed', { cause: error }));
       }
 
       const authData = JSON.parse(authDataString);
@@ -106,10 +106,10 @@ export const deletePayslip = async (url: any) => {
           throw new Error('Error refreshing token');
         }
       } catch (refreshError) {
-        return Promise.reject(refreshError);
+        return Promise.reject(new Error('Refresh Error', { cause: refreshError }));
       }
     } else {
-      return Promise.reject(error);
+      return Promise.reject(new Error('Error', { cause: error }));
     }
   }
 };

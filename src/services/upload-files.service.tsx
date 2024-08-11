@@ -42,7 +42,7 @@ class UploadFilesService {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {
         // Handle the case where authData is null
-        return Promise.reject(error);
+        return Promise.reject(new Error('Authentication failed', { cause: error }));
       }
 
       const authData = JSON.parse(authDataString);
@@ -62,7 +62,7 @@ class UploadFilesService {
       error.config.headers.Authorization = 'Bearer ' + apiResponse.data.token;
       return axios(error.config);
     } else {
-      return Promise.reject(error);
+      return Promise.reject(new Error('Error', { cause: error }));
     }
   }
 }
