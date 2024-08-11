@@ -109,7 +109,7 @@ function EmployeeSkillsTable() {
   const [state, dispatch] = useReducer(
     (
       prevState: any,
-      action: { type: string; value: string | boolean | number | any }
+      action: { type: string; value: any }
     ) => {
       switch (action.type) {
         case 'fullName':
