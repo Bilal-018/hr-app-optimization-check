@@ -76,7 +76,7 @@ function LeaveRequest({ open, onClose, onSave }: any) {
       switch (action.type) {
         case 'leaveType':
           return { ...prevState, leaveTypeId: action.value };
-        case 'startDate':
+        case 'startDate': {
           let sDate =
             action.value.$y +
             '-' +
@@ -84,7 +84,8 @@ function LeaveRequest({ open, onClose, onSave }: any) {
             '-' +
             ('0' + action.value.$D).slice(-2);
           return { ...prevState, startDate: sDate };
-        case 'endDate':
+        }
+        case 'endDate': {
           let eDate =
             action.value.$y +
             '-' +
@@ -92,6 +93,7 @@ function LeaveRequest({ open, onClose, onSave }: any) {
             '-' +
             ('0' + action.value.$D).slice(-2);
           return { ...prevState, endDate: eDate };
+        }
         case 'halfDay':
           return {
             ...prevState,
