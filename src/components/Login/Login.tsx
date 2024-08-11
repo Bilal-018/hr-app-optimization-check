@@ -218,7 +218,7 @@ function Login({ setStep }: any) {
               mt: 4,
             }}
             ref={singInBtnRef}
-            onClick={() => validateLoginUser()}
+            onClick={() => void validateLoginUser()}
           >
             {t('Sign In')}
           </Button>
