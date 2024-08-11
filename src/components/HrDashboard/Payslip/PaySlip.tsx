@@ -155,7 +155,6 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
   };
 
   function CellAction({ onShare, onEdit, id, onDelete, filename, onView, onDownload }: any) {
-    const { myTheme } = useContext(themeContext) as any;
     return (
       <Box className='action-icon-rounded'>
         {/* <Button

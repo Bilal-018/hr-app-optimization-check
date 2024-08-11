@@ -43,7 +43,13 @@ function Topbar({ favs, refetchFavs }: TopbarProps) {
   const matches = useMediaQuery(theme.breakpoints.up('md'));
   const isTablet = useMediaQuery('(max-width: 1024px)');
   const { pathname } = useLocation();
-  const { myTheme } = useContext(themeContext) as any;
+
+  interface ThemeContextValue {
+    myTheme: any;
+    changeTheme: (themeTo: string) => void;
+  }
+
+  const { myTheme } = useContext(themeContext) as ThemeContextValue;
   // const [notification, setNotification] = useState<any>(false);
 
   return (
