@@ -18,7 +18,7 @@ interface Props {
 
 const BarChart: React.FC<Props> = ({ leaves, isMonthlyLeaves }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
-  const [chartInstance, setChartInstance] = useState<Chart | null>(null);
+  const [chartInstance, setChartInstance] = useState<Chart<"bar"> | null>(null);
 
   useEffect(() => {
     const months = leaves?.sickLeaves?.map((item) => {
@@ -45,7 +45,7 @@ const BarChart: React.FC<Props> = ({ leaves, isMonthlyLeaves }) => {
       chartInstance?.destroy();
     }
 
-    const newChartInstance: Chart = new Chart(ctx, {
+    const newChartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: months,
