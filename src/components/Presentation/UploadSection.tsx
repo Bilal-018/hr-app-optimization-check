@@ -17,10 +17,10 @@ function UploadSection({ state, setState, title }: any) {
   const handleFile = (e: any) => {
     const files = e.target.files;
     const newFiles = [];
-    for (let i = 0; i < files.length; i++) {
+    for (const file of files) {
       newFiles.push({
-        name: files[i].name,
-        url: files[i],
+        name: file.name,
+        url: file,
       });
     }
     settempFiles([...tempFiles, ...newFiles]);

@@ -172,9 +172,9 @@ function Documents({ modal = false }: any) {
 
   const setFileInformation = (files: any) => {
     const formDataFiles = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formDataFiles.append('files', files[i]);
-      formDataFiles.append('name', files[i].name);
+    for (const file of files) {
+      formDataFiles.append('files', file);
+      formDataFiles.append('name', file.name);
     }
     setformdatastate(formDataFiles);
   };

@@ -42,8 +42,8 @@ function EditPresentations({ open, onClose, id, onSave, data }: any) {
 
   const handleSave = () => {
     const formDataFiles = new FormData();
-    for (let i = 0; i < presentationData.presentations.length; i++) {
-      const url = presentationData.presentations[i]?.url;
+    for (const prsnt of presentationData.presentations) {
+      const url = prsnt?.url;
       if (typeof url !== 'string') {
         formDataFiles.append('files', url);
       }

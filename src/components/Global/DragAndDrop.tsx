@@ -32,8 +32,8 @@ function DragAndDrop({
         .map((file: any) => file.name)
         .join(', ');
 
-      for (let i = 0; i < acceptedFiles.length; i++) {
-        if (!isFileUnder20MB(acceptedFiles[i])) {
+      for (const file of acceptedFiles) {
+        if (!isFileUnder20MB(file)) {
           showMessage('File size should be less than 20MB', 'error');
           return;
         }
