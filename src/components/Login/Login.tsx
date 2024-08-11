@@ -91,11 +91,10 @@ function Login({ setStep }: any) {
           'info'
         );
       } else {
-        window.location.href = '/';
+        navigate('/')
       }
     } else {
-      window.location.href =
-        '/login';
+      navigate('/login')
     }
   };
 
