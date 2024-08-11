@@ -26,7 +26,7 @@ function ProfileInfo() {
   };
 
   const handleProfilePicChange = async (event: any) => {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files?.[0]) {
       setProfilePic(URL.createObjectURL(event.target.files[0]));
       const formDataFiles = new FormData();
       formDataFiles.append('file', event.target.files[0]);

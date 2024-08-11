@@ -78,8 +78,7 @@ function SkillDistribution({ open, setOpen, handelUserClick, state }: any) {
         <Grid item xs={12} md={6}>
           <Typography className='SmallBody'>{t('Members')}</Typography>
           <Stack gap={1} direction='row' alignItems='center' mt={1}>
-            {state &&
-              state.lstSkillEmployeeDetails.map((item: any) => (
+            {state?.lstSkillEmployeeDetails.map((item: any) => (
                 <div onClick={() => handelUserClick(item.employeeDetailId)}>
                   <UserImage
                     userPicture={

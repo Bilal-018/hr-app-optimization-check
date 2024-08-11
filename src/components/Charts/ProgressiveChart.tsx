@@ -26,7 +26,7 @@ const ProgressiveChart: React.FC<Props> = ({ summary }) => {
   const chartRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (chartRef && chartRef.current) {
+    if (chartRef?.current) {
       const ctx = chartRef.current.getContext('2d');
       if (!ctx) return;
 

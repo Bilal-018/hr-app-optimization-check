@@ -152,7 +152,7 @@ export const getFileName = (xhr: any) => {
   if (disposition && disposition.indexOf('attachment') !== -1) {
     var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
     var matches = filenameRegex.exec(disposition);
-    if (matches != null && matches[1]) {
+    if (matches?.[1]) {
       filename = matches[1].replace(/['"]/g, '');
     }
   }

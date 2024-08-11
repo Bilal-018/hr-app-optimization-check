@@ -144,7 +144,6 @@ function Dashboard(): JSX.Element {
       .get(url)
       .then((response: any) => {
         const sortedData =
-          response?.data &&
           response?.data
             ?.map((item: any) => {
               return {

@@ -46,8 +46,7 @@ const RenderTable = ({ subMenu }: any) => {
 function SkillsTable() {
   const [subMenu, setSubMenu] = useState<any>('Employee');
   const roleskey = sessionStorage.getItem('roles');
-  let isManager: any =
-    roleskey && roleskey.includes('Manager') ? 'flex' : 'none';
+  let isManager: any = roleskey?.includes('Manager') ? 'flex' : 'none';
   const { t } = useTranslation();
 
   const between1281And1400 = useMediaQuery('(min-width: 1281px) and (max-width: 1400px)');
@@ -116,7 +115,7 @@ function SkillsTable() {
         <RenderTable subMenu={subMenu} />
 
         <Box sx={{ display: 'flex', gap: 4 }}>
-          {experts && experts.map((item: any) => (
+          {experts?.map((item: any) => (
             <Box
               key={item.skillExpertiseId}
               sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}

@@ -38,7 +38,7 @@ function LeaveTable() {
   const [subMenu, setSubMenu] = useState<any>('Employee');
   const roleskey = sessionStorage.getItem('roles');
   // let isManager = roleskey.includes('Manager') ? 'flex' : 'none';
-  let isManager = roleskey && roleskey.includes('Manager') ? 'flex' : 'none';
+  let isManager = roleskey?.includes('Manager') ? 'flex' : 'none';
 
   const { t } = useTranslation();
 

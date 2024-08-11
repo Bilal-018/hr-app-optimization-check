@@ -120,7 +120,7 @@ export default function CardsSlide({
   };
 
   useEffect(() => {
-    if (swiperRef.current && swiperRef.current.swiper) {
+    if (swiperRef.current?.swiper) {
       swiperRef.current.swiper.slideTo((activePage - 1) * 3);
     }
   }, [activePage]);

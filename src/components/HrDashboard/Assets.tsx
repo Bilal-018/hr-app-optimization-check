@@ -129,7 +129,7 @@ function EmployeeSkillsTable() {
     jwtInterceoptor
       .get('api/HrAsset/GetAllAssetConfigurationList')
       .then((res: any) => {
-        if (res.data && res.data.allAssets) {
+        if (res.data?.allAssets) {
           setAssetConfig(res.data.allAssets);
         } else {
           setAssetConfig([]);
