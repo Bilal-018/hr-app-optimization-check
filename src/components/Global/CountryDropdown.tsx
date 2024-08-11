@@ -72,7 +72,7 @@ export default function CountrySelect({
           }}
           {...params}
           variant='outlined'
-          placeholder={`${t('Select Country')}`}
+          placeholder={t('Select Country').toString()}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill

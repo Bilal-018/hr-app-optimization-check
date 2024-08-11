@@ -140,7 +140,7 @@ const Employee = ({ data, setData }: any) => {
         <Typography className='SmallBody'>{t('Comments')}</Typography>
         <TextField
           className='outlined'
-          placeholder={`${t('Enter comments')}`}
+          placeholder={t('Enter comments').toString()}
           fullWidth
           multiline
           rows={3}

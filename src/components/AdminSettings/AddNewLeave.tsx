@@ -142,7 +142,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
           <TextField
             variant='outlined'
             name='leaveType'
-            placeholder={`${t('Annual leave')}`}
+            placeholder={t('Annual leave').toString()}
             onChange={handleChange}
             value={leaveInfo.leaveType}
             error={errors.leaveType}
@@ -154,7 +154,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
           <TextField
             variant='outlined'
             name='daysEntitled'
-            placeholder={`${t('Enter days entitled')}`}
+            placeholder={t('Enter days entitled').toString()}
             onChange={handleChange}
             value={leaveInfo.daysEntitled}
             error={errors.daysEntitled}

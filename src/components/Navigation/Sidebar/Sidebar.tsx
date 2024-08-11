@@ -97,7 +97,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
   };
 
   const lineStyle: React.CSSProperties = {
-    display: `${theme.palette.mode === 'light' ? '': 'none'}`,
+    display: theme.palette.mode === 'light' ? '': 'none',
     border: '0.2px solid #EEEE',
     margin: '10px 0',
     width: '100%',

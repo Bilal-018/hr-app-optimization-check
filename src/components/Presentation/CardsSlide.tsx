@@ -65,7 +65,7 @@ function Card({ data, selectPresentation, selected }: any) {
               width: '90%',
               height: '90%',
               objectFit: 'cover',
-              border: `${data?.id === selected ? '5px solid #18A0FB' : ''}`,
+              border: data?.id === selected ? '5px solid #18A0FB' : '',
             }}
           />
         </Box>

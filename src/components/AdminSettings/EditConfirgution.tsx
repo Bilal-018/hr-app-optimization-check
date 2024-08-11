@@ -89,7 +89,7 @@ function AddNewDepartment({
           <TextField
             variant='outlined'
             name='department'
-            placeholder={`${t('Enter Department')}`}
+            placeholder={t('Enter Department').toString()}
             error={error.department}
             helperText={error.department && t('Please enter valid department')}
             onChange={handleChange}
@@ -126,7 +126,7 @@ function AddNewDepartment({
           <TextField
             variant='outlined'
             name='costCenter'
-            placeholder={`${t('Enter Cost centre')}`}
+            placeholder={t('Enter Cost centre').toString()}
             error={error.costCenter}
             helperText={error.costCenter && t('Please enter valid cost centre')}
             onChange={handleChange}

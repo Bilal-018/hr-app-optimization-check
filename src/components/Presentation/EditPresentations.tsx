@@ -156,7 +156,7 @@ function EditPresentations({ open, onClose, id, onSave, data }: any) {
 
             <TextField
               fullWidth
-              placeholder={`${t('Enter title')}`}
+              placeholder={t('Enter title').toString()}
               variant='outlined'
               sx={{
                 my: 2,
@@ -173,7 +173,7 @@ function EditPresentations({ open, onClose, id, onSave, data }: any) {
               multiline
               fullWidth
               rows={5}
-              placeholder={`${t('Enter Summary')}`}
+              placeholder={t('Enter Summary').toString()}
               variant='outlined'
               sx={{
                 mt: 2,

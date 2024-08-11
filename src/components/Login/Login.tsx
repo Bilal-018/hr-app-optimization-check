@@ -164,7 +164,7 @@ function Login({ setStep }: any) {
               </Typography>
               <SearchBar
                 variant='outlined'
-                placeholder={`${t('Enter your email address')}`}
+                placeholder={t('Enter your email address').toString()}
                 name='email'
                 onChange={(e) => captureLoginData(e)}
                 sx={{

@@ -149,7 +149,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='equipment'
-            placeholder={`${t('Enter equipment name')}`}
+            placeholder={t('Enter equipment name').toString()}
             value={data?.equipment}
           />
         </Grid>
@@ -165,7 +165,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='brand'
-            placeholder={`${t('Enter brand')}`}
+            placeholder={t('Enter brand').toString()}
             value={data?.brand}
           />
         </Grid>
@@ -181,7 +181,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='model'
-            placeholder={`${t('Enter model')}`}
+            placeholder={t('Enter model').toString()}
             value={data?.model}
           />
         </Grid>
@@ -197,7 +197,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             }}
             variant='outlined'
             name='registeration'
-            placeholder={`${t('Enter registeration or serial number')}`}
+            placeholder={t('Enter registeration or serial number').toString()}
             value={data?.registration}
           />
         </Grid>
@@ -223,7 +223,7 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
           <Typography fontSize={14} fontWeight={500}>{t('Comments')}</Typography>
           <TextField
             variant='outlined'
-            placeholder={`${t('Enter comments')}`}
+            placeholder={t('Enter comments').toString()}
             multiline
             rows={3}
             sx={{

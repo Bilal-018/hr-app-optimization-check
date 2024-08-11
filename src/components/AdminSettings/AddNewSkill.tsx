@@ -126,7 +126,7 @@ const AddNewSkill = ({
           <TextField
             variant='outlined'
             name='skill'
-            placeholder={`${t('Enter skill')}`}
+            placeholder={t('Enter skill').toString()}
             value={skillDetails.skill}
             onChange={handleChange}
             error={erros.skill}
@@ -138,10 +138,9 @@ const AddNewSkill = ({
           <Box mt={1}>
             <Select
               placeholder={t('Select skill type')}
-              value={`${skillTypes.find((item: SkillType) => {
+              value={skillTypes.find((item: SkillType) => {
                 return item?.skillType?.toLowerCase() === skillDetails?.skillType?.toLowerCase();
-              })?.skillType ?? ''
-                }`}
+              })?.skillType ?? ''}
               onChange={handleChange}
               name='skillType'
               variant='outlined'

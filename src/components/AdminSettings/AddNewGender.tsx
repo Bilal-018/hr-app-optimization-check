@@ -51,7 +51,7 @@ function AddNewGender({ open, handleClose, handleSave, value = '' }: Props) {
       <TextField
         variant='outlined'
         name='firstName'
-        placeholder={`${t('Enter gender')}`}
+        placeholder={t('Enter gender').toString()}
         value={gender}
         onChange={(e) => setGender(e.target.value)}
         error={error}

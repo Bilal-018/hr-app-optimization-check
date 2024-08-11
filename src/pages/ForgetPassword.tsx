@@ -34,7 +34,7 @@ const RenderComponent = ({ step, state, dispatch, error, ...props }: any) => {
           </Typography>
           <SearchBar
             variant='outlined'
-            placeholder={`${t('Enter your email address')}`}
+            placeholder={t('Enter your email address').toString()}
             name='email'
             value={state.email}
             sx={{
@@ -59,7 +59,7 @@ const RenderComponent = ({ step, state, dispatch, error, ...props }: any) => {
           </Typography>
           <SearchBar
             variant='outlined'
-            placeholder={`${t('Enter your token')}`}
+            placeholder={t('Enter your token').toString()}
             name='emailToken'
             sx={{
               width: '100%',
