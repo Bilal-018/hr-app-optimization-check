@@ -108,7 +108,7 @@ function Assets() {
         setLeaveConfig(res.data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         showMessage(err.message, 'error');
       });
   };
@@ -133,7 +133,7 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration updated successfully', 'success');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         showMessage(err.message, 'error');
       });
 
@@ -143,7 +143,7 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration created successfully', 'success');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         showMessage(err.message, 'error');
       });
 
@@ -155,7 +155,7 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration deleted successfully', 'success');
       })
-      .catch((err) => {
+      .catch((err: any) => {
         showMessage(err.message, 'error');
       });
 
