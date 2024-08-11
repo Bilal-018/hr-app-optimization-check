@@ -127,7 +127,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
           <TextField
             variant='outlined'
             name='equipment'
-            placeholder={t('Enter Equipment name')?.toString()}
+            placeholder={t('Enter Equipment name').toString()}
             onChange={handleChange}
             value={assetInfo.equipment}
             error={errors.equipment}
@@ -139,7 +139,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
           <TextField
             variant='outlined'
             name='brand'
-            placeholder={t('Enter Brand')?.toString()}
+            placeholder={t('Enter Brand').toString()}
             onChange={handleChange}
             value={assetInfo.brand}
             error={errors.brand}
