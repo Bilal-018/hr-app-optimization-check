@@ -48,7 +48,7 @@ jwtInterceoptor.interceptors.response.use(
         return axios(error.config);
       }
     } else {
-      return Promise.reject(error);
+      return Promise.reject(new Error('Error', { cause: error }));
     }
   }
 );
