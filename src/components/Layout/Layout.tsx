@@ -6,10 +6,12 @@ import { Box, useTheme } from '@mui/material';
 import { MENU_FULL_OPTIONS, MENU_NEW_USER } from '../../data';
 import jwtInterceoptor from '../../services/interceptors';
 import { LeaveManagementIcon, DashboardBackground } from '../../assets/images';
+import { useNavigate } from 'react-router-dom';
 
 const Layout: React.FC<any> = () => {
   const location = useLocation();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const barrerToken = sessionStorage.getItem('token_key');
   const allowedRoutes = [
@@ -21,7 +23,8 @@ const Layout: React.FC<any> = () => {
 
   if (!allowedRoutes.includes(location.pathname)) {
     if (!barrerToken) {
-      window.location.href = '/login'
+      navigate('/login')
+      // window.location.href = '/login'
       // 'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
     }
   }
