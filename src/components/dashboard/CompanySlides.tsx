@@ -17,7 +17,7 @@ interface Slide {
 // }
 
 const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
-const email = sessionStorage.getItem('email_key') || '';
+const email = sessionStorage.getItem('email_key') ?? '';
 
 export default function CompanySlides({ slides, setSlide }: any): JSX.Element {
   const getUrl = (item: Slide) => {
@@ -26,7 +26,7 @@ export default function CompanySlides({ slides, setSlide }: any): JSX.Element {
       'api/PresentationDetail/OpenPresentationDetailFile/' +
       item.companyDetailId +
       '/' +
-      (item.fileName?.split(',')[0] || '') +
+      (item.fileName?.split(',')[0] ?? '') +
       '?email=' +
       email
     );
