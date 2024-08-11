@@ -192,9 +192,7 @@ function ForgetPassword() {
       })
       .then((res) => {
         showMessage(res.message, 'success');
-        navigate( base_url + '/login', {
-          replace: true,
-        });
+        window.location.replace(base_url + '/login');
       });
   };
 

@@ -204,7 +204,7 @@ function Dashboard(): JSX.Element {
         GetCertificaionData();
         getLeavesDataFromAPI();
       } else {
-        navigate( base_url + '/login');
+        window.location.href = base_url + '/login';
       }
     }
   }, []);

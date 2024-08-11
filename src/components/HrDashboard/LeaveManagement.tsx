@@ -273,9 +273,7 @@ function EmployeeSkillsTable() {
       .then((response: any) => {
         if (response.status !== 200) {
           showMessage(response.statusText, 'error');
-          navigate(base_url + '/login', {
-            replace: true,
-          });
+          window.location.replace(base_url + '/login');
         }
         let rows: {
           employeeDetailId: number;

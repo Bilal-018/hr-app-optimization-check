@@ -823,9 +823,7 @@ function HRProfile({ modal = false }) {
         initialized.current = true;
         getProfileInfoData();
       } else {
-        navigate( base_url + '/login', {
-          replace: true,
-        });
+        window.location.replace(base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

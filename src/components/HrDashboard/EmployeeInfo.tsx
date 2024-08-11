@@ -329,7 +329,7 @@ function EmployeeSkillsTable() {
         GetContractsListData();
         GetGenderData();
       } else {
-        navigate( base_url + '/login');
+        window.location.href = base_url + '/login';
       }
     }
   }, []);
@@ -344,9 +344,7 @@ function EmployeeSkillsTable() {
       .then((response: any) => {
         if (response.status !== 200) {
           showMessage(response.statusText, 'error');
-          navigate( base_url + '/login', {
-            replace: true,
-          });
+          window.location.replace(base_url + '/login');
         }
 
         for (var x of response.data) {

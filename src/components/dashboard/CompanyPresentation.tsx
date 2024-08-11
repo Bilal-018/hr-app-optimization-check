@@ -29,7 +29,7 @@ function CompanyPresentation(): JSX.Element {
         initialized.current = true;
         getCompanyPresentationData();
       } else {
-        navigate( base_url + '/login');
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

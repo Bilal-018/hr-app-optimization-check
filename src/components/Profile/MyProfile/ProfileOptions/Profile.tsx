@@ -974,9 +974,7 @@ function Profile({ modal = false }) {
         initialized.current = true;
         getProfilePrivateData();
       } else {
-        navigate(base_url + '/login', {
-          replace: true,
-        });
+        window.location.replace(base_url + '/login');
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
