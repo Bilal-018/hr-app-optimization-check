@@ -72,7 +72,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
   });
 
   useEffect(() => {
-    if (leave) {
+    if (leave !== undefined) {
       setLeaveInfo(leave);
     } else {
       setLeaveInfo(initialState);
@@ -93,7 +93,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
 
   const onSave = () => {
     const errors: ValidationErrors = validate(leaveInfo);
-    if (Object.values(errors)?.some((item: any) => item === true)) {
+    if (Object.values(errors).some((item: any) => item)) {
       setErrors(errors);
       return;
     }
@@ -131,7 +131,7 @@ const AddNewLeave = ({ open, handleClose, handleSave, leave }: AddNewLeaveProps)
 
   return (
     <BaseModal
-      title={leave ? 'Admin - Update leave' : 'Admin - New leave'}
+      title={leave !== undefined ? 'Admin - Update leave' : 'Admin - New leave'}
       handleClose={() => { handleClose(); setLeaveInfo(initialState); setErrors({ leaveType: false, daysEntitled: false, genderRestriction: false, }); }}
       onSave={onSave}
       open={open}

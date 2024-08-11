@@ -59,7 +59,7 @@ function GetImage({ presentation, isModalOpen = false, styles = {} }: any) {
 
   // const content = FileTypeIcons[fileType.toLowerCase()] || {};
   const content =
-    FileTypeIcons[fileType.toLowerCase() as keyof typeof FileTypeIcons] || {};
+    FileTypeIcons[fileType.toLowerCase() as keyof typeof FileTypeIcons];
 
   return (
     <>
@@ -71,8 +71,8 @@ function GetImage({ presentation, isModalOpen = false, styles = {} }: any) {
           spacing={2}
           height={'100%'}
         >
-          {content?.icon}
-          <Typography variant='h5'>{content?.title}</Typography>
+          {content.icon}
+          <Typography variant='h5'>{content.title}</Typography>
         </Stack>
       ) : fileType.toLowerCase() == "ppt" || fileType.toLowerCase() == "pptx" ? (
         <iframe

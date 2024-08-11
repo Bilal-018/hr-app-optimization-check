@@ -78,7 +78,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
       const { date, country, holidayName } = bankHolidayInfo;
 
       const errors = validate(bankHolidayInfo);
-      if (Object.values(errors)?.some((item) => item)) {
+      if (Object.values(errors).some((item) => item)) {
         setErrors(errors);
         return;
       }

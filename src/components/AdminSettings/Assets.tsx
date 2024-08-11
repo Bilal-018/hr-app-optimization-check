@@ -261,9 +261,9 @@ const Assets: React.FC = () => {
             item.registration != null &&
               item.registration != '' &&
               item.registration != 'string'
-              ? dayjs(item?.registration).format('DD/MM/YYYY')
+              ? dayjs(item.registration).format('DD/MM/YYYY')
               : '',
-            dayjs(item?.expiryDate).format('DD/MM/YYYY'),
+            dayjs(item.expiryDate).format('DD/MM/YYYY'),
             item.assetConfigurationId,
             onEdit,
             onDelete

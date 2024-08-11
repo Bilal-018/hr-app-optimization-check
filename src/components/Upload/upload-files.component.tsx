@@ -131,7 +131,7 @@ export default class UploadFiles extends Component<
     const { t } = this.props;
     return (
       <div>
-        {progressInfos?.map((progressInfo, index) => (
+        {progressInfos.map((progressInfo, index) => (
             <div className="mb-2" key={index}>
               <span>{progressInfo.fileName}</span>
               {/* <div className="progress">

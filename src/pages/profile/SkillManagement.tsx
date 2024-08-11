@@ -85,14 +85,14 @@ function SkillsManagement() {
       <Box sx={styles.statsContainer}>
         <StatBox
           title={t('Total of skills registered')}
-          value={skillKPIs?.totalSkillRegistered}
+          value={skillKPIs.totalSkillRegistered}
           icon={<Award />}
           color='#18A0FB'
           hideProgress={true}
         />
         <StatBox
           title={t('Certificates pending renewal')}
-          value={skillKPIs?.renewalPending}
+          value={skillKPIs.renewalPending}
           icon={<RightArrow />}
           color='#E01C63'
           hideProgress={true}
@@ -106,7 +106,7 @@ function SkillsManagement() {
         /> */}
         <StatBox
           title={t('New skills register')}
-          value={skillKPIs?.newSkillRegistered}
+          value={skillKPIs.newSkillRegistered}
           icon={<Tick />}
           color='#9DB604'
           hideProgress={true}

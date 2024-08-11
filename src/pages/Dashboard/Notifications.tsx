@@ -115,7 +115,7 @@ const Leaves: React.FC<LeavesProps> = (props) => {
 
   return (
     <>
-      {reversedNotifications?.filter(item => item.options.length > 0).map((item) => (
+      {reversedNotifications.filter(item => item.options.length > 0).map((item) => (
         <Box key={item.id}>
           <Typography fontSize={12}>{t(item.name)}</Typography>
           <Box mb='30px'>

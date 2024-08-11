@@ -24,8 +24,9 @@ function HRProfileInfo() {
   const base_url = process.env.REACT_APP_BASE_URL;
 
   const handleProfilePicUpload = () => {
-    profileInputRef.current &&
+    if (profileInputRef.current) {
       (profileInputRef.current as HTMLInputElement).click();
+    }
   };
 
   const handleProfilePicChange = async (event: any) => {

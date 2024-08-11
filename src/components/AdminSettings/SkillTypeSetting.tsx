@@ -45,7 +45,7 @@ function SkillTypeSetting(skillTypeData: any) {
       const { skillType } = skillTypeInfo;
 
       const errors = validate(skillTypeInfo);
-      if (Object.values(errors)?.some((item) => item)) {
+      if (Object.values(errors).some((item) => item)) {
         setErrors(errors);
         return;
       }

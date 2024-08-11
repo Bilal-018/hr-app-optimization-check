@@ -37,7 +37,7 @@ const BarChart: React.FC<Props> = ({ leaves, isMonthlyLeaves }) => {
       return Number(item?.value);
     });
 
-    const ctx = chartRef?.current?.getContext('2d');
+    const ctx = chartRef.current?.getContext('2d');
 
     if (!ctx) return;
 

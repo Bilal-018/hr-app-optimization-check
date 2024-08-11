@@ -37,7 +37,7 @@ function AddNewDepartment({
   title,
 }: Props) {
   const [newDepartment, setNewDepartment] = useState<DepartmentState>(
-    department?.department ? department : initialState
+    department.department ? department : initialState
   );
   const [error, setError] = useState<{
     department: boolean;
@@ -48,7 +48,7 @@ function AddNewDepartment({
   });
 
   useEffect(() => {
-    if (!department?.department) return;
+    if (!department.department) return;
     setNewDepartment(department);
   }, [department]);
 

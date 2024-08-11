@@ -141,7 +141,7 @@ function EmployeeSkillsTable() {
             <Typography fontSize='Small'>{t('First Name')}</Typography>
             <TextField
               variant='outlined'
-              placeholder={t('Enter First Name') ?? ''}
+              placeholder={t('Enter First Name').toString()}
             />
           </Grid>
           {/* Add more Grid items as needed */}

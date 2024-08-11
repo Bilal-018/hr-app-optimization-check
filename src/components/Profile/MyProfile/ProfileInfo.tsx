@@ -21,8 +21,9 @@ function ProfileInfo() {
   const { t } = useTranslation();
 
   const handleProfilePicUpload = () => {
-    profileInputRef.current &&
+    if (profileInputRef.current) {
       (profileInputRef.current as HTMLInputElement).click();
+    }
   };
 
   const handleProfilePicChange = async (event: any) => {

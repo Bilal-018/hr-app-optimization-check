@@ -126,7 +126,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
   const profilePictures = scheduleData.map((employee: any) => employee.employeeProfilePicture);
 
   const handleSave = () => {
-    if (selectedStatus === null || selectedStatus === '') {
+    if (selectedStatus === null) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         leaveStatus: true,

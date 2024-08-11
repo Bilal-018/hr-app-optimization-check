@@ -93,7 +93,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
 
   const onSave = () => {
     const errors = validate(assetInfo);
-    if (Object.values(errors)?.some((item: any) => item === true)) {
+    if (Object.values(errors).some((item: any) => item)) {
       setErrors(errors);
       return;
     }
@@ -179,7 +179,7 @@ const AddNewAsset: React.FC<AddNewAssetProps> = ({
             <DatePicker
               name='expiryDate'
               defaultValue={assetInfo.expiryDate}
-              value={dayjs(assetInfo?.expiryDate)}
+              value={dayjs(assetInfo.expiryDate)}
               format='DD/MM/YYYY'
               onChange={(newValue: any) => {
                 if (newValue instanceof Date) {
