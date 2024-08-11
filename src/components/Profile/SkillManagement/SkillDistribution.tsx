@@ -19,12 +19,13 @@ function SkillDistribution({ open, setOpen, handelUserClick, state }: any) {
   const [pictures, setPictures] = useState<any>(state);
   const { t }: any = useTranslation();
   const email = sessionStorage.getItem('email_key');
-
+  const noop = () => { /* do nothing */ };
+  
   return (
     <BaseModal
       open={open}
       handleClose={() => setOpen(false)}
-      onSave={() => {}}
+      onSave={noop}
       title='Skills Management - Detail view'
       showSaveButton={false}
     >

@@ -11,11 +11,12 @@ export const useLoader = () => {
 
 export const ProgressLoader = ({ loading }: any) => {
   const { t } = useTranslation();
-
+  const noop = () => { /* do nothing */ };
+  
   return (
     <BaseModal
       open={loading}
-      handleClose={() => {}}
+      handleClose={noop}
       title={t('Please wait...')}
       showSaveButton={false}
       isCloseIcon={false}

@@ -1,7 +1,9 @@
 import { Avatar, AvatarGroup } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
-function AvatarGroupBy({ images, onClick = () => {} }: any) {
+const noop = () => { /* do nothing */ };
+
+function AvatarGroupBy({ images, onClick = noop }: any) {
   const [base64Images, setBase64Images] = useState<any>([]);
 
   useEffect(() => {

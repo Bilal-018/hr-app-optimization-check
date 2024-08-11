@@ -7,15 +7,17 @@ import { useTranslation } from 'react-i18next';
 import { useSnackbar } from './WithSnackbar';
 import Drop from '../../assets/images/Drop';
 
+const noop = () => { /* do nothing */ };
+
 function DragAndDrop({
   edit = true,
   type = '.pdf, .doc, .docx, .ppt, .pptx, .mp4, .mp3',
-  onChangeFile = () => { },
+  onChangeFile = noop,
   sx = {},
   allowMultiple = false,
   error = false,
   defaultFileName,
-  setFilesName = () => { },
+  setFilesName = noop,
   fileAdded = true
 }: any) {
   const inputRef: any = useRef();

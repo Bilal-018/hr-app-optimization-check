@@ -1,11 +1,13 @@
 import { Box, alpha } from '@mui/material';
 import React from 'react';
 
+const noop = () => { /* do nothing */ };
+
 function CircularIcon({
   icon,
   color,
   sx = {},
-  onClick = () => {},
+  onClick = noop,
   opacity = 0.1,
 }: any) {
   return (

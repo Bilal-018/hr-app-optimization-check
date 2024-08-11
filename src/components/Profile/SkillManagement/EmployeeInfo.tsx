@@ -113,7 +113,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
 
         setUserInfo(response.data);
       })
-      .catch((err: any) => { });
+      .catch((err: any) => { console.log("error is: ", err) });
   };
 
   let pictureURI =

@@ -20,11 +20,13 @@ interface UserOptionProps {
   onClick?: () => void;
 }
 
+const noop = () => { /* do nothing */ };
+
 function UserOption({
   name,
   icon,
   options,
-  onClick = () => { },
+  onClick = noop,
 }: UserOptionProps) {
   const [showOptions, setShowOptions] = useState(false);
   const { t } = useTranslation();

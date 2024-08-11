@@ -5,14 +5,15 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { t } from 'i18next';
 import { alpha } from "@mui/material/styles";
 
+const noop = () => { /* do nothing */ };
+
 function EditAndSave({
   edit,
   setEdit,
-  onSave = () => { },
-  onUpdate = () => { },
-  onCancel = () => { },
+  onSave = noop,
+  onUpdate = noop,
+  onCancel = noop,
   showConfirm = true,
-  isManagerOrAdmin,
   modal = false,
   title = '',
   fileAdded = false,

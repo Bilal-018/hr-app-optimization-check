@@ -108,6 +108,7 @@ function ServerDay(props: ServerDayProps): JSX.Element {
   const toDayHighlight = highlightedDays.find(
     (highlightedDay) => dayjs(day).date() === highlightedDay.day
   );
+  const noop = () => { /* do nothing */ };
 
   return (
     <Badge
@@ -123,7 +124,7 @@ function ServerDay(props: ServerDayProps): JSX.Element {
         {...other}
         outsideCurrentMonth={outsideCurrentMonth}
         day={day}
-        onDaySelect={() => { }}
+        onDaySelect={noop}
         isFirstVisibleCell={false}
         isLastVisibleCell={false}
         sx={{

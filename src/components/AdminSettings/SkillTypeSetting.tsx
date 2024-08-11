@@ -112,7 +112,7 @@ function SkillTypeSetting(skillTypeData: any) {
         setSkillConfig(res.data);
         setLoading(false);
       })
-      .catch((err: any) => { });
+      .catch((err: any) => { console.log("error is: ", err) });
   };
 
   const addOrUpdateSkillType = async (
