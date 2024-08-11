@@ -162,7 +162,7 @@ const AddNewSkill = ({
             <Select
               value={`${skillAchievementList.find((item: any) => {
                 return item.skillAchievementId === skillDetails.achievementScore;
-              })?.description || ''}${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score ? ` - ${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score}` : ''}`}
+              })?.description ?? ''}${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score ? ` - ${skillAchievementList.find((item: any) => item.skillAchievementId === skillDetails.achievementScore)?.score}` : ''}`}
               onChange={handleChange}
               name='achievementScore'
               variant='outlined'
