@@ -8,7 +8,7 @@ import UserInfo from './UserInfo/UserInfo';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation } from 'react-router-dom';
 import { themeContext } from '../../../theme';
-import grey from '../../../assets/images/grey.png';
+import { themeTypes } from '../../../theme';
 // import Bell from '../../../assets/images/bell.svg';
 // import Bell_Active from '../../../assets/images/bell_active.svg';
 
@@ -45,10 +45,10 @@ function Topbar({ favs, refetchFavs }: TopbarProps) {
   const { pathname } = useLocation();
 
   interface ThemeContextValue {
-    myTheme: any;
+    myTheme: typeof themeTypes.default;
     changeTheme: (themeTo: string) => void;
   }
-
+  
   const { myTheme } = useContext(themeContext) as ThemeContextValue;
   // const [notification, setNotification] = useState<any>(false);
 
