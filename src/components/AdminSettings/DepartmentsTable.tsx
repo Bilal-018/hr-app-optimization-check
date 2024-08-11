@@ -24,7 +24,8 @@ function createData2(
     Action: <CellAction onEdit={onEdit} onDelete={onDelete} id={id} />,
   };
 }
-function CellAction({ onEdit = () => { }, onDelete = () => { }, id }: any) {
+const noop = () => { /* do nothing */ };
+function CellAction({ onEdit = () => noop, onDelete = () => noop, id }: any) {
   return (
     <Box className='action-icon-rounded'>
       <Button
