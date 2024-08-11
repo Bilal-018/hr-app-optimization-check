@@ -208,7 +208,7 @@ function FirstTimeLogin({ setStep }: any) {
               width: '80%',
               mt: 4,
             }}
-            onClick={async () => { await updateNewPassword(); }}
+            onClick={() => { updateNewPassword().then(() => {}); }}
           >
             {t('Reset Password')}
           </Button>
