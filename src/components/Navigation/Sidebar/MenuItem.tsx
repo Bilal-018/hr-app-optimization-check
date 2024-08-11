@@ -226,7 +226,7 @@ function MenuItem(props: any): JSX.Element {
               : {
                 filter: disable
                   ? 'brightness(100%) invert(100%) grayscale(100%)'
-                  : (myTheme.name !== 'default' && isHovered !== true) ?
+                  : (myTheme.name !== 'default' && !isHovered) ?
                     pathname != route &&
                     'brightness(0%) invert(100%)' : pathname === route && 'brightness(0%) invert(100%)',
               }),
