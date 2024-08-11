@@ -23,9 +23,9 @@ const Layout: React.FC<any> = () => {
 
   if (!allowedRoutes.includes(location.pathname)) {
     if (!barrerToken) {
-      window.location.href = '/login'
+      window.location.href =
       // 'https://kind-rock-0f8a1f603.5.azurestaticapps.net/login';
-      '/login'
+      encodeURI('/login')
     }
   }
   const bearerToken = sessionStorage.getItem('token_key');
