@@ -108,12 +108,8 @@ function Assets() {
         setLeaveConfig(res.data);
         setLoading(false);
       })
-      .catch((err: unknown) => {
-        if (typeof err === 'object' && err !== null) {
-          showMessage(err.toString(), 'error');
-        } else {
-          showMessage(String(err), 'error');
-        }
+      .catch((err) => {
+        showMessage(err.message, 'error');
       });
   };
 
@@ -137,12 +133,8 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration updated successfully', 'success');
       })
-      .catch((err: unknown) => {
-        if (typeof err === 'object' && err !== null) {
-          showMessage(err.toString(), 'error');
-        } else {
-          showMessage(String(err), 'error');
-        }
+      .catch((err) => {
+        showMessage(err.message, 'error');
       });
 
   const createMewLeaveConfig = async (data: any) =>
@@ -151,12 +143,8 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration created successfully', 'success');
       })
-      .catch((err: unknown) => {
-        if (typeof err === 'object' && err !== null) {
-          showMessage(err.toString(), 'error');
-        } else {
-          showMessage(String(err), 'error');
-        }
+      .catch((err) => {
+        showMessage(err.message, 'error');
       });
 
   const deleteLeaveConfig = async (id: any) =>
@@ -167,12 +155,8 @@ function Assets() {
       .then((res) => {
         showMessage('Leave configuration deleted successfully', 'success');
       })
-      .catch((err: unknown) => {
-        if (typeof err === 'object' && err !== null) {
-          showMessage(err.toString(), 'error');
-        } else {
-          showMessage(String(err), 'error');
-        }
+      .catch((err) => {
+        showMessage(err.message, 'error');
       });
 
   const onDeleteConfirm = async () => {
