@@ -11,6 +11,7 @@ import {
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { themeContext } from '../../../../theme';
+import { themeTypes } from '../../../../theme';
 
 interface UserOptionProps {
   name: string;
@@ -27,7 +28,13 @@ function UserOption({
 }: UserOptionProps) {
   const [showOptions, setShowOptions] = useState(false);
   const { t } = useTranslation();
-  const { myTheme, changeTheme } = useContext(themeContext) as any;
+
+  interface ThemeContextValue {
+    myTheme: typeof themeTypes.default;
+    changeTheme: (themeTo: string) => void;
+  }
+
+  const { myTheme, changeTheme } = useContext(themeContext) as ThemeContextValue;
   console.log('myTheme: ', myTheme);
 
   const theme = useTheme();

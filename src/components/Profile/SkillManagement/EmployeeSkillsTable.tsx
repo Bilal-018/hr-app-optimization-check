@@ -5,23 +5,19 @@ import React, {
   useEffect,
   useRef,
   useReducer,
-  useContext,
 } from "react";
 import EnhancedTable from "../../Global/Table";
 import { CircularChip, RoundedChip } from "../../Global/Chips";
 import {
   Box,
-  Button,
   CircularProgress,
   Grid,
   MenuItem,
   ToggleButton,
   Typography,
-  alpha,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 // import DeleteIcon from '@mui/icons-material/Delete';
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BaseModal from "../../Global/Modal";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -34,14 +30,11 @@ import { useSnackbar } from "../../Global/WithSnackbar";
 import { useTranslation } from "react-i18next";
 import Select from "../../Global/Select";
 import Attachment from "../../../assets/images/Attachment";
-import { themeContext } from "../../../theme";
 import CalendarIcon from "../../Icon/CalenderIcon";
 import FileIcon from "../../Icon/FileIcon";
 import EditIcon from "../../Icon/EditIcon";
 import BinIcon from "../../Icon/BinIcon";
 import dayjs from "dayjs";
-import { Row } from "rsuite";
-import { error } from "console";
 
 const headCells = [
   {
@@ -132,7 +125,6 @@ function LayeredSkill({ skill, type, t }: any) {
 }
 
 function CellAction({ onEdit, onDelete }: any) {
-  const { myTheme } = useContext(themeContext) as any;
   return (
     <Box className="action-icon-rounded">
       <Box onClick={onEdit}>

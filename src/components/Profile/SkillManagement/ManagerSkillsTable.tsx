@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useEffect, useRef, useContext, useReducer } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import EnhancedTable from '../../Global/Table';
 import { CircularChip } from '../../Global/Chips';
-import { Box, Typography, Grid, MenuItem, ToggleButton } from '@mui/material';
-import { DistributionColor } from '../../../data';
+import { Box, Typography } from '@mui/material';
 import AvatarGroupBy from '../../Global/AvatarGroupBy';
 import EmployeeInfo from './EmployeeInfo';
 import { useNavigate } from 'react-router-dom';
@@ -11,14 +10,6 @@ import jwtInterceptor from '../../../services/interceptors';
 import { useSnackbar } from '../../Global/WithSnackbar';
 import { useTranslation } from 'react-i18next';
 import SkillDistribution from './SkillDistribution';
-import { themeContext } from '../../../theme';
-import BaseModal from '../../Global/Modal';
-import Select from '../../Global/Select';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import DragAndDrop from '../../Global/DragAndDrop';
-import CalendarIcon from '../../Icon/CalenderIcon';
-import FileIcon from '../../Icon/FileIcon';
 import BinIcon from '../../Icon/BinIcon';
 
 const headCells = [
@@ -124,7 +115,6 @@ const SkillsDistribution = ({ skills, onClick }: any) => {
 };
 
 function CellAction({ onEdit, onDelete }: any) {
-  const { myTheme } = useContext(themeContext) as any;
   return (
     <Box className='action-icon-rounded'>
       <Box onClick={onDelete}>
