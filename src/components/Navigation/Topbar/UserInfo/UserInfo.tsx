@@ -228,7 +228,7 @@ function UserInfo(): JSX.Element {
           icon={USER_OPTIONS[3].icon}
           name={USER_OPTIONS[3].name}
           options={USER_OPTIONS[3].options}
-          onClick={onLogout}
+          onClick={() => void onLogout()}
         />
       </Popover>
     </Box>

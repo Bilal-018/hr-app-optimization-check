@@ -163,7 +163,7 @@ function HRProfileInfo() {
                   type='file'
                   style={{ display: 'none' }}
                   ref={profileInputRef}
-                  onChange={handleProfilePicChange}
+                  onChange={() => void handleProfilePicChange}
                   // only accept image files
                   accept='image/*'
                 />
