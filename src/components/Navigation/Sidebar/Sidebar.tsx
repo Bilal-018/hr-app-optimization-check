@@ -72,7 +72,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
       if (bearerToken) {
         initialized.current = true;
       } else {
-        window.location.href = escape(base_url + '/login');
+        window.location.href = base_url + '/login';
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
