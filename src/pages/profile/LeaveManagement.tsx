@@ -45,7 +45,7 @@ function LeaveManagement() {
     let url = 'api/EmployeeLeave/GetLeaveDashboard?EmployeeDetailId=' + empId;
     let response = await profileService.GetLeavesListDataRequest(
       url,
-      bearerToken || ''
+      bearerToken ?? ''
     );
     setTopCountsState({
       totalApprovedLeaves: response.totalApprovedLeaves,
