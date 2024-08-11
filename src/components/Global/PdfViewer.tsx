@@ -82,7 +82,7 @@ export default function PDFViewer(props: any) {
                     </Button>
                     <Button
                         onClick={goToNextPage}
-                        disabled={pageNumber >= numPages!}
+                        disabled={pageNumber >= numPages}
                         size="small"
                         sx={{
                             // height: 'calc(100% - 64px)',
