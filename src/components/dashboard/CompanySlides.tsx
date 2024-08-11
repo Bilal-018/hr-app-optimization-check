@@ -38,7 +38,7 @@ export default function CompanySlides({ slides, setSlide }: any): JSX.Element {
       'api/PresentationDetail/OpenPresentationDetailFile/' +
       item.companyDetailId +
       '/' +
-      (item.fileName?.split(',')[0] || '') +
+      (item.fileName?.split(',')[0] ?? '') +
       '?email=' +
       email;
     window.open(url, '_blank');
