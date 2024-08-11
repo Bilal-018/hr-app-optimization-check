@@ -45,7 +45,7 @@ const BarChart: React.FC<Props> = ({ leaves, isMonthlyLeaves }) => {
       chartInstance?.destroy();
     }
 
-    const newChartInstance = new Chart(ctx, {
+    const newChartInstance: Chart<"bar"> = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: months,
