@@ -116,7 +116,7 @@ function EmployeeSkillsTable() {
           return { ...prevState, employeeDetailId: action.value };
         case 'leaveType':
           return { ...prevState, leaveTypeId: action.value };
-        case 'startDate':
+        case 'startDate': {
           let sDate =
             action.value.$y +
             '-' +
@@ -124,7 +124,8 @@ function EmployeeSkillsTable() {
             '-' +
             ('0' + action.value.$D).slice(-2);
           return { ...prevState, startDate: sDate };
-        case 'endDate':
+        }
+        case 'endDate': {
           let eDate =
             action.value.$y +
             '-' +
@@ -132,6 +133,7 @@ function EmployeeSkillsTable() {
             '-' +
             ('0' + action.value.$D).slice(-2);
           return { ...prevState, endDate: eDate };
+        }
         case 'halfDay':
           return {
             ...prevState,
@@ -271,7 +273,7 @@ function EmployeeSkillsTable() {
       .then((response: any) => {
         if (response.status !== 200) {
           showMessage(response.statusText, 'error');
-          navigate( base_url + '/login', {
+          navigate(base_url + '/login', {
             replace: true,
           });
         }
