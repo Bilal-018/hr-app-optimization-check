@@ -148,7 +148,7 @@ const Assets: React.FC = () => {
     open: false,
     id: null,
   });
-  const getAssetConfig = async () => {
+  const getAssetConfig = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/HrAsset/GetAllAssetConfigurationList')
@@ -161,7 +161,7 @@ const Assets: React.FC = () => {
       });
   };
 
-  const updateAssetConfig = async (data: any) => {
+  const updateAssetConfig = (data: any) => {
     setLoading(true);
 
     jwtInterceoptor
@@ -175,7 +175,7 @@ const Assets: React.FC = () => {
       });
   };
 
-  const createNewAssetConfig = async (data: any) => {
+  const createNewAssetConfig = (data: any) => {
     setLoading(true);
     jwtInterceoptor
       .post('api/HrAsset/CreateAssetConfiguration', data)
@@ -226,11 +226,11 @@ const Assets: React.FC = () => {
     deleteLeaveConfig(deleteModal.id);
   };
 
-  const onSave = async (data: any) => {
+  const onSave = (data: any) => {
     if (data.assetConfigurationId) {
-      await updateAssetConfig(data);
+      updateAssetConfig(data);
     } else {
-      await createNewAssetConfig(data);
+      createNewAssetConfig(data);
     }
 
     getAssetConfig();
