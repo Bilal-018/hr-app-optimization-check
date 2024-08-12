@@ -137,7 +137,7 @@ function LeaveRequest({ open, onClose, onSave }: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const GetLeavesConfigurationData = async () => {
+  const GetLeavesConfigurationData = () => {
     let url =
       'api/EmployeeLeave/GetLeaveTypeListByGenderRestriction?EmployeeDetailId=' +
       empId;

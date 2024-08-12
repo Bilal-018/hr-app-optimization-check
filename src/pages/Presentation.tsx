@@ -359,7 +359,7 @@ function Presentation() {
     setEdit({ edit: true, id: '' });
   };
 
-  const getPresentations = async () => {
+  const getPresentations = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/PresentationDetail/GetAllPresentationDetail')

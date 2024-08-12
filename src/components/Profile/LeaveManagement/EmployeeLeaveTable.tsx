@@ -76,7 +76,7 @@ function EmployeeLeaveTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const GetLeavesListData = async () => {
+  const GetLeavesListData = () => {
     setLoading(true);
     let url = 'api/EmployeeLeave/GetLeaveDashboard?EmployeeDetailId=' + empId;
     jwtLeave

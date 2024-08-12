@@ -201,7 +201,7 @@ const DateCalendarServerRequest: React.FC = () => {
     }
   }, [language]);
 
-  const getMyLeavesData = async () => {
+  const getMyLeavesData = () => {
     setIsLoading(true);
     jwtInterceptor
       .get(

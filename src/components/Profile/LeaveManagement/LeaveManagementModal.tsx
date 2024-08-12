@@ -34,7 +34,7 @@ const Employee = ({ data, setData }: any) => {
   const { showMessage }: any = useSnackbar();
 
   const { t } = useTranslation();
-  const GetLeavesConfigurationData = async () => {
+  const GetLeavesConfigurationData = () => {
     let url = 'api/LeaveConfiguration/GetAllLeaveConfiguration';
     jwtLeave
       .get(url)

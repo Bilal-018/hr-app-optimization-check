@@ -87,7 +87,7 @@ function NotificationsPanel() {
   const navigate = useNavigate();
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const GetEmployeeNotifications = async () => {
+  const GetEmployeeNotifications = () => {
     setLoading(true);
 
     jwtInterceptor

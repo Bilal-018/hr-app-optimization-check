@@ -26,7 +26,7 @@ function ProfileInfo() {
     }
   };
 
-  const handleProfilePicChange = async (event: any) => {
+  const handleProfilePicChange = (event: any) => {
     if (event.target.files?.[0]) {
       setProfilePic(URL.createObjectURL(event.target.files[0]));
       const formDataFiles = new FormData();
@@ -42,7 +42,7 @@ function ProfileInfo() {
   const email = sessionStorage.getItem('email_key');
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const getProfileData = async () => {
+  const getProfileData = () => {
     jwtInterceptor
       .get('api/Employee/GetProfileTopSectionDetials?id=' + empId)
       .then((response: any) => {
@@ -67,7 +67,7 @@ function ProfileInfo() {
   //     });
   // };
 
-  const uploadProfilePictureData = async (formDataFiles: any) => {
+  const uploadProfilePictureData = (formDataFiles: any) => {
     let url = 'api/Employee/UploadProfileImage?EmployeeDetailId=' + empId;
     /* let response = await profileService.uploadDocumentsDataRequest(
       url,

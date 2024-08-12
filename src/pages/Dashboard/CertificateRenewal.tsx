@@ -75,7 +75,7 @@ const RenewalCertificate: React.FC = () => {
   const [weekCertificateRenewal, setWeekcertificateRenewal] = useState<any>([]);
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const getCertificateRenewalDetails = async () => {
+  const getCertificateRenewalDetails = () => {
     jwtInterceptor
       .get(
         'api/EmployeeSkill/GetSkillRenewalDashboardByEmployeeDetailId?EmployeeDetailId=' +

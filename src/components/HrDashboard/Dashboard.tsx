@@ -93,7 +93,7 @@ function Dashboard(): JSX.Element {
   const navigate: any = useNavigate();
   const { t }: any = useTranslation();
 
-  const GetHRKPIsData = async (): Promise<void> => {
+  const GetHRKPIsData = () => {
     jwtInterceptor
       .get('api/HrDashboard/GetHrDashboard')
       .then((response: any) => {
@@ -138,7 +138,7 @@ function Dashboard(): JSX.Element {
       });
   };
 
-  const GetTopSkills = async (): Promise<void> => {
+  const GetTopSkills = () => {
     const url = `${API_URL}/api/HrDashboard/GetHrDashboardTopSkillsv2`
     jwtInterceptor
       .get(url)

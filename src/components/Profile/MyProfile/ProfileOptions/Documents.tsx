@@ -90,7 +90,7 @@ const DocumentIcon: any = {
   File: <FileIcon />,
 };
 
-const handleDownload = async (id: any, filename: any, bearerToken: any) => {
+const handleDownload = (id: any, filename: any, bearerToken: any) => {
   let url = API_URL + 'EmployeeDocuments/DownloadDocument/' + id;
   console.log(url);
   fetch(url, {

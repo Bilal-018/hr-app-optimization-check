@@ -78,7 +78,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onFavCreate = async (fav: FavItem) => {
+  const onFavCreate = (fav: FavItem) => {
     let url = 'api/FavouriteLink/AddToFavourite';
     jwtInterceptor.post(url, fav).then((response: { data: any }) => {
       console.log('response: ', response);
@@ -88,7 +88,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
     });
   };
 
-  const onFavDelete = async (favId: string) => {
+  const onFavDelete = (favId: string) => {
     let url = 'api/FavouriteLink/RemoveFromFavourite?FavouriteLinkId=' + favId;
     jwtInterceptor.post(url).then((response: { data: any }) => {
       showMessage(response.data, 'success');

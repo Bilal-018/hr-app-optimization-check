@@ -124,7 +124,7 @@ function EmployeeSkillsTable() {
     id: null,
   });
 
-  const getAssetConfig = async () => {
+  const getAssetConfig = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/HrAsset/GetAllAssetConfigurationList')
@@ -141,7 +141,7 @@ function EmployeeSkillsTable() {
       });
   };
 
-  const updateAssetConfig = async (data: any) => {
+  const updateAssetConfig = (data: any) => {
     setLoading(true);
 
     jwtInterceoptor
@@ -155,7 +155,7 @@ function EmployeeSkillsTable() {
       });
   };
 
-  const createNewAssetConfig = async (data: any) => {
+  const createNewAssetConfig = (data: any) => {
     setLoading(true);
     jwtInterceoptor
       .post('api/HrAsset/CreateAssetConfiguration', data)
@@ -206,9 +206,9 @@ function EmployeeSkillsTable() {
 
   const onSave = async (data: any) => {
     if (data.assetConfigurationId) {
-      await updateAssetConfig(data);
+      updateAssetConfig(data);
     } else {
-      await createNewAssetConfig(data);
+      createNewAssetConfig(data);
     }
 
     getAssetConfig();

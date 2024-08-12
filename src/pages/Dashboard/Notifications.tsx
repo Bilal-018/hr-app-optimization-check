@@ -55,7 +55,7 @@ const Leaves: React.FC<LeavesProps> = (props) => {
       </Box>
     );
   }
-  const getNotificationData = async (leaveDetailId: number) => {
+  const getNotificationData = (leaveDetailId: number) => {
     if (!loadingModalData) {
       setLoadingModalData(true);
     }
@@ -77,19 +77,19 @@ const Leaves: React.FC<LeavesProps> = (props) => {
       .finally(() => setLoadingModalData(false));
   }
 
-  const handleEmployNotification = async (leaveDetailId: number) => {
+  const handleEmployNotification = (leaveDetailId: number) => {
     getNotificationData(leaveDetailId);
     setOpen(true)
   };
 
-  const handleManagerNotification = async (leaveDetailId: number) => {
+  const handleManagerNotification = (leaveDetailId: number) => {
     // setOpen(true) 
     getNotificationData(leaveDetailId);
 
     setIsLeaveManagementModalOpen(true)
   };
 
-  const approveOrReject = async (
+  const approveOrReject = (
     status: any,
     leaveId: any,
     managerComment1: any

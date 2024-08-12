@@ -32,7 +32,7 @@ const Layout: React.FC<any> = () => {
   const empId = sessionStorage.getItem('empId_key');
 
   const [favs, setFavs] = useState<any>([]);
-  const getFavsData = async () => {
+  const getFavsData = () => {
     jwtInterceoptor
       .get(
         'api/FavouriteLink/GetFavouriteLinksByEmployeedetaiLId?EmployeeDetailId=' +

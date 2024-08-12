@@ -223,7 +223,7 @@ export function DateCalendarServerRequest(): JSX.Element {
     }
   }, [bearerToken, language, navigate]);
 
-  const getMyLeavesData = useCallback(async () => {
+  const getMyLeavesData = useCallback(() => {
     setIsLoading(true);
     jwtInterceptor
       .get(

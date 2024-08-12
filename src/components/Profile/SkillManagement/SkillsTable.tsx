@@ -55,7 +55,7 @@ function SkillsTable() {
   const { showMessage }: any = useSnackbar();
   const [experts, setallExpertsListDataState] = useState<any>([]);
 
-  const GetSkillsExpertsConfigurationListData = async () => {
+  const GetSkillsExpertsConfigurationListData = () => {
     jwtInterceoptor
       .get('api/SkillConfiguration/GetSkillExpertiseList')
       .then((response: any) => {

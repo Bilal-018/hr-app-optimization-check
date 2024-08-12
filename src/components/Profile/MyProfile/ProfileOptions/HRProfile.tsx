@@ -22,7 +22,7 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
 
   const { t }: any = useTranslation();
 
-  const GetContractsListData = async () => {
+  const GetContractsListData = () => {
     let url = 'api/ContractTypeMasters/GetAllContractType';
     let contracts = [];
     jwtInterceptor.get(url).then((response: any) => {

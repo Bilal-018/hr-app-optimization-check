@@ -183,7 +183,7 @@ function Dashboard() {
   const { t } = useTranslation();
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const getSkillInfos = async () => {
+  const getSkillInfos = () => {
     jwtInterceptor
       .get('api/HrDashboard/GetHrDashboardTopSkills')
       .then((response: any) => {
@@ -208,7 +208,7 @@ function Dashboard() {
       });
   };
 
-  const getDashboardDetails = async () => {
+  const getDashboardDetails = () => {
     jwtInterceptor
       .get(
         'api/Dashboard/GetDashboardByEmployeeDetailId?EmployeeDetailId=' + empId

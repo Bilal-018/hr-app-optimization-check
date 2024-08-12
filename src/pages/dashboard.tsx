@@ -74,7 +74,7 @@ function Dashboard() {
   const containerColor = myTheme.name === 'dark' ? 'transparent' : '#F5F5F5';
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const GetdashboardKPIData = async () => {
+  const GetdashboardKPIData = () => {
     jwtInterceptor
       .get(
         'api/Dashboard/GetDashboardByEmployeeDetailId?EmployeeDetailId=' + empId

@@ -102,7 +102,7 @@ function SkillTypeSetting(skillTypeData: any) {
     getSkillTypeConfig();
   }, []);
 
-  const getSkillTypeConfig = async () => {
+  const getSkillTypeConfig = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/SkillConfiguration/GetAllSkillTypeDetailList')
@@ -154,7 +154,7 @@ function SkillTypeSetting(skillTypeData: any) {
           });
       }
 
-      await getSkillTypeConfig();
+      getSkillTypeConfig();
     } catch (error) {
       console.error('Error saving Skill Type:', error);
     } finally {

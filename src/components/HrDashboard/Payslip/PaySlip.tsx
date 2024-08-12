@@ -112,12 +112,12 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
 
   // const tblRows: TableDataRow[] = [];
 
-  const handleShare = async () => {
+  const handleShare = () => {
     //handle share function code here
     console.log('inside the handleshare function');
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     if (selectedPayslip) {
       const url = ''; // Add your edit API URL here
       const payload = {
@@ -134,7 +134,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (selectedPayslip) {
       const url = `api/Payslip/DeletePayslip?id=${selectedPayslip}`;
       jwtInterceptor.delete(url).then(() => {
@@ -144,7 +144,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     }
   };
 
-  const handleFaultDelete = async () => {
+  const handleFaultDelete = () => {
     if (selectedPayslip) {
       const url = `api/Payslip/DeletefaultPayslip?id=${selectedPayslip}`;
       jwtInterceptor.delete(url).then(() => {
@@ -286,7 +286,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     );
   }
 
-  const fetchPayloads = async () => {
+  const fetchPayloads = () => {
     let url = 'api/Payslip/GetPayslips';
     setLoading(true);
 

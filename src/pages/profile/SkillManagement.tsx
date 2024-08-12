@@ -39,7 +39,7 @@ function SkillsManagement() {
   const empId = sessionStorage.getItem('empId_key');
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const getData = async () => {
+  const getData = () => {
     setLoading(true);
 
     jwtInterceptor

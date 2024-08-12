@@ -87,7 +87,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
   const { t } = useTranslation();
   const email = sessionStorage.getItem('email_key');
 
-  const GetInfo: any = async (id: any, skillId: any) => {
+  const GetInfo: any = (id: any, skillId: any) => {
     jwtInterceoptor
       .get(
         'api/SkillManager/GetSkillByEmployeeDetailId?EmployeeDetailId=' +

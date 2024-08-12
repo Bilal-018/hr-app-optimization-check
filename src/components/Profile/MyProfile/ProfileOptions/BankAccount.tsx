@@ -89,7 +89,7 @@ function BankAccount({ modal = false }) {
     }
   };
 
-  const getAttachmentBank = async (action: string) => {
+  const getAttachmentBank = (action: string) => {
     jwtInterceptor
       .get('api/EmployeeBankDetail/DownloadBankAttachment?EmployeeDetailId=' + empId, { responseType: "blob" })
       .then((response: any) => {
@@ -121,7 +121,7 @@ function BankAccount({ modal = false }) {
       .finally(() => setLoading(false));
   }
 
-  const getBanAccountData = async () => {
+  const getBanAccountData = () => {
     jwtInterceptor
       .get('api/EmployeeBankDetail/GetBankDetails?EmployeeDetailId=' + empId)
       .then((response: any) => {
@@ -136,7 +136,7 @@ function BankAccount({ modal = false }) {
   };
   //
 
-  const updateBanAccountData = async () => {
+  const updateBanAccountData = () => {
     const formData = new FormData();
     console.log(mybankDetails);
     formData.append('file', file);

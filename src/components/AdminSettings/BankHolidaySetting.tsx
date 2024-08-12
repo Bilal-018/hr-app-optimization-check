@@ -154,7 +154,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
     getBankHolidayConfig();
   }, []);
 
-  const getBankHolidayConfig = async () => {
+  const getBankHolidayConfig = () => {
     setLoading(true);
     jwtInterceoptor
       .get('api/PublicHoliday/GetAllPublicHolidays')
@@ -211,7 +211,7 @@ const BankHolidaySetting: React.FC = (bankHoliday: any) => {
           });
       }
 
-      await getBankHolidayConfig();
+      getBankHolidayConfig();
     } catch (error) {
       console.error('Error saving bank holiday:', error);
     } finally {

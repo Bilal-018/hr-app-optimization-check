@@ -44,7 +44,7 @@ export default function BasicPopover({
   const bearerToken: string | null = sessionStorage.getItem('token_key');
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const onFavDelete = async () => {
+  const onFavDelete = () => {
     let url =
       'api/FavouriteLink/RemoveFromFavourite?FavouriteLinkId=' + deleteFav.id;
     jwtInterceptor.post(url).then((response: { data: any }) => {

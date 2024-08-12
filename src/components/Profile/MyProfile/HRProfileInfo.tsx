@@ -29,7 +29,7 @@ function HRProfileInfo() {
     }
   };
 
-  const handleProfilePicChange = async (event: any) => {
+  const handleProfilePicChange = (event: any) => {
     if (event.target.files?.[0]) {
       setProfilePic(URL.createObjectURL(event.target.files[0]));
       const formDataFiles = new FormData();
@@ -43,7 +43,7 @@ function HRProfileInfo() {
   const bearerToken = sessionStorage.getItem('token_key');
   const empId = sessionStorage.getItem('employee_id_key');
 
-  const getProfileData = async () => {
+  const getProfileData = () => {
     jwtInterceptor
       .get('api/Employee/GetProfileTopSectionDetials?id=' + empId)
       .then((response: any) => {
@@ -54,7 +54,7 @@ function HRProfileInfo() {
       });
   };
 
-  const uploadProfilePictureData = async (formDataFiles: any) => {
+  const uploadProfilePictureData = (formDataFiles: any) => {
     let url = 'api/Employee/UploadProfileImage?EmployeeDetailId=' + empId;
 
     jwtInterceptor.post(url, formDataFiles).then((response: any) => {

@@ -74,7 +74,7 @@ function LeaveManagementModal1({
     }
   };
 
-  const getLeaveDetail = async () => {
+  const getLeaveDetail = () => {
     let url =
       `api/EmployeeLeave/GetLeaveDetailById?leaveDetailId=` + leaveDetailId;
     jwtLeave

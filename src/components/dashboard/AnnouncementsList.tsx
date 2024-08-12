@@ -236,7 +236,7 @@ function AnnouncementsList(): JSX.Element {
           setAddEditModal(false);
           setSelected(null);
         }}
-        onSave={async () => {
+        onSave={() => {
           if (!selected || !selected.title || !selected.expiryDate || !selected.description) {
             showMessage('Please fill in all required fields', 'error');
             return;

@@ -66,7 +66,7 @@ function LeaveHistory({ handleClose, open, leaveData }: any) {
   const bearerToken = sessionStorage.getItem('token_key');
   const empId = sessionStorage.getItem('empId_key');
 
-  const GetLeavesHistoryListData = async () => {
+  const GetLeavesHistoryListData = () => {
     setLoading(true);
     let url =
       'api/EmployeeLeave/GetEmployeeLeaveListByLeaveType?EmployeeDetailId=' +

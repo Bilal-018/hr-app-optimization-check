@@ -44,7 +44,7 @@ function DashboardAnnouncement() {
   //   setModalOpen(false);
   // };
 
-  const getAnnouncementData = async () => {
+  const getAnnouncementData = () => {
     jwtInterceptor
       .get('api/Anouncement/GetActiveAnnouncement')
       .then((response: any) => {

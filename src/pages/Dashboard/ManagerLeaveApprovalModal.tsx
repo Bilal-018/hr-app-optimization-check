@@ -165,7 +165,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
     },
   ];
 
-  const getProfileData = async () => {
+  const getProfileData = () => {
     jwtInterceoptor
       .get('api/Employee/GetProfileTopSectionDetials?id=' + leaveDetails.employeeDetailId)
       .then((response: any) => {

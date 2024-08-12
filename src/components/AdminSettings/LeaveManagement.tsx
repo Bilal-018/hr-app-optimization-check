@@ -100,7 +100,7 @@ function Assets() {
     id: null,
   });
 
-  const getLeaveConfig = async () => {
+  const getLeaveConfig = () => {
     setLoading(true);
     jwtLeave
       .get('api/LeaveConfiguration/GetAllLeaveConfiguration')

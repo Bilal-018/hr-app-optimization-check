@@ -151,7 +151,7 @@ function ManagerLeaveTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const GetLeavesListData = async () => {
+  const GetLeavesListData = () => {
     setLoading(true);
     let url = 'api/LeaveManager/GetLeaveListByManagerId?LineManagerId=' + empId;
 

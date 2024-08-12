@@ -155,7 +155,7 @@ const NewAssetModal: React.FC<any> = ({
     });
   };
 
-  const getAssetsListData = async () => {
+  const getAssetsListData = () => {
     setLoading(true);
     let url =
       'api/HrAsset/GetAssetListByEmployeeId?EmployeeDetailId=' + selectedId;

@@ -233,7 +233,7 @@ function EmployeeSkillsTable() {
     deleteEmployeeLeave();
   }
 
-  const deleteEmployeeLeave = async () => {
+  const deleteEmployeeLeave = () => {
     let url = 'api/HrLeave/DeleteEmployeeLeaveDetail?leaveDetailId=' + leaveId;
     jwtLeave
       .delete(url)
@@ -247,7 +247,7 @@ function EmployeeSkillsTable() {
       .finally(() => setLoading(false));
   };
 
-  const GetLeavesConfigurationData = async () => {
+  const GetLeavesConfigurationData = () => {
     let url = 'api/LeaveConfiguration/GetAllLeaveConfiguration';
     jwtLeave
       .get(url)
@@ -265,7 +265,7 @@ function EmployeeSkillsTable() {
         showMessage(err.message, 'error');
       });
   };
-  const GetEmployeeListData = async () => {
+  const GetEmployeeListData = () => {
     setLoading(true);
 
     jwtInterceptor
