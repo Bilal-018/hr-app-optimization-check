@@ -188,7 +188,7 @@ const Assets: React.FC = () => {
       });
   };
 
-  const deleteLeaveConfig = async (id: any) => {
+  const deleteLeaveConfig = (id: any) => {
     setLoading(true);
 
     jwtInterceoptor
@@ -199,7 +199,14 @@ const Assets: React.FC = () => {
       })
       .catch((err: any) => {
         showMessage(err.message, 'error');
-      });
+      })
+      .finally(() => {
+        getAssetConfig();
+        setDeleteModal({
+          open: false,
+          id: null,
+        });
+      })
   };
 
   const onEdit = (id: number) => {
@@ -215,13 +222,8 @@ const Assets: React.FC = () => {
       id: id,
     });
   };
-  const onDeleteConfirm = async () => {
-    await deleteLeaveConfig(deleteModal.id);
-    getAssetConfig();
-    setDeleteModal({
-      open: false,
-      id: null,
-    });
+  const onDeleteConfirm = () => {
+    deleteLeaveConfig(deleteModal.id);
   };
 
   const onSave = async (data: any) => {
