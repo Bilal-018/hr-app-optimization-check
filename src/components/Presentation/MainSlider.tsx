@@ -76,7 +76,7 @@ export default function MainSlider({ slides, currentSlide }: any) {
         title='Presentation - Preview'
         open={isModalOpen}
         showSaveButton={false}
-        handleClose={() => setIsModalOpen(false)}>
+        handleClose={() => { setIsModalOpen(false) }}>
         <Box
           sx={{
             // maxWidth: "700px",

@@ -20,7 +20,7 @@ function LanguageHeader() {
           paddingRight: '10px',
           cursor: 'pointer',
         }}
-        onClick={() => changeLanguage('en')}
+        onClick={() => { changeLanguage('en') }}
       >
         ENG
       </Typography>
@@ -29,7 +29,7 @@ function LanguageHeader() {
         sx={{
           cursor: 'pointer',
         }}
-        onClick={() => changeLanguage('fr')}
+        onClick={() => { changeLanguage('fr') }}
       >
         FR
       </Typography>

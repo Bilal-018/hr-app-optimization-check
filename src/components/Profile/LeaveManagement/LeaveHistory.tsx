@@ -101,7 +101,7 @@ function LeaveHistory({ handleClose, open, leaveData }: any) {
       .catch((err) => {
         showMessage(err.message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   useEffect(() => {

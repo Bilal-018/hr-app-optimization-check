@@ -21,8 +21,8 @@ const RenderMenu: React.FC<RenderMenuProps> = ({ isMobile, children }) => {
   const [open, setOpen] = useState(false);
   return isMobile ? (
     <>
-      <MenuIcon onClick={() => setOpen(true)} />
-      <Drawer anchor='right' open={open} onClose={() => setOpen(false)}>
+      <MenuIcon onClick={() => { setOpen(true) }} />
+      <Drawer anchor='right' open={open} onClose={() => { setOpen(false) }}>
         <Stack direction={'column'} sx={{ height: '100%', p: 2 }}>
           {children}
         </Stack>

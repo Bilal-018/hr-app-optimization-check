@@ -53,7 +53,7 @@ function AddNewGender({ open, handleClose, handleSave, value = '' }: Props) {
         name='firstName'
         placeholder={t('Enter gender').toString()}
         value={gender}
-        onChange={(e) => setGender(e.target.value)}
+        onChange={(e) => { setGender(e.target.value) }}
         error={error}
         helperText={error ? 'Please enter a valid gender' : ''}
         sx={{

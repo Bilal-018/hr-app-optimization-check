@@ -114,7 +114,7 @@ function EmployeeSkillsTable() {
       'PDF',
       '09 Sep, 2021',
       'Shahab Bukhari',
-      <CellAction onDelete={() => setDeleteOpen((pre: any) => !pre)} />
+      <CellAction onDelete={() => { setDeleteOpen((pre: any) => !pre) }} />
     ),
     // Add more rows as needed
   ];
@@ -127,12 +127,12 @@ function EmployeeSkillsTable() {
         head={headCells}
         rows={rows}
         isAddable={true}
-        onAddClick={() => setOpen((pre: boolean) => !pre)}
+        onAddClick={() => { setOpen((pre: boolean) => !pre) }}
         title='Employees information'
       />
       <BaseModal
         open={open}
-        handleClose={() => setOpen((pre: boolean) => !pre)}
+        handleClose={() => { setOpen((pre: boolean) => !pre) }}
         title='Upload new document'
         onSave={undefined}
       >
@@ -149,8 +149,8 @@ function EmployeeSkillsTable() {
       </BaseModal>
       <DeleteModal
         open={deleteOpen}
-        onCancel={() => setDeleteOpen((pre: boolean) => !pre)}
-        onConfirm={() => setDeleteOpen((pre: boolean) => !pre)}
+        onCancel={() => { setDeleteOpen((pre: boolean) => !pre) }}
+        onConfirm={() => { setDeleteOpen((pre: boolean) => !pre) }}
         title={'Delete Employee Document'}
         message={'Are you sure you want to delete this document?'}
       />

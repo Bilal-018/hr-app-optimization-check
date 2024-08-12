@@ -61,7 +61,7 @@ function SkillDistribution({ open, setOpen, handelUserClick, state }: any) {
                     : {}),
                 }}
                 //value={state?.achievedScore}
-                onClick={() => setRange(i)}
+                onClick={() => { setRange(i) }}
               >
                 {i}
               </Typography>

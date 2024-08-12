@@ -118,7 +118,7 @@ function NotificationsPanel() {
         setLeaveNotifications(<Leaves NOTIFICATIONS={allLeaves} />);
         setPayslipsNotifications(<Leaves NOTIFICATIONS={allPayslips} />);
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   useEffect(() => {

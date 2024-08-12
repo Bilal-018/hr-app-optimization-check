@@ -166,7 +166,7 @@ function Login({ setStep }: any) {
                 variant='outlined'
                 placeholder={t('Enter your email address').toString()}
                 name='email'
-                onChange={(e) => captureLoginData(e)}
+                onChange={(e) => { captureLoginData(e) }}
                 sx={{
                   width: '100%',
                   maxWidth: '100%',
@@ -187,7 +187,7 @@ function Login({ setStep }: any) {
                 {t('Password')}
               </Typography>
               <PasswordField
-                onChange={(e: any) => captureLoginData(e)}
+                onChange={(e: any) => { captureLoginData(e) }}
                 placeholder={t('Enter your Password')}
                 name='password'
                 onKeyPress={(e: any) => {
@@ -204,7 +204,7 @@ function Login({ setStep }: any) {
                 mt={1}
                 mr={2}
                 sx={{ cursor: 'pointer' }}
-                onClick={() => navigate('/forget-password')}
+                onClick={() => { navigate('/forget-password') }}
               >
                 {t('Forgot Password ?')}
               </Typography>

@@ -156,7 +156,7 @@ export default function BasicPopover({
               </Box>
             </Link>
             <IconButton
-              onClick={() => setDeleteFav({ open: true, id: option.id })}
+              onClick={() => { setDeleteFav({ open: true, id: option.id }) }}
             >
               <DeleteOutlineIcon />
             </IconButton>
@@ -179,8 +179,8 @@ export default function BasicPopover({
       <DeleteModal
         message={'Are you sure you want to delete this favorite?'}
         title={'Delete Favorite'}
-        onCancel={() => setDeleteFav({ open: false, id: null })}
-        onConfirm={() => onFavConfirmationDelete()}
+        onCancel={() => { setDeleteFav({ open: false, id: null }) }}
+        onConfirm={() => { onFavConfirmationDelete() }}
         open={deleteFav.open}
       />
     </div>

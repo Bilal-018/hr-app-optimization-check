@@ -158,7 +158,7 @@ function HRProfileInfo() {
                   color='#092C4C'
                   sx={{ width: '25px', height: '25px' }}
                   opacity={0.2}
-                  onClick={() => setShowModal(true)}
+                  onClick={() => { setShowModal(true) }}
                 />
                 <input
                   type='file'
@@ -174,7 +174,7 @@ function HRProfileInfo() {
             {showModal && (
               <BaseModal
                 open={showModal}
-                handleClose={() => setShowModal(false)}
+                handleClose={() => { setShowModal(false) }}
                 title='Profile - Picture'
                 showSaveButton={false}
               >

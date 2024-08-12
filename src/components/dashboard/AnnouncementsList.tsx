@@ -130,8 +130,8 @@ function AnnouncementsList(): JSX.Element {
               <Typography sx={{ fontSize: 14 }}>{row.isVisibleToUser ? t('Yes') : t('No')}</Typography>
             </Stack>,
             <CellAction
-              onEdit={() => onEdit(row)}
-              onDelete={() => onDelete(row)}
+              onEdit={() => { onEdit(row) }}
+              onDelete={() => { onDelete(row) }}
             />
           )
         );

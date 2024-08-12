@@ -72,7 +72,7 @@ const DepartmentsTable: React.FC = () => {
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   useEffect(() => {

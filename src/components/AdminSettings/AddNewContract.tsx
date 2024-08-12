@@ -53,7 +53,7 @@ function AddNewContract({ open, handleClose, handleSave, value = '' }: Props) {
         name='firstName'
         placeholder={t('Enter contract type').toString()}
         value={contractName}
-        onChange={(e) => setContractName(e.target.value)}
+        onChange={(e) => { setContractName(e.target.value) }}
         error={error}
         helperText={error ? 'Please enter a valid contract type' : ''}
         sx={{

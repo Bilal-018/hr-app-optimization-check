@@ -272,12 +272,12 @@ const Assets: React.FC = () => {
           )
         )}
         isAddable={true}
-        onAddClick={() =>
+        onAddClick={() => {
           setOpen({
             open: true,
             id: null,
           })
-        }
+        }}
         title='Asset Configuration'
         loading={loading}
       />

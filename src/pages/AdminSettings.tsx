@@ -115,7 +115,7 @@ function AdminSettingsOptions() {
                   },
                 },
               })}
-              onClick={() => setActiveMenu(option.name)}
+              onClick={() => { setActiveMenu(option.name) }}
             >
               <option.icon style={{width: 20}}/>
 

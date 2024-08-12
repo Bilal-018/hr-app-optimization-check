@@ -71,14 +71,14 @@ function UploadSection({ state, setState, title }: any) {
                   sx={{
                     background: 'white',
                   }}
-                  onDelete={() => handleDelete(index)}
+                  onDelete={() => { handleDelete(index) }}
                   label={item.name}
                   key={index}
                 />
               );
             })}
         </Box>
-        <IconButton color='primary' onClick={() => setOpenUpload(true)}>
+        <IconButton color='primary' onClick={() => { setOpenUpload(true) }}>
           {/* <CloudUploadIcon /> */}
           <Upload />
         </IconButton>
@@ -97,7 +97,7 @@ function UploadSection({ state, setState, title }: any) {
                 <ArticleIcon />
               </IconButton>
               <Typography className='smallBodyBold'>{item.name}</Typography>
-              <IconButton onClick={() => handleDelete(index)}>
+              <IconButton onClick={() => { handleDelete(index) }}>
                 <CloseIcon />
               </IconButton>
             </Stack>
@@ -108,7 +108,7 @@ function UploadSection({ state, setState, title }: any) {
         open={openUpload}
         showSaveButton
         title={`Upload New ${title}`}
-        handleClose={() => setOpenUpload(false)}
+        handleClose={() => { setOpenUpload(false) }}
         onSave={() => {
           setState([...state, ...tempFiles]);
           setOpenUpload(false);

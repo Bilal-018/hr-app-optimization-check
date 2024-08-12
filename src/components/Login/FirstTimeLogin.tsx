@@ -173,7 +173,7 @@ function FirstTimeLogin({ setStep }: any) {
               </Typography>
               <PasswordField
                 name='oldPassword'
-                onChange={(e: any) => captureLoginData(e)}
+                onChange={(e: any) => { captureLoginData(e) }}
                 placeholder={t('Enter your old Password')}
               />
               {errorHelperText(t(errors.oldPassword.message))}

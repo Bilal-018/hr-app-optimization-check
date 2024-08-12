@@ -50,7 +50,7 @@ function SkillsManagement() {
       .catch((err: any) => {
         showMessage(err.message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
 
     //const data = await service.GetSkillListDataRequest();
     //console.log(data);

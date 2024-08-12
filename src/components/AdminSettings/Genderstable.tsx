@@ -98,7 +98,7 @@ const Genderstable: React.FC = () => {
       .catch((err: any) => {
         showMessage(err.response.data.Message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   const addNewGender = (gender: any) => {

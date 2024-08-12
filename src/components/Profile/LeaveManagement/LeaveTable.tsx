@@ -53,7 +53,7 @@ function LeaveTable() {
 
               ...(subMenu === 'Employee' && SelectCatStyle(theme)),
             })}
-            onClick={() => setSubMenu('Employee')}
+            onClick={() => { setSubMenu('Employee') }}
           >
             <PersonIcon />
             <Typography className='smallBody'>{t('Employee')}</Typography>
@@ -66,7 +66,7 @@ function LeaveTable() {
 
               ...(subMenu === 'Manager' && SelectCatStyle(theme)),
             })}
-            onClick={() => setSubMenu('Manager')}
+            onClick={() => { setSubMenu('Manager') }}
           >
             <PeopleIcon />
             <Typography className='smallBody'>{t('Manager')}</Typography>

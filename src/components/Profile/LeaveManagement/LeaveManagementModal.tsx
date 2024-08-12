@@ -132,7 +132,7 @@ const Employee = ({ data, setData }: any) => {
 
           <AvatarGroupBy
             images={dummyImages}
-            onClick={(i: any) => console.log(i)}
+            onClick={(i: any) => { console.log(i) }}
           />
         </Stack>
       </Grid>

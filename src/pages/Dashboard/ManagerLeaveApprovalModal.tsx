@@ -384,7 +384,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
                           <Checkbox
                             color='error'
                             checked={selectedStatus === 'Rejected'}
-                            onChange={() => handleStatusChange('Rejected')}
+                            onChange={() => { handleStatusChange('Rejected') }}
                           />
                         }
                       />
@@ -395,7 +395,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
                           <Checkbox
                             color='success'
                             checked={selectedStatus === 'Approved'}
-                            onChange={() => handleStatusChange('Approved')}
+                            onChange={() => { handleStatusChange('Approved') }}
                           />
                         }
                       />

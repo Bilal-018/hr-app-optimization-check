@@ -123,8 +123,8 @@ function MenuItem(props: any): JSX.Element {
                   : theme.palette.background.default,
             },
           })}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={() => { setIsHovered(true) }}
+          onMouseLeave={() => { setIsHovered(false) }}
         >
           <Typography variant='body1'
             className='child-text'

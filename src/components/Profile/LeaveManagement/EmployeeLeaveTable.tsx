@@ -107,7 +107,7 @@ function EmployeeLeaveTable() {
               <Link
                 to={''}
                 color='#18A0FB !important'
-                onClick={() => onHistory(eId)}
+                onClick={() => { onHistory(eId) }}
                 style={{
                   textDecoration: 'underline',
                   color: '#18A0FB !important',
@@ -129,7 +129,7 @@ function EmployeeLeaveTable() {
       .catch((err) => {
         showMessage(err.message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   function onHistory(eId: any) {

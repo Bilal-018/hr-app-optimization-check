@@ -118,7 +118,7 @@ export default function PDFViewer(props: any) {
                             renderAnnotationLayer={false}
                             renderTextLayer={false}
                             onLoadSuccess={onPageLoadSuccess}
-                            onRenderError={() => setLoading(false)}
+                            onRenderError={() => { setLoading(false) }}
                         />
                     </Document>
                 </Box>

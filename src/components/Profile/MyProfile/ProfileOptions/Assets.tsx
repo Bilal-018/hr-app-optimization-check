@@ -259,7 +259,7 @@ function Assets({ modal = false }) {
           }
           setAssetState(tblRows);
         })
-        .finally(() => setLoading(false));
+        .finally(() => { setLoading(false) });
     }
   };
 

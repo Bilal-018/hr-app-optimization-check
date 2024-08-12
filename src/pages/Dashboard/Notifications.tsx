@@ -74,7 +74,7 @@ const Leaves: React.FC<LeavesProps> = (props) => {
         console.error('Error fetching leave detail:', error);
         throw error;
       })
-      .finally(() => setLoadingModalData(false));
+      .finally(() => { setLoadingModalData(false) });
   }
 
   const handleEmployNotification = (leaveDetailId: number) => {

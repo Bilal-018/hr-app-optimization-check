@@ -240,7 +240,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
                   color: '#18A0FB',
                 }),
               }}
-              onClick={() => setSubMenu('success')}
+              onClick={() => { setSubMenu('success') }}
             >
               <Typography className='smallBody'>{t('Success')}</Typography>
               {subMenu === 'success' && (
@@ -266,7 +266,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
                   color: '#18A0FB',
                 }),
               })}
-              onClick={() => setSubMenu('failed')}
+              onClick={() => { setSubMenu('failed') }}
             >
               <Typography className='smallBody'>{t('Failed')}</Typography>
               {subMenu === 'failed' && (

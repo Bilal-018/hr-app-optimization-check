@@ -187,12 +187,12 @@ function EditPresentations({ open, onClose, id, onSave, data }: any) {
             <UploadSection
               title='Attachments'
               state={presentationData.presentations ?? []}
-              setState={(data: any) =>
+              setState={(data: any) => {
                 setPresentationData((pre: any) => ({
                   ...pre,
                   presentations: data,
                 }))
-              }
+              }}
             />
             <Stack
               direction='row'

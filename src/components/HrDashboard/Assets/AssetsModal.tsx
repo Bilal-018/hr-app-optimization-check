@@ -211,9 +211,9 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
             <ActiveSwitch
               checked={active}
               inputProps={{ 'aria-label': 'ant design' }}
-              onClick={() =>
+              onClick={() => {
                 setActive(!active)
-              }
+              }}
               onChange={handleSwitchChange}
             />
             <Typography color='primary'>{t('Active')}</Typography>

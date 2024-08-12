@@ -102,7 +102,7 @@ export default function LanguageSelector({
             value={language}
             selected={language === selectedLanguage}
             key={language}
-            onClick={() => changeLanguage(language)}
+            onClick={() => { changeLanguage(language) }}
           >
             {language}
           </MenuItem>

@@ -244,7 +244,7 @@ function EmployeeSkillsTable() {
       .catch((err) => {
         showMessage(err.message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   const GetLeavesConfigurationData = () => {

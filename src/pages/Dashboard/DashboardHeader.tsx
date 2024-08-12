@@ -180,7 +180,7 @@ const DashboardHeader: React.FC = () => {
               color: '#fff !important',
             }}
             style={{ fontSize: '0.7rem' }}
-            onClick={() => navigate('/presentations')}
+            onClick={() => { navigate('/presentations') }}
           >
             {t('Read More')}
           </Button>

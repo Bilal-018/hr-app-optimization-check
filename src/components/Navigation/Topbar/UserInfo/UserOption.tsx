@@ -63,7 +63,7 @@ function UserOption({
         <img src={icon} alt='' />
         <Typography
           variant='body1'
-          onClick={() => setShowOptions((prev) => !prev)}
+          onClick={() => { setShowOptions((prev) => !prev) }}
         >
           {t(name)}
         </Typography>
@@ -85,7 +85,7 @@ function UserOption({
                   }
                   label={String(option[0]).toUpperCase() + option.slice(1)}
                   sx={{ m: 0, '& .MuiFormControlLabel-label': { fontSize: '14px' } }}
-                  onClick={() => changeTheme(option)}
+                  onClick={() => { changeTheme(option) }}
                 />
               ))
           ) : (
@@ -98,7 +98,7 @@ function UserOption({
                   }
                   label={option === 'dark' ? `${String(option[0]).toUpperCase() + option.slice(1)} mode` : String(option[0]).toUpperCase() + option.slice(1)}
                   sx={{ m: 0, '& .MuiFormControlLabel-label': { fontSize: '14px' } }}
-                  onClick={() => changeTheme(option)}
+                  onClick={() => { changeTheme(option) }}
                 />
               ))
           )

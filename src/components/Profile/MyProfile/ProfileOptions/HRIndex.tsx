@@ -109,7 +109,7 @@ function ProfileOptions() {
                   },
                 },
               })}
-              onClick={() => setActiveMenu(option.name)}
+              onClick={() => { setActiveMenu(option.name) }}
             >
               <img
                 src={option.icon}

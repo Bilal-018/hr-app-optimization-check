@@ -114,7 +114,7 @@ export const deletePayslip = async (url: any) => {
   }
 };
 export const downloadPayslip = async (url: any) => {
-  return await axios({
+  await axios({
     url: API_URL, //your url
     method: 'GET',
     responseType: 'blob', // important

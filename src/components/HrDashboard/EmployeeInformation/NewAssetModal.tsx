@@ -103,12 +103,12 @@ function Status({ item, handleChange }: StatusProps) {
       <Checkbox
         checked={isAssetAssigned}
         color={'success'}
-        onChange={(e) => handleCheckboxChange(true)}
+        onChange={(e) => { handleCheckboxChange(true) }}
       />
       <Checkbox
         checked={!isAssetAssigned}
         color={'warning'}
-        onChange={(e) => handleCheckboxChange(false)}
+        onChange={(e) => { handleCheckboxChange(false) }}
       />
     </Stack>
   );
@@ -180,7 +180,7 @@ const NewAssetModal: React.FC<any> = ({
         setAssetData(tblRows);
         setAssignAssets(response.data);
       })
-      .finally(() => setLoading(false));
+      .finally(() => { setLoading(false) });
   };
 
   useEffect(() => {
