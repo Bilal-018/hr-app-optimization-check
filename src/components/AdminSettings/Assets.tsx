@@ -215,12 +215,13 @@ const Assets: React.FC = () => {
       id: id,
     });
   };
-  const onDeleteConfirm = async () => {
-    await deleteLeaveConfig(deleteModal.id);
-    getAssetConfig();
-    setDeleteModal({
-      open: false,
-      id: null,
+  const onDeleteConfirm = () => {
+    deleteLeaveConfig(deleteModal.id).then(() => {
+      getAssetConfig();
+      setDeleteModal({
+        open: false,
+        id: null,
+      });
     });
   };
 
