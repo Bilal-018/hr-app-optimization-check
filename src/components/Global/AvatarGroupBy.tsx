@@ -36,7 +36,7 @@ function AvatarGroupBy({ images, onClick = noop }: any) {
         console.error(error);
       }
     };
-    loadImages();
+    void loadImages();
   }, [images]);
 
   return (
