@@ -71,7 +71,7 @@ function Assets({ modal = false }) {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        GetAssetsListData();
+        void GetAssetsListData();
       } else {
         window.location.href = base_url + '/login';
       }

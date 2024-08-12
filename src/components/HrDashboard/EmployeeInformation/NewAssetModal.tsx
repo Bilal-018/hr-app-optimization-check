@@ -193,7 +193,7 @@ const NewAssetModal: React.FC<any> = ({
   }, [open, initialized.current]);
 
   const save = () => {
-    assignAssetsToEmployee();
+    void assignAssetsToEmployee();
   };
 
   const close = () => {

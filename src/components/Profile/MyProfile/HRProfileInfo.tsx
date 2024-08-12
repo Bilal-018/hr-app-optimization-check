@@ -92,7 +92,7 @@ function HRProfileInfo() {
       if (bearerToken) {
         initialized.current = true;
         getProfileData();
-        getProfilePicture();
+        void getProfilePicture();
       } else {
         window.location.href = base_url + '/login';
       }

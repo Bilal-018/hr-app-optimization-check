@@ -266,7 +266,7 @@ function LeaveManagementModal1({
 
   useEffect(() => {
     if (leaveDetail.employeeDetailId) {
-      getConflictData();
+      void getConflictData();
       getProfileData();
       setComments(leaveDetail.managerComment);
     }

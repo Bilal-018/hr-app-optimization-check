@@ -9,7 +9,7 @@ function Authentication() {
   const searchParams = window.location.search.slice(1);
   const urlSearchParams: any = new URLSearchParams(searchParams);
   const token = atob(urlSearchParams.get('t'));
-  authenticateToken(token, navigate);
+  void authenticateToken(token, navigate);
 
   return (
     <>

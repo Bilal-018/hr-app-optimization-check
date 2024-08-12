@@ -115,7 +115,7 @@ function ProfileInfo() {
         initialized.current = true;
         getProfileData();
         // getProfilePictureData();
-        getProfilePicture();
+        void getProfilePicture();
       } else {
         window.location.href = base_url + '/login';
       }

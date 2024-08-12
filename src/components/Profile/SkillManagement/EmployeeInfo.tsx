@@ -147,7 +147,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
 
   useEffect(() => {
     if(pictureURI){
-      convertImageToBase64();
+      void convertImageToBase64();
     }
   }, [pictureURI]);
 

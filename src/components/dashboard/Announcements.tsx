@@ -24,7 +24,7 @@ function Announcements() {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        getAnnouncementData();
+        void getAnnouncementData();
       } else {
         window.location.href = base_url + '/login';
       }

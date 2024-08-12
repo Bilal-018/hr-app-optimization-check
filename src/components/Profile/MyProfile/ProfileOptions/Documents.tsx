@@ -93,7 +93,7 @@ const DocumentIcon: any = {
 const handleDownload = (id: any, filename: any, bearerToken: any) => {
   let url = API_URL + 'EmployeeDocuments/DownloadDocument/' + id;
   console.log(url);
-  fetch(url, {
+  void fetch(url, {
     method: 'Get',
     headers: new Headers({
       Authorization: 'Bearer ' + bearerToken,
@@ -162,7 +162,7 @@ function Documents({ modal = false }: any) {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        GetDocumentListData();
+        void GetDocumentListData();
       } else {
         window.location.href = base_url + '/login';
       }

@@ -8,7 +8,7 @@ function LanguageHeader() {
 
   const changeLanguage = (lng: any) => {
     setLang(lng);
-    i18n.changeLanguage(lng);
+    void i18n.changeLanguage(lng);
     localStorage.setItem('lng', lng);
   };
   return (

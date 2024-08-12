@@ -218,7 +218,7 @@ function EmployeeSkillsTable() {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-      GetLeavesListData();
+      void GetLeavesListData();
       GetEmployeeListData();
       GetLeavesConfigurationData();
     }

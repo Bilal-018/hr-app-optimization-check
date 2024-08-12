@@ -67,7 +67,7 @@ export const UserImage: React.FC<UserImageProps> = ({ userPicture }) => {
         setBase64Image('');
       }
     };
-    convertImageToBase64();
+    void convertImageToBase64();
   }, [userPicture]);
 
   return (
@@ -139,7 +139,7 @@ function UserInfo(): JSX.Element {
 
   useEffect(() => {
     if (bearerToken) {
-      getProfilePicture();
+      void getProfilePicture();
     }
   }, []);
 

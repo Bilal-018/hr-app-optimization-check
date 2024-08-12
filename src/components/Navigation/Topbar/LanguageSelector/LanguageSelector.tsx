@@ -32,7 +32,7 @@ export default function LanguageSelector({
       if (preferredLanguage) {
         const language = preferredLanguage  === 'English' ? 'en' : 'fr';
         setSelectedLanguage(preferredLanguage);
-        i18n.changeLanguage(language);
+        void i18n.changeLanguage(language);
         sessionStorage.setItem('isLanguageSet', 'true');
       }
     }
@@ -46,7 +46,7 @@ export default function LanguageSelector({
     const lng =
       language === 'English' ? 'en' : language === 'Spanish' ? 'es' : 'fr';
     localStorage.setItem('lng', lng);
-    i18n.changeLanguage(lng);
+    void i18n.changeLanguage(lng);
     // set language in local storage
   };
 

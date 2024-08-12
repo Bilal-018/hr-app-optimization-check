@@ -400,7 +400,7 @@ function WeeklyCalendar(): JSX.Element {
   };
 
   useEffect(() => {
-    getMyLeavesData();
+    void getMyLeavesData();
   }, []);
 
   return (

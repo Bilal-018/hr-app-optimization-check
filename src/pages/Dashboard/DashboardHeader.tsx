@@ -49,7 +49,7 @@ const DashboardHeader: React.FC = () => {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        getLeaveDetails();
+        void getLeaveDetails();
       } else {
         window.location.href= base_url + '/login';
       }

@@ -37,7 +37,7 @@ function LeaveManagement() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getLeavesListData();
+    void getLeavesListData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

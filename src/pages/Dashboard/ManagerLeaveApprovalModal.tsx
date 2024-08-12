@@ -203,7 +203,7 @@ const ManagerLeaveApprovalModal: FC<Props> = ({
 
   useEffect(() => {
     if (leaveDetails) {
-      getConflictData();
+      void getConflictData();
       getProfileData();
     }
   }, [leaveDetails, empId]);

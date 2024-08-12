@@ -148,7 +148,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     if (selectedPayslip) {
       const url = `api/Payslip/DeletefaultPayslip?id=${selectedPayslip}`;
       jwtInterceptor.delete(url).then(() => {
-        getFaultPayslips();
+        void getFaultPayslips();
       });
       setDeleteFaultModal(false);
     }

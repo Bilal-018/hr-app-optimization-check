@@ -132,7 +132,7 @@ function LeaveRequest({ open, onClose, onSave }: any) {
     if (!initialized.current) {
       initialized.current = true;
       GetLeavesConfigurationData();
-      GetMangersListData();
+      void GetMangersListData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

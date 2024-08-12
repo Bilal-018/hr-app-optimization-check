@@ -27,7 +27,7 @@ function CompanyPresentation(): JSX.Element {
     if (!initialized.current) {
       if (bearerToken) {
         initialized.current = true;
-        getCompanyPresentationData();
+        void getCompanyPresentationData();
       } else {
         window.location.href = base_url + '/login';
       }
