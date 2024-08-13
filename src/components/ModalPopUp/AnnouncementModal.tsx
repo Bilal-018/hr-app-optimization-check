@@ -2,7 +2,6 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-import { WidthFull } from '@mui/icons-material';
 
 const style = {
   modalWrapper: (theme: any) => ({
@@ -24,10 +23,7 @@ function AnnouncementModal({
   open,
   handleClose,
   children,
-  onSave,
   title = 'Announcements',
-  yesOrNo = false,
-  showSaveButton = true,
   sx = { width: '90%' },
   isCloseIcon = true,
   hideTitle = false,

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 
-export const PopoverHeader = styled(Typography)(({ theme }) => ({
+export const PopoverHeader = styled(Typography)(() => ({
   // padding: theme.spacing(2),
   borderBottom: `.5px solid #18a0fb64`,
   paddingBlock: '12px',
@@ -9,7 +9,7 @@ export const PopoverHeader = styled(Typography)(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export const PopoverItem = styled(Box)(({ theme }) => ({
+export const PopoverItem = styled(Box)(() => ({
   padding: '10px',
   width: '95%',
   '&:hover': {
@@ -22,7 +22,7 @@ export const PopoverItem = styled(Box)(({ theme }) => ({
   gap: '10px',
 }));
 
-export const PopoverItemInfoContainer = styled(Box)(({ theme }) => ({
+export const PopoverItemInfoContainer = styled(Box)(({ }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',

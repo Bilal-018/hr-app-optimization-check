@@ -35,7 +35,7 @@ function UploadSection({ state, setState, title }: any) {
   return (
     <Box
       sx={{
-        borderTop: (theme) => `0.5px solid #092C4C`,
+        borderTop: () => `0.5px solid #092C4C`,
         pt: '20px',
         mt: '20px',
       }}

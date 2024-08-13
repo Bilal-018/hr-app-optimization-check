@@ -1,7 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import ArticleIcon from '@mui/icons-material/Article';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';

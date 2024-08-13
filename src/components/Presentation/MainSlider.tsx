@@ -11,7 +11,7 @@ import { Box } from '@mui/material';
 import GetImage from './GetImage';
 import BaseModal from '../Global/Modal';
 
-export default function MainSlider({ slides, currentSlide }: any) {
+export default function MainSlider({ slides }: any) {
   console.log(slides);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -119,7 +119,7 @@ export default function MainSlider({ slides, currentSlide }: any) {
             className="mySwiper"
           >
             {slides?.length > 0 &&
-              slides?.map((item: any, index: any) => {
+              slides?.map((item: any) => {
                 return (
                   <SwiperSlide>
                     <GetImage presentation={item} isModalOpen={isModalOpen} />

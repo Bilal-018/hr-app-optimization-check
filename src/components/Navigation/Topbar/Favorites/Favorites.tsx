@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { StarIcon } from '../../../../assets/images';
-import { Box, Button, IconButton, Stack, styled, useMediaQuery, useTheme } from '@mui/material';
+import { Box, IconButton, Stack, styled, useMediaQuery, useTheme } from '@mui/material';
 import { useSnackbar } from '../../../Global/WithSnackbar';
 import { Link } from 'react-router-dom';
 import jwtInterceptor from '../../../../services/interceptors';
@@ -24,7 +24,6 @@ interface BasicPopoverProps {
 }
 
 export default function BasicPopover({
-  isTablet,
   favs,
   getFavsData,
 }: BasicPopoverProps): JSX.Element {
@@ -80,7 +79,7 @@ export default function BasicPopover({
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const CustomStarIcon = styled(StarIcon)(({ theme }) => ({
+  const CustomStarIcon = styled(StarIcon)(() => ({
     // color: 'black',
   }));
 

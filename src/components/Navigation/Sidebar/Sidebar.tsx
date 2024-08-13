@@ -144,7 +144,7 @@ function Sidebar({ menuItems, favs = [], refetchFavs }: any): JSX.Element {
     iconColor: string;
     iconGradientColor: string;
     icon: string;
-  }> = ({ color, gradientColor, text, iconColor, iconGradientColor, icon }) => (
+  }> = ({ color, gradientColor, text, iconColor, iconGradientColor }) => (
     <Box
       style={{
         width: '100%',

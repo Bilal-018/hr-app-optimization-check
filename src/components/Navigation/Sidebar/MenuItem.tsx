@@ -144,7 +144,7 @@ function MenuItem(props: any): JSX.Element {
               // className={
               //   isFavorite(subOption.name) ? ' !important' : 'red'
               // }
-              sx={(theme) => ({
+              sx={() => ({
                 color: favs?.some((fav: any) => fav?.name === subOption?.name)
                   ? '#FFD66B !important'
                   : isHovered

@@ -135,8 +135,6 @@ function UserInfo(): JSX.Element {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const isTablet = window.innerWidth <= 1024;
-
   useEffect(() => {
     if (bearerToken) {
       void getProfilePicture();

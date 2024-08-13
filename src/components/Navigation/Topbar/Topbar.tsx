@@ -1,37 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { TopbarRoot } from './Topbar.styles';
-import { Box, Drawer, Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
 import Favorites from './Favorites/Favorites';
 import ModeSwitch from './ModeSwitch';
 import UserInfo from './UserInfo/UserInfo';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useLocation } from 'react-router-dom';
 import { themeContext } from '../../../theme';
 import { themeTypes } from '../../../theme';
 // import Bell from '../../../assets/images/bell.svg';
 // import Bell_Active from '../../../assets/images/bell_active.svg';
-
-interface RenderMenuProps {
-  isMobile: boolean;
-  children: React.ReactNode;
-}
-
-const RenderMenu: React.FC<RenderMenuProps> = ({ isMobile, children }) => {
-  const [open, setOpen] = useState(false);
-  return isMobile ? (
-    <>
-      <MenuIcon onClick={() => { setOpen(true) }} />
-      <Drawer anchor='right' open={open} onClose={() => { setOpen(false) }}>
-        <Stack direction={'column'} sx={{ height: '100%', p: 2 }}>
-          {children}
-        </Stack>
-      </Drawer>
-    </>
-  ) : (
-    <>{children}</>
-  );
-};
 
 interface TopbarProps {
   favs: any; // Adjust type as per your requirements
@@ -132,7 +110,7 @@ function Topbar({ favs, refetchFavs }: TopbarProps) {
           {/* <Badge color="error" overlap="circular" badgeContent="" variant="dot">
             <NotificationsIcon isTablet={isTablet} />
           </Badge> */}
-          <ModeSwitch isTablet={isTablet} />
+          <ModeSwitch />
           <UserInfo />
         </Box>
       {/* </RenderMenu> */}

@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { themeContext } from '../../../theme';
 
-const AntSwitch = styled(Switch)(({ theme }) => ({
+const AntSwitch = styled(Switch)(({ }) => ({
   width: 28,
   height: 16,
   padding: 0,
@@ -49,11 +49,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-interface ModeSwitchProps {
-  isTablet: boolean;
-}
-
-function ModeSwitch({ isTablet }: ModeSwitchProps) {
+function ModeSwitch() {
   const { t } = useTranslation();
   const { myTheme, changeTheme }: any = useContext(themeContext);
 

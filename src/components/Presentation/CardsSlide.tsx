@@ -107,7 +107,6 @@ export default function CardsSlide({
   presentations = [],
   selectPresentation,
   activePage,
-  setActivePage,
   selected,
 }: any) {
   const isTablet = useMediaQuery((theme: any) => theme.breakpoints.down('md'));

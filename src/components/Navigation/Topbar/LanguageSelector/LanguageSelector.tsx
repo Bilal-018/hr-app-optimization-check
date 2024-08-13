@@ -12,9 +12,8 @@ interface LanguageSelectorProps {
 const languages: string[] = ['English', 'French'];
 
 export default function LanguageSelector({
-  isTablet,
 }: LanguageSelectorProps): JSX.Element {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState<string>(
     i18n.language === 'en' ? 'English' : 'French'
   );
@@ -38,7 +37,7 @@ export default function LanguageSelector({
     }
   }, []);
 
-  const handleChange = (event: any, value: any) => {
+  const handleChange = (event: any) => {
     setSelectedLanguage(event.target.value as string);
   };
 
@@ -75,7 +74,7 @@ export default function LanguageSelector({
           },
         })}
         MenuProps={{
-          sx: (theme) => ({
+          sx: () => ({
             '.MuiPaper-root': {
               borderTop: 'none',
               borderRadius: '10px',
