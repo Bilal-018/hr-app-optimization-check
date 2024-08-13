@@ -166,7 +166,7 @@ const Assets: React.FC = () => {
 
     jwtInterceoptor
       .post('api//HrAsset/UpdateAssetConfiguration', data)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration updated successfully', 'success');
         setLoading(false);
       })
