@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
 const style = {
-  modalWrapper: (theme: any) => ({
+  modalWrapper: () => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -160,7 +160,7 @@ function BaseModal({
     >
       <Box
         sx={(theme) => ({
-          ...style.modalWrapper(theme),
+          ...style.modalWrapper(),
           ...sx,
           background: theme.palette.mode === 'light' ? 'white' : '#2b2d3e',
           outline: 'none',

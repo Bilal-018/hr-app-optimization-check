@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import EnhancedTable from '../Global/Table';
-import { Box, Button, Typography, alpha, Stack } from '@mui/material';
-import { Circle } from '@mui/icons-material';
+import { Box, Button, Typography, Stack } from '@mui/material';
 import AssetsModal from './Assets/AssetsModal';
 import DeleteModal from '../Global/DeleteModal';
 import CircleIcon from "@mui/icons-material/Circle";
-import CalendarIcon from '../Icon/CalenderIcon';
-import dayjs from 'dayjs';
 import EditIcon from '../Icon/EditIcon';
 import BinIcon from '../Icon/BinIcon';
 import jwtInterceoptor from '../../services/interceptors';
@@ -146,7 +143,7 @@ function EmployeeSkillsTable() {
 
     jwtInterceoptor
       .post('api//HrAsset/UpdateAssetConfiguration', data)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration updated successfully', 'success');
         setLoading(false);
       })
@@ -159,7 +156,7 @@ function EmployeeSkillsTable() {
     setLoading(true);
     jwtInterceoptor
       .post('api/HrAsset/CreateAssetConfiguration', data)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration created successfully', 'success');
         setLoading(false);
       })
@@ -173,7 +170,7 @@ function EmployeeSkillsTable() {
 
     jwtInterceoptor
       .delete(`api/HrAsset/DeleteAssetConfiguration?AssetConfigurationId=${id}`)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration deleted successfully', 'success');
         setLoading(false);
       })

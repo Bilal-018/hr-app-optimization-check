@@ -135,7 +135,7 @@ const Contractstable: React.FC = () => {
     setLoading(true);
     jwtInterceoptor
       .delete(`api/ContractTypeMasters/DeleteContractType?ContractTypeId=${id}`)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Contract type deleted successfully', 'success');
         setContracts((pre: any) => pre.filter((con: any) => con.id !== id));
         setDeleteModal({

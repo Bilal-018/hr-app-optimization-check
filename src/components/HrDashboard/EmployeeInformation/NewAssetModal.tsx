@@ -103,12 +103,12 @@ function Status({ item, handleChange }: StatusProps) {
       <Checkbox
         checked={isAssetAssigned}
         color={'success'}
-        onChange={(e) => { handleCheckboxChange(true) }}
+        onChange={() => { handleCheckboxChange(true) }}
       />
       <Checkbox
         checked={!isAssetAssigned}
         color={'warning'}
-        onChange={(e) => { handleCheckboxChange(false) }}
+        onChange={() => { handleCheckboxChange(false) }}
       />
     </Stack>
   );
@@ -129,9 +129,6 @@ const NewAssetModal: React.FC<any> = ({
   handleClose,
   title,
   selectedId,
-  onSave,
-  data,
-  setData,
 }) => {
   // const bearerToken = sessionStorage.getItem('token_key');
   // const empId = sessionStorage.getItem('empId_key');

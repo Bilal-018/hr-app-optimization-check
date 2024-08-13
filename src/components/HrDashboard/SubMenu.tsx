@@ -44,7 +44,7 @@ function HRDashboardSubMenu({ activeMenu }: { activeMenu: ActiveMenuType }) {
     <Box
       className="section-border"
       mt="20px"
-      sx={(theme: any) => ({
+      sx={() => ({
         // border: `${
         //   activeMenu === "dashboard"
         //     ? "none"

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import EnhancedTable from '../../Global/Table';
 import {
   Box,
@@ -6,19 +6,13 @@ import {
   Grid,
   Typography,
   TextField,
-  alpha,
-  Theme,
   CircularProgress,
 } from '@mui/material';
 import BaseModal from '../../Global/Modal';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteIcon from '@mui/icons-material/Delete';
 // import ShareIcon from '@mui/icons-material/Share';
 import UploadFiles from '../../Upload/upload-files.component';
 import { useTranslation } from 'react-i18next';
 import jwtInterceptor from '../../../services/interceptors';
-import { themeContext } from '../../../theme';
-import EditIcon from '../../Icon/EditIcon';
 import BinIcon from '../../Icon/BinIcon';
 import ViewIcon from '../../Icon/ViewIcon';
 import DownloadIcon from '../../Icon/DownloadIcon';
@@ -154,7 +148,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     }
   };
 
-  function CellAction({ onShare, onEdit, id, onDelete, filename, onView, onDownload }: any) {
+  function CellAction({ id, onDelete, onView, onDownload }: any) {
     return (
       <Box className='action-icon-rounded'>
         {/* <Button
@@ -195,7 +189,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
     );
   }
 
-  function CellActionFault({ onShare, onEdit, id, onDelete, filename }: any) {
+  function CellActionFault({ id, onDelete }: any) {
     return (
       <Box className='action-icon-rounded'>
         {/* <Button
@@ -256,7 +250,7 @@ const EmployeeSkillsTable: React.FC<EmployeeSkillsTableProps> = (props) => {
             </Box>
             <Box
               className='c-l'
-              sx={(theme: Theme) => ({
+              sx={() => ({
                 cursor: 'pointer',
                 display: 'flex',
                 flexDirection: 'column', // Ensure items are stacked vertically

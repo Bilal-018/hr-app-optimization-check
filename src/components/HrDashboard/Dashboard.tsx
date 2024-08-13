@@ -3,7 +3,6 @@ import Barchart from '../Charts/BarChart';
 import PieChart from '../Charts/PieChart';
 import Dropdown from '../Dropdown/Dropdown';
 import MaleIcon from '../Charts/SVG/MaleIcon';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import FemaleIcon from '../Charts/SVG/FemaleIcon';
 import Progressbar from '../ProgressBar/Progressbar';
@@ -49,21 +48,6 @@ import { ProgressLoader } from '../Global/GlobalLoader';
 //   },
 // };
 
-const COLORS: any[] = [
-  {
-    color: '#37D310',
-  },
-  {
-    color: '#964CF5',
-  },
-  {
-    color: '#18a0fb',
-  },
-  {
-    color: 'pink',
-  },
-];
-
 const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
 const devURL = process.env.REACT_APP_API_LEAVE_SERVICE_URL;
 
@@ -90,14 +74,13 @@ function Dashboard(): JSX.Element {
   const bearerToken: string | null = sessionStorage.getItem('token_key');
   const base_url = process.env.REACT_APP_BASE_URL;
 
-  const navigate: any = useNavigate();
   const { t }: any = useTranslation();
 
   const GetHRKPIsData = () => {
     jwtInterceptor
       .get('api/HrDashboard/GetHrDashboard')
       .then((response: any) => {
-        sethrkpis((item: any) => ({
+        sethrkpis(() => ({
           ...hrkpis,
           ...response.data,
         }));

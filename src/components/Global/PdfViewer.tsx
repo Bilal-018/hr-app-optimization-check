@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { AppBar, Box, Toolbar, Typography, IconButton, Button } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -11,7 +11,6 @@ export default function PDFViewer(props: any) {
     const [numPages, setNumPages] = useState<number>(0);
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [loading, setLoading] = useState(true);
-    const [pageWidth, setPageWidth] = useState(0);
 
     function onDocumentLoadSuccess({
         numPages: nextNumPages,
@@ -22,7 +21,6 @@ export default function PDFViewer(props: any) {
     }
 
     function onPageLoadSuccess() {
-        setPageWidth(window.innerWidth);
         setLoading(false);
     }
 

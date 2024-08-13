@@ -4,7 +4,7 @@ import { Grid, TextField, Typography, Switch, Stack } from '@mui/material';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 
-const ActiveSwitch = styled(Switch)(({ theme }) => ({
+const ActiveSwitch = styled(Switch)(({ }) => ({
   width: 44,
   height: 24,
   padding: 0,
@@ -46,7 +46,7 @@ interface EmployeeProps {
   setData: React.Dispatch<any>; // You should define the actual type of setData
 }
 
-const Employee: React.FC<EmployeeProps> = ({ data, setData }) => {
+const Employee: React.FC<EmployeeProps> = () => {
   return (
     <Grid
       container
@@ -112,8 +112,6 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
   data,
   setData,
 }) => {
-  const EmployeePanel = <Employee data={data} setData={setData} />;
-  const AssetsPanel = <Assets />;
   const [active, setActive] = useState(false);
   title = `Hr Manager - ${data?.assetConfigurationId ? 'Update asset' : title}`;
 
