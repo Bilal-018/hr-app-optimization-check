@@ -41,25 +41,6 @@ const ActiveSwitch = styled(Switch)(({ }) => ({
   },
 }));
 
-interface EmployeeProps {
-  data: any; // You should define the actual type of data
-  setData: React.Dispatch<any>; // You should define the actual type of setData
-}
-
-const Employee: React.FC<EmployeeProps> = () => {
-  return (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        maxWidth: '620px',
-      }}
-    >
-      {/* Your JSX code for the Employee component */}
-    </Grid>
-  );
-};
-
 // interface RowData {
 //   equipment: string;
 //   brand: string;
@@ -89,12 +70,6 @@ const Employee: React.FC<EmployeeProps> = () => {
 //   // Your rows data
 // ];
 
-const Assets: React.FC = () => {
-  // const { t } = useTranslation();
-
-  return <>{/* Your JSX code for the Assets component */}</>;
-};
-
 interface AssetsModalProps {
   open: boolean;
   handleClose: () => void;
@@ -110,7 +85,6 @@ const AssetsModal: React.FC<AssetsModalProps> = ({
   title,
   onSave,
   data,
-  setData,
 }) => {
   const [active, setActive] = useState(false);
   title = `Hr Manager - ${data?.assetConfigurationId ? 'Update asset' : title}`;
