@@ -89,7 +89,7 @@ const Contractstable: React.FC = () => {
         contractTypeId: newContract.id,
         contractType: contractName,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Contract type Updated successfully', 'success');
         setContracts((pre: any) =>
           pre.map((con: any) =>

@@ -179,7 +179,7 @@ const Assets: React.FC = () => {
     setLoading(true);
     jwtInterceoptor
       .post('api/HrAsset/CreateAssetConfiguration', data)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration created successfully', 'success');
         setLoading(false);
       })
@@ -193,7 +193,7 @@ const Assets: React.FC = () => {
 
     jwtInterceoptor
       .delete(`api/HrAsset/DeleteAssetConfiguration?AssetConfigurationId=${id}`)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Asset configuration deleted successfully', 'success');
         setLoading(false);
       })

@@ -85,7 +85,7 @@ const DepartmentsTable: React.FC = () => {
       .delete(
         `api/DepartmentMaster/DeleteDepartmentMaster?DepartmentId=${DeleteDepartmentMaster.id}`
       )
-      .then((res: any) => {
+      .then(() => {
         showMessage('Department Information Deleted Successfully', 'success');
       })
       .catch((err: any) => {
@@ -103,7 +103,7 @@ const DepartmentsTable: React.FC = () => {
         department: data.department,
         costCenter: data.costCenter,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Department Information Updated Successfully', 'success');
       })
       .catch((err: any) => {
@@ -119,7 +119,7 @@ const DepartmentsTable: React.FC = () => {
         department: data.department,
         costCenter: data.costCenter,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Department record added successfully', 'success');
       })
       .catch((err: any) => {

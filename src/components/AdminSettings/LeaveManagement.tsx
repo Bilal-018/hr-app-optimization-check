@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import EnhancedTable from '../Global/Table';
-import { Box, Button, alpha, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { CircularChip } from '../Global/Chips';
 import AddNewLeave from './AddNewLeave';
 import { jwtLeave } from '../../services/interceptors';
@@ -130,7 +130,7 @@ function Assets() {
   const updateLeaveConfig = async (data: any) =>
     jwtLeave
       .post('api/LeaveConfiguration/UpdateLeaveConfiguration', data)
-      .then((res) => {
+      .then(() => {
         showMessage('Leave configuration updated successfully', 'success');
       })
       .catch((err) => {
@@ -140,7 +140,7 @@ function Assets() {
   const createMewLeaveConfig = async (data: any) =>
     jwtLeave
       .post('api/LeaveConfiguration/CreateLeaveConfiguration', data)
-      .then((res) => {
+      .then(() => {
         showMessage('Leave configuration created successfully', 'success');
       })
       .catch((err) => {
@@ -152,7 +152,7 @@ function Assets() {
       .delete(
         `api/LeaveConfiguration/DeleteLeaveConfiguration?leaveTypeId=${id}`
       )
-      .then((res) => {
+      .then(() => {
         showMessage('Leave configuration deleted successfully', 'success');
       })
       .catch((err) => {
@@ -191,7 +191,7 @@ function Assets() {
   return (
     <>
       <Grid
-        sx={(theme) => ({
+        sx={() => ({
           padding: '10px',
           alignItems: 'flex-start',
         })}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BaseModal from '../Global/Modal';
-import { Box, Stack, TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 // interface Department {

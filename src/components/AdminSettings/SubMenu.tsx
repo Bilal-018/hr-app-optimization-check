@@ -3,9 +3,6 @@ import { Box } from '@mui/material';
 import { SUB_MENU } from '../../pages/AdminSettings';
 import EmployeeInfo from './EmployeeInfo';
 import LeaveManagement from './LeaveManagement';
-import SkillsManagement from './SkillsManagement';
-import AnnouncementsList from '../dashboard/AnnouncementsList';
-import Assets from './Assets';
 
 function SubMenu({ activeMenu }: any) {
   switch (activeMenu) {

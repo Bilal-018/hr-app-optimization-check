@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import EnhancedTable from '../Global/Table';
 import jwtInterceoptor from '../../services/interceptors';
-import { Box, Grid, alpha } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -30,7 +30,7 @@ const initialState: HolidayState = {
   errors: [],
 };
 
-const BankHolidaySetting: React.FC = (bankHoliday: any) => {
+const BankHolidaySetting: React.FC = () => {
 
   interface ModalState {
     open: boolean;

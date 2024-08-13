@@ -83,7 +83,7 @@ const Genderstable: React.FC = () => {
         genderId: newGender.id,
         gender: gender,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Gender Updated successfully', 'success');
         setGenderData((pre: any) =>
           pre.map((con: any) =>
@@ -129,7 +129,7 @@ const Genderstable: React.FC = () => {
     setLoading(true);
     jwtInterceoptor
       .delete(`api/GenderMaster/DeleteGenderMaster?GenderId=${id}`)
-      .then((res: any) => {
+      .then(() => {
         showMessage('Gender deleted successfully', 'success');
         setGenderData((pre: any) => pre.filter((con: any) => con.id !== id));
         setDeleteModal({

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import EnhancedTable from '../Global/Table';
 import jwtInterceoptor from '../../services/interceptors';
-import { Box, Grid, alpha } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import BaseModal from '../Global/Modal';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from '../Global/WithSnackbar';
@@ -16,7 +16,7 @@ const initialState = {
   errors: [],
 };
 
-function SkillTypeSetting(skillTypeData: any) {
+function SkillTypeSetting() {
   const [open, setOpen] = useState<any>({
     open: false,
     id: null,

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, alpha } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import EnhancedTable from '../Global/Table';
 import { CircularChip } from '../Global/Chips';
@@ -115,7 +115,7 @@ function EmployeeInfo() {
         score: data.value,
         description: data.title,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Skill Achievement Updated Successfully', 'success');
         getSkillAchievement();
       })
@@ -129,7 +129,7 @@ function EmployeeInfo() {
         skillExpertiseId: data.id,
         expertise: data.value,
       })
-      .then((res: any) => {
+      .then(() => {
         showMessage('Skill Expertise Updated Successfully', 'success');
       })
       .catch((err: any) => {
@@ -169,7 +169,7 @@ function EmployeeInfo() {
         skillType: data.skillType,
         requiredSkillAchievementId: data.achievementScore,
       })
-      .then((res: any) => {
+      .then(() => {
         getSkillsConfiguration();
         showMessage('Skill Configuration Added Successfully', 'success');
       })
@@ -196,7 +196,7 @@ function EmployeeInfo() {
         skillType: data.skillType,
         requiredSkillAchievementId: data.achievementScore,
       })
-      .then((res: any) => {
+      .then(() => {
         getSkillsConfiguration();
         showMessage('Skill Configuration Updated Successfully', 'success');
       })
@@ -209,7 +209,7 @@ function EmployeeInfo() {
       .delete(
         `api/SkillConfiguration/DeleteSkillConfiguration?SkillConfigurationId=${id}`
       )
-      .then((res: any) => {
+      .then(() => {
         getSkillsConfiguration();
         showMessage('Skill Configuration Deleted Successfully', 'success');
       })
