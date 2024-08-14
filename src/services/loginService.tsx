@@ -37,7 +37,7 @@ class loginService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, token);
+      return this.handleError(error);
     };
   }
 
@@ -60,7 +60,7 @@ class loginService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -102,7 +102,7 @@ class loginService {
       });
   }
 
-  private async handleError(error: any, barrerToken: any) {
+  private async handleError(error: any) {
     if (error.response && error.response.status === 401) {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {

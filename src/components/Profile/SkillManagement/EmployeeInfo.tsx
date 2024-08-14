@@ -17,27 +17,6 @@ const employee_data = {
 const dummyImg =
   'https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg';
 
-const colors = [
-  '#18A0FB',
-  '#E01C63',
-  '#964CF5',
-  '#9DB604',
-  '#FFA500',
-  '#FF0000',
-  '#FF00FF',
-  '#00FFFF',
-  '#0000FF',
-  '#000000',
-];
-
-const getRandomColorWhichIsNotInUse: any = (usedColors: any) => {
-  const color = colors[Math.floor(Math.random() * colors.length)];
-  if (usedColors.includes(color)) {
-    return getRandomColorWhichIsNotInUse(usedColors);
-  }
-  return color;
-};
-
 const head = [
   {
     id: 'skill',
@@ -87,7 +66,7 @@ function EmployeeInfo({ open, setOpen, id }: any) {
   const { t } = useTranslation();
   const email = sessionStorage.getItem('email_key');
 
-  const GetInfo: any = (id: any, skillId: any) => {
+  const GetInfo: any = (id: any) => {
     jwtInterceoptor
       .get(
         'api/SkillManager/GetSkillByEmployeeDetailId?EmployeeDetailId=' +

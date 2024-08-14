@@ -28,7 +28,7 @@ function HRSubMenu({ activeMenu }: any) {
   return (
     <Box
       // className='section-border'
-      sx={(theme) => ({
+      sx={() => ({
         // border: `1px solid ${theme.palette.common.black}`,
       })}
     >

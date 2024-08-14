@@ -146,7 +146,7 @@ function Documents({ modal = false }: any) {
   const [loading, setLoading] = useState<any>(false);
   const [uploadLoading, setUploadLoading] = useState<any>(false);
   const { showMessage }: any = useSnackbar();
-  const [edit, setEdit] = useState<any>(false);
+  const [edit, setEdit] = useState<boolean>(false);
   const [fileAdded, setFileAdded] = useState<any>(false);
   const [pdfUrl, setPdfUrl] = useState<any>(null);
   const [viewModal, setViewModal] = useState(false);
@@ -157,6 +157,7 @@ function Documents({ modal = false }: any) {
   const bearerToken = sessionStorage.getItem('token_key');
   const empId: any = sessionStorage.getItem('employee_id_key') ? sessionStorage.getItem('employee_id_key') : sessionStorage.getItem('empId_key');
   const base_url = process.env.REACT_APP_BASE_URL;
+  console.log(edit)
 
   useEffect(() => {
     if (!initialized.current) {

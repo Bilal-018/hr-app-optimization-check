@@ -5,7 +5,6 @@ import PeopleIcon from '@mui/icons-material/People';
 import EmployeeSkillsTable from './EmployeeSkillsTable';
 import ManagerSkillsTable from './ManagerSkillsTable';
 import { useTranslation } from 'react-i18next';
-import { DistributionColor } from '../../../data';
 import jwtInterceoptor from '../../../services/interceptors';
 import { useSnackbar } from '../../Global/WithSnackbar';
 

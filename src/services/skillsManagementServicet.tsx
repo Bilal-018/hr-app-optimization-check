@@ -54,7 +54,7 @@ class SkillsService {
       })
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
   //
@@ -85,7 +85,7 @@ class SkillsService {
       const response = await skills[method](url, data);
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -94,11 +94,11 @@ class SkillsService {
       const response = await skills[method](url, data);
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
-  private async handleError(error: any, barrerToken: any) {
+  private async handleError(error: any) {
     if (error.response && error.response.status === 401) {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {

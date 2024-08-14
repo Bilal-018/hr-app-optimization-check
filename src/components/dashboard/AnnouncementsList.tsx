@@ -215,7 +215,7 @@ function AnnouncementsList(): JSX.Element {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={() => ({
         borderRadius: '20px',
       })}
     >

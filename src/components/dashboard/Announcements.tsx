@@ -4,7 +4,6 @@ import AnnouncementIcon from '@mui/icons-material/Announcement';
 import CircularIcon from '../Global/CircularIcon';
 import { useTranslation } from 'react-i18next';
 import jwtInterceptor from '../../services/interceptors';
-import { useNavigate } from 'react-router-dom';
 
 interface AnnouncementData {
   description: string;
@@ -15,7 +14,6 @@ function Announcements() {
   const { t } = useTranslation();
   const [announcement, setAnnouncement] = useState<AnnouncementData[]>([]);
   const initialized = useRef<boolean>(false);
-  const navigate = useNavigate();
   const bearerToken = sessionStorage.getItem('token_key');
 
   const base_url = process.env.REACT_APP_BASE_URL;
@@ -46,7 +44,7 @@ function Announcements() {
   return (
     <>
       <Box
-        sx={(theme) => ({
+        sx={() => ({
           borderRadius: '20px',
           // background: theme.palette.background.backLessOps,
           p: '15px',

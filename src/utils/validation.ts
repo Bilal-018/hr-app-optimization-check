@@ -95,7 +95,7 @@ export const validateBankDetails = (bankDetails: any) => {
 };
 
 export const validateEmployeeInfo = (state: any) => {
-  const { errors, roleNames, resignationDate, lastWorkingDate, ...info } =
+  const { roleNames, ...info } =
     state;
 
   let foundErrors = [];
@@ -150,7 +150,7 @@ export const validateEmployeeInfo = (state: any) => {
 // };
 
 export const validateEmployeeResignationInfo = (state: any) => {
-  const { errors, lastWorkingDate, resignationDate, ...info } = state;
+  const { lastWorkingDate, resignationDate, ...info } = state;
 
   let foundErrors = [];
 

@@ -88,7 +88,7 @@ function Assets({ modal = false }) {
     const [AssetsData] = await Promise.all([
       getAssetConfig()
     ]);
-    const assetConfigData = AssetsData.data.allAssets.filter((asset: any) => asset.isActive).map(({ isActive, ...asset }: { isActive: boolean, [key: string]: any }) => asset);
+    const assetConfigData = AssetsData.data.allAssets.filter((asset: any) => asset.isActive).map(({ ...asset }: {[key: string]: any }) => asset);
 
     const updatedEquipData = equipData.filter((item: any) => 'isAssetAssigned' in item).map((equip: any) => {
       const matchingConfig = assetConfigData.find((config: any) => config.equipment === equip.equipment);

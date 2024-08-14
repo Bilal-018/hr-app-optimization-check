@@ -1,6 +1,5 @@
 import { Box, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import React, { useEffect, useReducer, useState, useRef } from 'react';
-import CountrySelect from '../../../Global/CountryDropdown';
 import EditAndSave from '../../../Global/EditAndSave';
 import { validateProfileData } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import CalendarIcon from '../../../Icon/CalenderIcon';
 
-const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
+const ProfileInformation = ({ state, dispatch, disable, lg, xl }: any) => {
   const [contractsListData, setcontractsListDataState] = useState<any>([]);
 
   const hasError = (field: any) => {
@@ -42,7 +41,7 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
   }, [])
 
   return (
-    <Grid item className='section-border' lg={lg} xl={xl} sx={(theme) => ({})}>
+    <Grid item className='section-border' lg={lg} xl={xl} sx={() => ({})}>
       <Typography
         className='LargeBody'
         sx={{
@@ -211,7 +210,6 @@ const ProfileInformation = ({ gap, state, dispatch, disable, lg, xl }: any) => {
 };
 
 const ProfileInformation1 = ({
-  gap,
   state,
   dispatch,
   disable,

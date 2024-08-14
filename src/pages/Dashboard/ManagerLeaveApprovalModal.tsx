@@ -11,7 +11,6 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import employee from '../../assets/images/employee.svg';
 import { t } from 'i18next';
 import jwtInterceoptor, { jwtLeave } from '../../services/interceptors';
 

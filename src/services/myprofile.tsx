@@ -19,7 +19,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -38,11 +38,11 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
-  private async handleError(error: any, barrerToken: any) {
+  private async handleError(error: any) {
     if (error.response && error.response.status === 401) {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {
@@ -85,7 +85,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -103,7 +103,7 @@ class UserService {
       })
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -122,7 +122,7 @@ class UserService {
       })
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -141,7 +141,7 @@ class UserService {
       })
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -160,7 +160,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -179,7 +179,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -198,7 +198,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -217,7 +217,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     };
   }
 
@@ -247,7 +247,7 @@ class UserService {
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
   async downloadDocumentRequest(url: any, barrerToken: any) {
@@ -264,7 +264,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
   /**********************Get Assets data********************** */
@@ -282,7 +282,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
   /**********************Get Leaves data********************** */
@@ -301,7 +301,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -319,7 +319,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -342,7 +342,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -361,7 +361,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -379,7 +379,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -397,7 +397,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -416,7 +416,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
   async DeleteLeavesRequest(url: any, barrerToken: any) {
@@ -433,7 +433,7 @@ class UserService {
       })
       return response.data;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 
@@ -452,7 +452,7 @@ class UserService {
       })
       return response;
     } catch (error) {
-      return this.handleError(error, barrerToken);
+      return this.handleError(error);
     }
   }
 

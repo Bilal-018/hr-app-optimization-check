@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 import RotateRightTwoToneIcon from '@mui/icons-material/RotateRightTwoTone';
-import { useNavigate } from 'react-router-dom';
 import useStyles from './IconStyle';
 import jwtInterceptor from '../../services/interceptors';
 import { useTheme } from '@mui/material';
@@ -66,7 +65,6 @@ const CertificateRenewal: React.FC<Props> = (props) => {
 
 const RenewalCertificate: React.FC = () => {
   const initialized = useRef(false);
-  const navigate = useNavigate();
   const userTheme = useTheme();
   const bearerToken = sessionStorage.getItem('token_key');
   const [monthCertificateRenewal, setMonthcertificateRenewal] = useState<any>(

@@ -40,7 +40,7 @@ const isValidInternationalPhoneNumber = (number: any, country: any) => {
   return isValidPhoneNumber(number, country);
 };
 
-const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl, setValidPhone }: any) => {
+const PrivateInformation = ({ state, dispatch, disable, lg, xl, setValidPhone }: any) => {
   const hasError = (field: any) => {
     return state.error.includes(field);
   };
@@ -58,7 +58,7 @@ const PrivateInformation = ({ gap, state, dispatch, disable, lg, xl, setValidPho
       // md={12}
       lg={lg}
       xl={xl}
-      sx={(theme) => ({
+      sx={() => ({
         // border: `1px solid ${theme.palette.common.black}`,
       })}
     >

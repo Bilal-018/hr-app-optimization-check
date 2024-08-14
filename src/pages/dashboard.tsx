@@ -38,7 +38,7 @@ const styles = {
       margin: '0px',
     },
   }),
-  infoContainer: (theme: any) => ({
+  infoContainer: () => ({
     display: 'flex',
     flexDirection: 'column',
     gap: '30px',
@@ -134,9 +134,9 @@ function Dashboard() {
       container
       spacing={2}
       justifyContent='space-between'
-      sx={(theme) => styles.container(containerColor)}
+      sx={() => styles.container(containerColor)}
     >
-      <Grid item xs={12} md={7.5} sx={(theme) => styles.infoContainer(theme)}>
+      <Grid item xs={12} md={7.5} sx={() => styles.infoContainer()}>
         <Box
           sx={(theme) => styles.headerContainer(theme)}
           className='header-bg'

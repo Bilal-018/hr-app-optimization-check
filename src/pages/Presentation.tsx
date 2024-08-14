@@ -305,9 +305,6 @@ import { useTranslation } from 'react-i18next';
 import jwtInterceoptor from '../services/interceptors';
 import { useSnackbar } from '../components/Global/WithSnackbar';
 import { ProgressLoader } from '../components/Global/GlobalLoader';
-import HomeP from '../assets/images/HomeP.svg';
-import RigntArrow from '../assets/images/rightArrow.svg';
-import { Link } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_PROFILE_SERVICE_URL;
 
@@ -345,10 +342,6 @@ function Presentation() {
 
   const selectPresentation = (id: any) => {
     setSelected(id);
-  };
-
-  const handleDelete = () => {
-    setDeleteModal(true);
   };
 
   const onEditClick = () => {

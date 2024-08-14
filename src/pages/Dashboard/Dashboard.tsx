@@ -13,15 +13,12 @@ import WeeklyCalendar from '../../components/dashboard/WeeklyCalander';
 import RenewalCertificate from './CertificateRenewal';
 import DashboardHeader from './DashboardHeader';
 import CircularProgress from '@mui/material/CircularProgress';
-import purple from '../../assets/images/purple.png';
-import { json } from 'node:stream/consumers';
-import zIndex from '@mui/material/styles/zIndex';
 
 const styles = {
-  TypographyFontSize: (theme: any) => ({
+  TypographyFontSize: () => ({
     fontSize: '0.9rem',
   }),
-  skillTypographyFontSize: (theme: any) => ({
+  skillTypographyFontSize: () => ({
     fontSize: '0.7rem',
   }),
 };
@@ -157,7 +154,7 @@ const SkillCard = ({ id, label, value }: any) => {
               </Typography>
               <Typography
                 color='#fff'
-                sx={(theme) => styles.skillTypographyFontSize(theme)}
+                sx={() => styles.skillTypographyFontSize()}
               >
                 {label}{' '}
               </Typography>

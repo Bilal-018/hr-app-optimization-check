@@ -30,7 +30,7 @@ function SubMenuLayout({ activeMenu }: any) {
     <Box
       className='section-border'
       mt='20px'
-      sx={(theme) => ({
+      sx={() => ({
         // border: `1px solid ${theme.palette.common.black}`,
       })}
     >

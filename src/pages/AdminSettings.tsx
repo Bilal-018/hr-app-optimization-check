@@ -2,12 +2,9 @@ import { Box, Typography } from '@mui/material';
 
 import React, { useState } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import TodayIcon from '@mui/icons-material/Today';
-import InfoIcon from '@mui/icons-material/Info';
 import AdminSettingsSubMenu from '../components/AdminSettings/SubMenu';
 import { useTranslation } from 'react-i18next';
-import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 
 export const ActiveMenuStyles = (theme: any) => ({
   backgroundColor: theme.palette.background.lightBack,

@@ -4,7 +4,7 @@ import CompanySlides from './CompanySlides';
 import { useTranslation } from 'react-i18next';
 import { useSnackbar } from '../Global/WithSnackbar';
 import jwtInterceptor from '../../services/interceptors';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface Presentation {
   id: number;
@@ -17,7 +17,6 @@ function CompanyPresentation(): JSX.Element {
   const [presentation, setPresentation] = useState<Presentation[]>([]);
   const initialized = useRef(false);
   const { showMessage }: any = useSnackbar();
-  const navigate = useNavigate();
   const bearerToken = sessionStorage.getItem('token_key');
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
@@ -50,7 +49,7 @@ function CompanyPresentation(): JSX.Element {
     <Grid
       container
       spacing={1}
-      sx={(theme) => ({
+      sx={() => ({
         padding: '20px',
         // backgroundColor: theme.palette.background.paper,
         borderRadius: '20px',

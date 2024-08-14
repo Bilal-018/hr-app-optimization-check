@@ -81,7 +81,7 @@ const Slide = ({ name }: any) => {
   );
 };
 
-const CommunityCard = ({ id, name, productImg, members }: any) => {
+const CommunityCard = ({ name, productImg, members }: any) => {
   const { t } = useTranslation();
   return (
     <Box
@@ -151,7 +151,6 @@ const CommunityCard = ({ id, name, productImg, members }: any) => {
 };
 
 const ProductCard = ({
-  id,
   name,
   productImg,
   route,

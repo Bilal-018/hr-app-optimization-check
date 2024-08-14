@@ -29,7 +29,7 @@ class UploadFilesService {
         onUploadProgress,
       });
     } catch (error) {
-      return this.handleError(error, tokensData);
+      return this.handleError(error);
     }
   }
 
@@ -37,7 +37,7 @@ class UploadFilesService {
   //   return http.get("/files");
   // }
 
-  private async handleError(error: any, barrerToken: any) {
+  private async handleError(error: any) {
     if (error.response && error.response.status === 401) {
       const authDataString = sessionStorage.getItem('token');
       if (!authDataString) {

@@ -34,12 +34,6 @@ const headCells = [
   // },
 ];
 
-const STATUS = {
-  APPROVED: '#03B525',
-  PENDING: '#E2B93B',
-  REJECTED: '#E74C3C',
-};
-
 function createData(
   // leave_type: any,
   start_date: any,

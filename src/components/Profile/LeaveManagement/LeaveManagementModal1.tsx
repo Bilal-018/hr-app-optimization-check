@@ -26,9 +26,7 @@ function LeaveManagementModal1({
   title,
   onSave,
   data,
-  setData,
   leaveDetailId,
-  lineManagerId,
   selectedStatus1,
 }: any) {
   const { showMessage }: any = useSnackbar();

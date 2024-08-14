@@ -80,7 +80,7 @@ export default class UploadFiles extends Component<
 
         //return UploadService.getFiles();
       })
-      .then((files) => {
+      .then(() => {
         // this.setState({
         //   fileInfos: files.data,
         // });

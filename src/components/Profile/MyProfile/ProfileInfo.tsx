@@ -46,7 +46,7 @@ function ProfileInfo() {
     jwtInterceptor
       .get('api/Employee/GetProfileTopSectionDetials?id=' + empId)
       .then((response: any) => {
-        setEmployeeInformation((item: any) => ({
+        setEmployeeInformation(() => ({
           ...EMPLOYEE_INFO,
           ...response.data,
         }));
